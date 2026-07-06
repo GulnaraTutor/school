@@ -440,7 +440,7 @@ const REACTIONS = [
     { min: 10, max: 12, emoji: "😺", text: name => `${name} набирает обороты!` },
     { min: 7,  max: 9,  emoji: "😿", text: name => `Ну норм, ${name}. Не Эйнштейн, но и не трагедия` },
     { min: 4,  max: 6,  emoji: "🙀", text: name => `Всё пропало, ${name}! Мы провалим все контрольные!` },
-    { min: 0,  max: 3,  emoji: "💀", text: name => `${name}, это дно. Зовите директора!` }
+    { min: 0,  max: 3,  emoji: "💀", text: name => `${name}, Это кринж. Зовите директора!` }
 ];
 
 function getReaction(finalScore) {
