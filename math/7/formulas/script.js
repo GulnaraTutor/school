@@ -49,8 +49,7 @@ const LEVELS = {
         label: "Сложный",
         aRange: [2, 9],
         bRange: [2, 12],
-        kinds: ["factor_diff", "factor_square_plus", "factor_square_minus",
-                "diff_squares_2var", "extract_x2", "multiply_diff_squares", "factor_trinomial_2var_deg4"]
+        kinds: ["diff_squares_2var", "extract_x2", "multiply_diff_squares", "factor_trinomial_2var_deg4"]
     }
 };
 
