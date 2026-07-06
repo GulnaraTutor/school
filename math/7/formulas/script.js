@@ -11,6 +11,12 @@ const gameScreen = document.getElementById("gameScreen");
 const startBtn = document.getElementById("startBtn");
 const nameInput = document.getElementById("studentName");
 
+const resultScreen = document.getElementById("resultScreen");
+const resultEmoji = document.getElementById("resultEmoji");
+const resultMessage = document.getElementById("resultMessage");
+const resultScore = document.getElementById("resultScore");
+const playAgainBtn = document.getElementById("playAgainBtn");
+
 let studentName = "";
 
 let currentAnswer = [];
@@ -425,6 +431,41 @@ function analyzeMistakes() {
 }
 
 // =====================
+// РЕАКЦИИ ПО СЧЁТУ (эмодзи + подпись)
+// диапазоны заданы по score (0..TOTAL_ROUNDS), проверяются по порядку сверху вниз
+// =====================
+const REACTIONS = [
+    { min: 15, max: 15, emoji: "🤯", text: name => `${name} взломала симуляцию!` },
+    { min: 13, max: 14, emoji: "😼", text: name => `Кто тут крут?! Мы с ${name}!` },
+    { min: 10, max: 12, emoji: "😺", text: name => `${name} набирает обороты!` },
+    { min: 7,  max: 9,  emoji: "😿", text: name => `Ну норм, ${name}. Не Эйнштейн, но и не трагедия` },
+    { min: 4,  max: 6,  emoji: "🙀", text: name => `Всё пропало, ${name}! Мы провалим все контрольные!` },
+    { min: 0,  max: 3,  emoji: "💀", text: name => `${name}, это дно. Зовите директора!` }
+];
+
+function getReaction(finalScore) {
+    return REACTIONS.find(r => finalScore >= r.min && finalScore <= r.max) || REACTIONS[REACTIONS.length - 1];
+}
+
+function showResultScreen(status, finalScore) {
+
+    const reaction = getReaction(finalScore);
+
+    resultEmoji.textContent = reaction.emoji;
+    resultMessage.textContent = reaction.text(studentName);
+    resultScore.textContent = `Результат: ${finalScore} / ${TOTAL_ROUNDS}`;
+
+    gameScreen.style.display = "none";
+    resultScreen.style.display = "flex";
+}
+
+playAgainBtn.addEventListener("click", () => {
+
+    resultScreen.style.display = "none";
+    loginScreen.style.display = "flex";
+});
+
+// =====================
 // ОТПРАВКА РЕЗУЛЬТАТА НА СЕРВЕР
 // =====================
 function sendResult(status) {
@@ -506,11 +547,9 @@ checkBtn.addEventListener("click", () => {
 
         updateUI();
         sendResult("lose");
-
-        alert(`💀 Жизни закончились! Результат: ${score} / ${roundNumber}`);
-
         analyzeMistakes();
-        resetGame();
+
+        showResultScreen("lose", score);
         return;
     }
 
@@ -519,8 +558,7 @@ checkBtn.addEventListener("click", () => {
         updateUI();
         sendResult("win");
 
-        alert(`🏆 ${studentName}, готово! Результат: ${score} / ${TOTAL_ROUNDS}`);
-        resetGame();
+        showResultScreen("win", score);
         return;
     }
 
