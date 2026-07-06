@@ -10,76 +10,40 @@ let correct = 0;
 
 let currentTask = null;
 
+// ===== РАНДОМ =====
+function rand(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 // ===== ГЕНЕРАЦИЯ ЗАДАЧ =====
 function generateTask() {
 
     const type = Math.floor(Math.random() * 3);
 
     if (type === 0) {
-        // (a + b)^2
         const a = rand(2, 5);
         const b = rand(2, 6);
 
-        currentTask = {
-            type: "square",
-            a: a,
-            b: b,
-            sign: "+"
-        };
-
+        currentTask = { type: "square", a, b, sign: "+" };
         return `(${a}x + ${b})²`;
     }
 
     if (type === 1) {
-        // (a - b)^2
         const a = rand(2, 5);
         const b = rand(2, 6);
 
-        currentTask = {
-            type: "square",
-            a: a,
-            b: b,
-            sign: "-"
-        };
-
+        currentTask = { type: "square", a, b, sign: "-" };
         return `(${a}x − ${b})²`;
     }
 
-    // difference of squares
     const a = rand(2, 9);
     const b = rand(2, 9);
 
-    currentTask = {
-        type: "diff",
-        a: a,
-        b: b
-    };
-
+    currentTask = { type: "diff", a, b };
     return `${a * a}x² − ${b * b}`;
 }
 
-function rand(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-// ===== СЛЕДУЮЩАЯ ЗАДАЧА =====
-let taskText = document.querySelector(".task");
-const taskText = document.querySelector(".task");
-
-function newRound() {
-    const taskStr = generateTask();
-
-    taskText.textContent = taskStr;
-
-    currentAnswer = [];
-    render();
-
-    renderButtons(currentTask);
-}
-// старт игры
-newRound();
-
-// ===== РЕНДЕР =====
+// ===== ОТВЕТ =====
 function render() {
     result.innerHTML = "";
 
@@ -89,7 +53,6 @@ function render() {
         span.classList.add("chip");
 
         let display = item;
-
         if (index > 0 && !item.startsWith("−") && !item.startsWith("-")) {
             display = "+ " + item;
         }
@@ -105,74 +68,7 @@ function render() {
     });
 }
 
-// ===== КНОПКИ =====
-buttons.forEach(btn => {
-    btn.addEventListener("click", () => {
-        currentAnswer.push(btn.textContent);
-        render();
-    });
-});
-
-// ===== ПРОВЕРКА (самое главное) =====
-function isCorrectAnswer() {
-
-    const ans = currentAnswer;
-
-    if (currentTask.type === "square") {
-
-        const a = currentTask.a;
-        const b = currentTask.b;
-        const sign = currentTask.sign;
-
-        // (ax ± b)^2 = a^2 x^2 ± 2ab x + b^2
-        const mid = 2 * a * b;
-
-        const term1 = `${a * a}x²`;
-        const term2 = sign === "+"
-            ? `${mid}x`
-            : `−${mid}x`;
-        const term3 = `${b * b}`;
-
-        return (
-            ans.includes(term1) &&
-            ans.includes(term2) &&
-            ans.includes(term3)
-        );
-    }
-
-    if (currentTask.type === "diff") {
-
-        const a = currentTask.a;
-        const b = currentTask.b;
-
-        const term1 = `${a * a}x²`;
-        const term2 = `−${b * b}`;
-
-        return (
-            ans.includes(term1) &&
-            ans.includes(term2)
-        );
-    }
-
-    return false;
-}
-
-// ===== ПРОЦЕНТ =====
-function updatePercent() {
-    if (total === 0) {
-        percentEl.textContent = "100%";
-        return;
-    }
-
-    const percent = Math.round((correct / total) * 100);
-    percentEl.textContent = percent + "%";
-}
-
-// ===== ПРОВЕРКА КНОПКА =====
-
-    // новая задача
-    
-});
+// ===== ВАРИАНТЫ =====
 function generateOptions(task) {
 
     let options = [];
@@ -207,11 +103,10 @@ function generateOptions(task) {
         ];
     }
 
-    return shuffle(options);
+    return options.sort(() => Math.random() - 0.5);
 }
-function shuffle(arr) {
-    return arr.sort(() => Math.random() - 0.5);
-}
+
+// ===== КНОПКИ =====
 function renderButtons(task) {
 
     const container = document.querySelector(".answer");
@@ -224,11 +119,91 @@ function renderButtons(task) {
         const btn = document.createElement("button");
         btn.textContent = opt;
 
-        btn.addEventListener("click", () => {
+        btn.onclick = () => {
             currentAnswer.push(opt);
             render();
-        });
+        };
 
         container.appendChild(btn);
     });
 }
+
+// ===== ПРОВЕРКА =====
+function isCorrectAnswer() {
+
+    const ans = currentAnswer;
+
+    if (currentTask.type === "square") {
+
+        const a = currentTask.a;
+        const b = currentTask.b;
+        const sign = currentTask.sign;
+
+        const mid = 2 * a * b;
+
+        const term1 = `${a * a}x²`;
+        const term2 = sign === "+" ? `${mid}x` : `−${mid}x`;
+        const term3 = `${b * b}`;
+
+        return ans.includes(term1) &&
+               ans.includes(term2) &&
+               ans.includes(term3);
+    }
+
+    if (currentTask.type === "diff") {
+
+        const a = currentTask.a;
+        const b = currentTask.b;
+
+        return ans.includes(`${a * a}x²`) &&
+               ans.includes(`−${b * b}`);
+    }
+
+    return false;
+}
+
+// ===== ПРОЦЕНТ =====
+function updatePercent() {
+
+    if (total === 0) {
+        percentEl.textContent = "100%";
+        return;
+    }
+
+    const percent = Math.round((correct / total) * 100);
+    percentEl.textContent = percent + "%";
+}
+
+// ===== НОВЫЙ РАУНД =====
+function newRound() {
+
+    const taskStr = generateTask();
+
+    taskText.textContent = taskStr;
+
+    currentAnswer = [];
+    render();
+
+    renderButtons(currentTask);
+}
+
+// ===== КНОПКА ПРОВЕРКИ =====
+checkBtn.addEventListener("click", () => {
+
+    total++;
+
+    if (isCorrectAnswer()) {
+        correct++;
+        alert("✅ Верно!");
+    } else {
+        correct = Math.max(0, correct - 1);
+        alert("❌ Ошибка!");
+    }
+
+    updatePercent();
+
+    newRound();
+});
+
+// ===== СТАРТ =====
+newRound();
