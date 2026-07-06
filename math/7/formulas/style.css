@@ -226,3 +226,12 @@ h2{
     font-weight:bold;
     color:#2470ff;
 }
+#loginScreen {
+    position: relative;
+    z-index: 10;
+}
+
+#gameScreen {
+    position: relative;
+    z-index: 1;
+}
