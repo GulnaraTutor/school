@@ -3,74 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MathLab — Формулы сокращённого умножения</title>
+    <title>MathLab</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<!-- ===================== -->
+<!-- LOGIN SCREEN -->
+<!-- ===================== -->
+<div id="loginScreen" class="login">
+
+    <h2>Вход в MathLab</h2>
+
+    <input type="text" id="studentName" placeholder="Введите имя">
+
+    <button id="startBtn" type="button">Начать</button>
+
+</div>
+
+<!-- ===================== -->
+<!-- GAME SCREEN -->
+<!-- ===================== -->
+<div id="gameScreen" style="display:none;">
+
 <div class="container">
 
     <header>
+
         <div class="stats">
-          <div id="percent">100%</div>
+            <div id="percent">0 / 20</div>
         </div>
 
         <div class="lives">
             ❤️ ❤️ ❤️
         </div>
 
-        <div class="progress">
-            <div class="bar">
-                <div class="fill"></div>
-            </div>
-            <span>0 / 15</span>
-        </div>
-
     </header>
-    <div id="loginScreen" class="login">
 
-    <h2>Вход в MathLab</h2>
-
-    <input type="text" id="studentName" placeholder="Введите имя">
-
-    <button id="startBtn">Начать</button>
-
-</div>
-<div id="gameScreen" style="display:none;">
     <main>
 
         <h1>MathLab</h1>
-
         <h2>Формулы сокращённого умножения</h2>
 
-        <div class="task">
-
-            (3x − 5)²
-
-        </div>
+        <div class="task"></div>
 
         <div class="answer"></div>
 
         <div class="result">
-
             Здесь будет собираться ответ
-
         </div>
 
-        <button class="check">
-
-            Проверить
-
-        </button>
-        <div class="finish">
-    <input type="text" id="studentName" placeholder="Введите имя">
-    <button id="saveResult">Сохранить результат</button>
-</div>
-
-<div id="history"></div>
+        <button class="check">Проверить</button>
 
     </main>
+
 </div>
 
 </div>
