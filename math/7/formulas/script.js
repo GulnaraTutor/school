@@ -3,12 +3,17 @@ const result = document.querySelector(".result");
 const checkBtn = document.querySelector(".check");
 const percentEl = document.getElementById("percent");
 const taskText = document.querySelector(".task");
+const livesEl = document.querySelector(".lives");
 
 let currentAnswer = [];
-let total = 0;
-let correct = 0;
-
 let currentTask = null;
+
+// =====================
+// GAME STATE
+// =====================
+let score = 0;
+let lives = 3;
+let mistakes = [];
 
 // =====================
 // RANDOM
@@ -18,57 +23,53 @@ function rand(min, max) {
 }
 
 // =====================
-// GENERATE TASK
+// TASK GENERATOR
 // =====================
 function generateTask() {
 
     const type = Math.floor(Math.random() * 4);
 
-    // 1. expand (ax ± b)^2
-    if (type === 0) {
+    if (type === 0 || type === 1) {
 
         const a = rand(2, 5);
         const b = rand(2, 6);
 
-        currentTask = { type: "expand_square", a, b, sign: "+" };
+        currentTask = {
+            type: "expand_square",
+            a,
+            b,
+            sign: type === 0 ? "+" : "-"
+        };
 
-        return `(${a}x + ${b})²`;
+        return `(${a}x ${type === 0 ? "+" : "−"} ${b})²`;
     }
 
-    if (type === 1) {
-
-        const a = rand(2, 5);
-        const b = rand(2, 6);
-
-        currentTask = { type: "expand_square", a, b, sign: "-" };
-
-        return `(${a}x − ${b})²`;
-    }
-
-    // 2. expand difference of squares
     if (type === 2) {
 
         const a = rand(2, 6);
         const b = rand(2, 6);
 
-        currentTask = { type: "factor_diff", a, b };
+        currentTask = {
+            type: "factor_diff",
+            a,
+            b
+        };
 
         return `${a * a}x² − ${b * b}`;
     }
 
-    // 3. factor square trinomial
     const a = rand(2, 5);
     const b = rand(2, 6);
-
-    const A = a * a;
-    const B = 2 * a * b;
-    const C = b * b;
 
     currentTask = {
         type: "factor_square",
         a,
         b
     };
+
+    const A = a * a;
+    const B = 2 * a * b;
+    const C = b * b;
 
     return `${A}x² + ${B}x + ${C}`;
 }
@@ -120,8 +121,6 @@ function generateOptions(task) {
             `${mid}x`,
             `−${mid}x`,
             `${b * b}`,
-            `${(a + b) * 2}x`,
-            `${a * b}x`,
             `(${a}x + ${b})²`,
             `(${a}x − ${b})²`
         ];
@@ -136,8 +135,7 @@ function generateOptions(task) {
             `${a * a}x² − ${b * b}`,
             `(${a}x − ${b})(${a}x + ${b})`,
             `(${a}x + ${b})²`,
-            `(${a}x − ${b})²`,
-            `${a * a}x² + ${b * b}`
+            `(${a}x − ${b})²`
         ];
     }
 
@@ -153,8 +151,7 @@ function generateOptions(task) {
         options = [
             `(${a}x + ${b})²`,
             `(${a}x − ${b})²`,
-            `${A}x² + ${B}x + ${C}`,
-            `${A}x² − ${B}x + ${C}`
+            `${A}x² + ${B}x + ${C}`
         ];
     }
 
@@ -186,13 +183,12 @@ function renderButtons(task) {
 }
 
 // =====================
-// CHECK
+// CHECK ANSWER
 // =====================
 function isCorrectAnswer() {
 
     const ans = currentAnswer;
 
-    // expand square
     if (currentTask.type === "expand_square") {
 
         const a = currentTask.a;
@@ -208,7 +204,6 @@ function isCorrectAnswer() {
                ans.includes(t3);
     }
 
-    // factor difference of squares
     if (currentTask.type === "factor_diff") {
 
         const a = currentTask.a;
@@ -218,35 +213,63 @@ function isCorrectAnswer() {
                ans.includes(`${a * a}x² − ${b * b}`);
     }
 
-    // factor trinomial
     if (currentTask.type === "factor_square") {
 
         const a = currentTask.a;
         const b = currentTask.b;
 
-        return ans.includes(`(${a}x + ${b})²`) ||
-               ans.includes(`(${a}x − ${b})²`);
+        return (
+            ans.includes(`(${a}x + ${b})²`) ||
+            ans.includes(`(${a}x − ${b})²`) ||
+            ans.includes(`${a * a}x² + ${2 * a * b}x + ${b * b}`)
+        );
     }
 
     return false;
 }
 
 // =====================
-// PERCENT
+// UI UPDATE
 // =====================
-function updatePercent() {
+function updateUI() {
 
-    if (total === 0) {
-        percentEl.textContent = "100%";
-        return;
-    }
-
-    const percent = Math.round((correct / total) * 100);
-    percentEl.textContent = percent + "%";
+    percentEl.textContent = `${score} / 20`;
+    livesEl.innerHTML = "❤️ ".repeat(lives);
 }
 
 // =====================
-// ROUND
+// ANALYSIS
+// =====================
+function analyzeMistakes() {
+
+    console.log("📊 АНАЛИЗ ОШИБОК:");
+
+    const stats = {};
+
+    mistakes.forEach(m => {
+        stats[m.task] = (stats[m.task] || 0) + 1;
+    });
+
+    console.table(stats);
+
+    alert("Смотри консоль — разбор ошибок готов");
+}
+
+// =====================
+// RESET GAME
+// =====================
+function resetGame() {
+
+    score = 0;
+    lives = 3;
+    mistakes = [];
+
+    updateUI();
+    newRound();
+}
+
+// =====================
+// NEW ROUND
 // =====================
 function newRound() {
 
@@ -258,6 +281,8 @@ function newRound() {
     render();
 
     renderButtons(currentTask);
+
+    updateUI();
 }
 
 // =====================
@@ -265,17 +290,40 @@ function newRound() {
 // =====================
 checkBtn.addEventListener("click", () => {
 
-    total++;
-
     if (isCorrectAnswer()) {
-        correct++;
-        alert("✅ Верно!");
+
+        score++;
+
     } else {
-        correct = Math.max(0, correct - 1);
-        alert("❌ Ошибка!");
+
+        lives--;
+
+        mistakes.push({
+            task: taskText.textContent,
+            answer: [...currentAnswer]
+        });
     }
 
-    updatePercent();
+    updateUI();
+
+    currentAnswer = [];
+
+    if (lives <= 0) {
+
+        alert("💀 Жизни закончились!");
+
+        analyzeMistakes();
+        resetGame();
+        return;
+    }
+
+    if (score >= 20) {
+
+        alert("🏆 20 правильных ответов! Победа!");
+
+        resetGame();
+        return;
+    }
 
     newRound();
 });
