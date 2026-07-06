@@ -91,6 +91,11 @@ function pick(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
 }
 
+function isPerfectSquare(n) {
+    const r = Math.round(Math.sqrt(n));
+    return r * r === n;
+}
+
 function shuffle(arr) {
     return [...arr].sort(() => Math.random() - 0.5);
 }
@@ -125,7 +130,9 @@ function generateTask() {
 
     switch (kind) {
         case "extract_x2":
-            a = rand(2, 9);
+            do {
+                a = rand(2, 9);
+            } while (isPerfectSquare(a));
             b = null;
             break;
         case "factor_trinomial_2var_deg4":
