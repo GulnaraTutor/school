@@ -1,4 +1,26 @@
 console.log("SCRIPT LOADED ✔");
+const loginScreen = document.getElementById("loginScreen");
+const gameScreen = document.getElementById("gameScreen");
+const startBtn = document.getElementById("startBtn");
+const nameInput = document.getElementById("studentName");
+
+let studentName = "";
+startBtn.addEventListener("click", () => {
+
+    const name = nameInput.value.trim();
+
+    if (!name) {
+        alert("Введите имя!");
+        return;
+    }
+
+    studentName = name;
+
+    loginScreen.style.display = "none";
+    gameScreen.style.display = "block";
+
+    newRound();
+});
 const result = document.querySelector(".result");
 const checkBtn = document.querySelector(".check");
 const percentEl = document.getElementById("percent");
@@ -349,10 +371,10 @@ saveBtn.addEventListener("click", () => {
     }
 
     const result = {
-        name: name,
-        score: score,
-        date: new Date().toLocaleString()
-    };
+    name: studentName,
+    score: score,
+    date: new Date().toLocaleString()
+};
 
     let data = JSON.parse(localStorage.getItem("results")) || [];
 
