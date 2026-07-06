@@ -284,6 +284,22 @@ function analyzeMistakes() {
 }
 
 // =====================
+// ОТПРАВКА РЕЗУЛЬТАТА НА СЕРВЕР
+// =====================
+function sendResult(status) {
+
+    fetch("https://script.google.com/macros/s/AKfycbzW3CPziLkHUCvFAq1WsVX5Mh_WTViiM_Xj8MINOzUeOb2ba6cP2bQYz0RKLERh2A/exec", {
+        method: "POST",
+        mode: "no-cors",
+        body: JSON.stringify({
+            name: studentName,
+            score: score,
+            status: status
+        })
+    }).catch(err => console.log("Ошибка отправки результата:", err));
+}
+
+// =====================
 // RESET GAME
 // =====================
 function resetGame() {
@@ -339,6 +355,8 @@ checkBtn.addEventListener("click", () => {
 
     if (lives <= 0) {
 
+        sendResult("lose");
+
         alert("💀 Жизни закончились!");
 
         analyzeMistakes();
@@ -348,14 +366,9 @@ checkBtn.addEventListener("click", () => {
 
     if (score >= 5) {
 
+        sendResult("win");
+
         alert(`🏆 ${studentName}, ты прошёл уровень!`);
-        fetch("https://script.google.com/macros/s/AKfycbzW3CPziLkHUCvFAq1WsVX5Mh_WTViiM_Xj8MINOzUeOb2ba6cP2bQYz0RKLERh2A/exec", {
-          method: "POST",
-          body: JSON.stringify({
-            name: studentName,
-            score: score
-          })
-         });
         resetGame();
         return;
     }
