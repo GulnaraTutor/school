@@ -332,3 +332,35 @@ checkBtn.addEventListener("click", () => {
 // START
 // =====================
 newRound();
+const saveBtn = document.getElementById("saveResult");
+const nameInput = document.getElementById("studentName");
+const historyDiv = document.getElementById("history");
+
+// =====================
+// СОХРАНЕНИЕ РЕЗУЛЬТАТА
+// =====================
+saveBtn.addEventListener("click", () => {
+
+    const name = nameInput.value.trim();
+
+    if (!name) {
+        alert("Введите имя ученика!");
+        return;
+    }
+
+    const result = {
+        name: name,
+        score: score,
+        date: new Date().toLocaleString()
+    };
+
+    let data = JSON.parse(localStorage.getItem("results")) || [];
+
+    data.push(result);
+
+    localStorage.setItem("results", JSON.stringify(data));
+
+    alert("Результат сохранён!");
+
+    renderHistory();
+});
