@@ -10,12 +10,16 @@ let correct = 0;
 
 let currentTask = null;
 
-// ===== РАНДОМ =====
+// =====================
+// РАНДОМ
+// =====================
 function rand(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// ===== ГЕНЕРАЦИЯ ЗАДАЧ =====
+// =====================
+// ГЕНЕРАЦИЯ ЗАДАЧ
+// =====================
 function generateTask() {
 
     const type = Math.floor(Math.random() * 3);
@@ -24,7 +28,13 @@ function generateTask() {
         const a = rand(2, 5);
         const b = rand(2, 6);
 
-        currentTask = { type: "square", a, b, sign: "+" };
+        currentTask = {
+            type: "square",
+            a,
+            b,
+            sign: "+"
+        };
+
         return `(${a}x + ${b})²`;
     }
 
@@ -32,18 +42,31 @@ function generateTask() {
         const a = rand(2, 5);
         const b = rand(2, 6);
 
-        currentTask = { type: "square", a, b, sign: "-" };
+        currentTask = {
+            type: "square",
+            a,
+            b,
+            sign: "-"
+        };
+
         return `(${a}x − ${b})²`;
     }
 
     const a = rand(2, 9);
     const b = rand(2, 9);
 
-    currentTask = { type: "diff", a, b };
+    currentTask = {
+        type: "diff",
+        a,
+        b
+    };
+
     return `${a * a}x² − ${b * b}`;
 }
 
-// ===== ОТВЕТ =====
+// =====================
+// ОТРИСОВКА ОТВЕТА
+// =====================
 function render() {
     result.innerHTML = "";
 
@@ -53,6 +76,7 @@ function render() {
         span.classList.add("chip");
 
         let display = item;
+
         if (index > 0 && !item.startsWith("−") && !item.startsWith("-")) {
             display = "+ " + item;
         }
@@ -68,7 +92,9 @@ function render() {
     });
 }
 
-// ===== ВАРИАНТЫ =====
+// =====================
+// ВАРИАНТЫ ОТВЕТОВ
+// =====================
 function generateOptions(task) {
 
     let options = [];
@@ -84,8 +110,8 @@ function generateOptions(task) {
             `${mid}x`,
             `−${mid}x`,
             `${b * b}`,
-            `${(a + b) * 2}x`,
-            `${a * b}x`
+            `${a * b}x`,
+            `${(a + b) * 2}x`
         ];
     }
 
@@ -106,7 +132,9 @@ function generateOptions(task) {
     return options.sort(() => Math.random() - 0.5);
 }
 
-// ===== КНОПКИ =====
+// =====================
+// РЕНДЕР КНОПОК
+// =====================
 function renderButtons(task) {
 
     const container = document.querySelector(".answer");
@@ -128,7 +156,9 @@ function renderButtons(task) {
     });
 }
 
-// ===== ПРОВЕРКА =====
+// =====================
+// ПРОВЕРКА
+// =====================
 function isCorrectAnswer() {
 
     const ans = currentAnswer;
@@ -142,7 +172,9 @@ function isCorrectAnswer() {
         const mid = 2 * a * b;
 
         const term1 = `${a * a}x²`;
-        const term2 = sign === "+" ? `${mid}x` : `−${mid}x`;
+        const term2 = sign === "+"
+            ? `${mid}x`
+            : `−${mid}x`;
         const term3 = `${b * b}`;
 
         return ans.includes(term1) &&
@@ -162,7 +194,9 @@ function isCorrectAnswer() {
     return false;
 }
 
-// ===== ПРОЦЕНТ =====
+// =====================
+// ПРОЦЕНТ
+// =====================
 function updatePercent() {
 
     if (total === 0) {
@@ -174,7 +208,9 @@ function updatePercent() {
     percentEl.textContent = percent + "%";
 }
 
-// ===== НОВЫЙ РАУНД =====
+// =====================
+// НОВЫЙ РАУНД
+// =====================
 function newRound() {
 
     const taskStr = generateTask();
@@ -187,7 +223,9 @@ function newRound() {
     renderButtons(currentTask);
 }
 
-// ===== КНОПКА ПРОВЕРКИ =====
+// =====================
+// КНОПКА ПРОВЕРКИ
+// =====================
 checkBtn.addEventListener("click", () => {
 
     total++;
@@ -205,5 +243,7 @@ checkBtn.addEventListener("click", () => {
     newRound();
 });
 
-// ===== СТАРТ =====
+// =====================
+// СТАРТ
+// =====================
 newRound();
