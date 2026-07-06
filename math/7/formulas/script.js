@@ -24,7 +24,9 @@ function generateTask() {
 
     const type = Math.floor(Math.random() * 3);
 
-    if (type === 0) {
+    // (a ± b)^2
+    if (type === 0 || type === 1) {
+
         const a = rand(2, 5);
         const b = rand(2, 6);
 
@@ -32,31 +34,18 @@ function generateTask() {
             type: "square",
             a,
             b,
-            sign: "+"
+            sign: type === 0 ? "+" : "-"
         };
 
-        return `(${a}x + ${b})²`;
+        return `(${a}x ${type === 0 ? "+" : "−"} ${b})²`;
     }
 
-    if (type === 1) {
-        const a = rand(2, 5);
-        const b = rand(2, 6);
-
-        currentTask = {
-            type: "square",
-            a,
-            b,
-            sign: "-"
-        };
-
-        return `(${a}x − ${b})²`;
-    }
-
-    const a = rand(2, 9);
-    const b = rand(2, 9);
+    // ⭐ РАЗНОСТЬ КВАДРАТОВ = РАЗЛОЖЕНИЕ НА МНОЖИТЕЛИ
+    const a = rand(2, 6);
+    const b = rand(2, 6);
 
     currentTask = {
-        type: "diff",
+        type: "factor",
         a,
         b
     };
@@ -68,6 +57,7 @@ function generateTask() {
 // ОТРИСОВКА ОТВЕТА
 // =====================
 function render() {
+
     result.innerHTML = "";
 
     currentAnswer.forEach((item, index) => {
@@ -99,6 +89,7 @@ function generateOptions(task) {
 
     let options = [];
 
+    // квадрат суммы/разности
     if (task.type === "square") {
 
         const a = task.a;
@@ -115,17 +106,18 @@ function generateOptions(task) {
         ];
     }
 
-    if (task.type === "diff") {
+    // ⭐ РАЗЛОЖЕНИЕ НА МНОЖИТЕЛИ
+    if (task.type === "factor") {
 
         const a = task.a;
         const b = task.b;
 
         options = [
-            `${a * a}x²`,
-            `−${b * b}`,
-            `+${b * b}`,
-            `${(a + b)}x`,
-            `${(a - b)}x`
+            `(${a}x − ${b})`,
+            `(${a}x + ${b})`,
+            `(x − ${b})(x + ${b})`,
+            `${a}x² − ${b}`,
+            `(${b}x − ${a})`
         ];
     }
 
@@ -163,6 +155,7 @@ function isCorrectAnswer() {
 
     const ans = currentAnswer;
 
+    // квадрат суммы/разности
     if (currentTask.type === "square") {
 
         const a = currentTask.a;
@@ -172,9 +165,7 @@ function isCorrectAnswer() {
         const mid = 2 * a * b;
 
         const term1 = `${a * a}x²`;
-        const term2 = sign === "+"
-            ? `${mid}x`
-            : `−${mid}x`;
+        const term2 = sign === "+" ? `${mid}x` : `−${mid}x`;
         const term3 = `${b * b}`;
 
         return ans.includes(term1) &&
@@ -182,13 +173,16 @@ function isCorrectAnswer() {
                ans.includes(term3);
     }
 
-    if (currentTask.type === "diff") {
+    // ⭐ РАЗЛОЖЕНИЕ НА МНОЖИТЕЛИ
+    if (currentTask.type === "factor") {
 
         const a = currentTask.a;
         const b = currentTask.b;
 
-        return ans.includes(`${a * a}x²`) &&
-               ans.includes(`−${b * b}`);
+        return (
+            ans.includes(`(${a}x − ${b})`) &&
+            ans.includes(`(${a}x + ${b})`)
+        );
     }
 
     return false;
@@ -224,7 +218,7 @@ function newRound() {
 }
 
 // =====================
-// КНОПКА ПРОВЕРКИ
+// ПРОВЕРКА КНОПКА
 // =====================
 checkBtn.addEventListener("click", () => {
 
