@@ -1,8 +1,22 @@
 const buttons = document.querySelectorAll(".answer button");
 const result = document.querySelector(".result");
 const checkBtn = document.querySelector(".check");
+const percentEl = document.getElementById("percent");
 
 let currentAnswer = [];
+
+let total = 0;
+let correct = 0;
+
+function updatePercent() {
+    if (total === 0) {
+        percentEl.textContent = "100%";
+        return;
+    }
+
+    let percent = Math.round((correct / total) * 100);
+    percentEl.textContent = percent + "%";
+}
 
 function render() {
     result.innerHTML = "";
@@ -12,7 +26,6 @@ function render() {
         span.textContent = item;
         span.classList.add("chip");
 
-        // клик — удалить элемент
         span.onclick = () => {
             currentAnswer.splice(index, 1);
             render();
@@ -22,7 +35,7 @@ function render() {
     });
 }
 
-// клик по карточкам
+// клики по карточкам
 buttons.forEach(btn => {
     btn.addEventListener("click", () => {
         currentAnswer.push(btn.textContent);
@@ -30,13 +43,27 @@ buttons.forEach(btn => {
     });
 });
 
-// проверка (пока простая версия)
 checkBtn.addEventListener("click", () => {
+
+    total++;
+
     const answer = currentAnswer.join(" ");
 
-    if (answer.includes("9x²") && answer.includes("−30x") && answer.includes("25")) {
-        alert("✅ Правильно!");
+    let isCorrect =
+        answer.includes("9x²") &&
+        answer.includes("−30x") &&
+        answer.includes("25");
+
+    if (isCorrect) {
+        correct++;
+        alert("✅ Верно!");
     } else {
-        alert("❌ Попробуй ещё раз");
+        correct--; // ❗ минус за ошибку
+        alert("❌ Ошибка!");
     }
+
+    updatePercent();
+
+    currentAnswer = [];
+    render();
 });
