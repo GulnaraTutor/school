@@ -346,7 +346,7 @@ checkBtn.addEventListener("click", () => {
         return;
     }
 
-    if (score >= 20) {
+    if (score >= 5) {
 
         alert(`🏆 ${studentName}, ты прошёл уровень!`);
         fetch("https://script.google.com/macros/s/AKfycbzW3CPziLkHUCvFAq1WsVX5Mh_WTViiM_Xj8MINOzUeOb2ba6cP2bQYz0RKLERh2A/exec", {
