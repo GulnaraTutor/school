@@ -1,14 +1,13 @@
-const buttons = document.querySelectorAll(".answer button");
 const result = document.querySelector(".result");
 const checkBtn = document.querySelector(".check");
 const percentEl = document.getElementById("percent");
+const taskText = document.querySelector(".task");
+const answerContainer = document.querySelector(".answer");
 
 let currentAnswer = [];
-
 let total = 0;
 let correct = 0;
 
-// ===== текущая задача =====
 let currentTask = null;
 
 // ===== ГЕНЕРАЦИЯ ЗАДАЧ =====
@@ -65,9 +64,20 @@ function rand(min, max) {
 
 // ===== СЛЕДУЮЩАЯ ЗАДАЧА =====
 let taskText = document.querySelector(".task");
-const task = generateTask();
-taskText.textContent = task;
-renderButtons(currentTask);
+const taskText = document.querySelector(".task");
+
+function newRound() {
+    const taskStr = generateTask();
+
+    taskText.textContent = taskStr;
+
+    currentAnswer = [];
+    render();
+
+    renderButtons(currentTask);
+}
+// старт игры
+newRound();
 
 // ===== РЕНДЕР =====
 function render() {
@@ -159,25 +169,9 @@ function updatePercent() {
 }
 
 // ===== ПРОВЕРКА КНОПКА =====
-checkBtn.addEventListener("click", () => {
-
-    total++;
-
-    if (isCorrectAnswer()) {
-        correct++;
-        alert("✅ Верно!");
-    } else {
-        correct = Math.max(0, correct - 1);
-        alert("❌ Ошибка!");
-    }
-
-    updatePercent();
-
-    currentAnswer = [];
-    render();
 
     // новая задача
-    taskText.textContent = generateTask();
+    
 });
 function generateOptions(task) {
 
