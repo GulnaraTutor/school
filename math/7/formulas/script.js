@@ -261,7 +261,7 @@ function isCorrectAnswer() {
 // =====================
 function updateUI() {
 
-    percentEl.textContent = `${score} / 20`;
+    percentEl.textContent = `${score} / 5`;
     livesEl.innerHTML = "❤️ ".repeat(lives);
 }
 
