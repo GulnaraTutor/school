@@ -206,3 +206,18 @@ h2{
     transform:scale(1.05);
 
 }
+.chip{
+    display:inline-block;
+    padding:10px 16px;
+    margin:6px;
+    background:#d7ebff;
+    border-radius:12px;
+    font-size:22px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.chip:hover{
+    background:#ffb3b3;
+    transform:scale(1.05);
+}
