@@ -21,7 +21,7 @@ let buttonsByText = {};
 // GAME STATE
 // =====================
 const TOTAL_ROUNDS = 15;
-const START_LIVES = 5;
+const START_LIVES = 3;
 
 let score = 0;
 let lives = START_LIVES;
@@ -43,13 +43,13 @@ const LEVELS = {
         label: "Средний",
         aRange: [1, 9],
         bRange: [1, 12],
-        kinds: ["expand_plus", "expand_minus", "factor_diff", "factor_square_plus", "factor_square_minus", "expand_cube_2var"]
+        kinds: ["expand_plus", "expand_minus", "factor_diff", "factor_square_plus", "factor_square_minus", "expand_pow2var"]
     },
     pro: {
         label: "Сложный",
         aRange: [2, 9],
         bRange: [2, 12],
-        kinds: ["factor_diff", "factor_square_plus", "factor_square_minus", "cube_sum", "cube_diff",
+        kinds: ["factor_diff", "factor_square_plus", "factor_square_minus",
                 "diff_squares_2var", "extract_x2", "multiply_diff_squares", "factor_trinomial_2var_deg4"]
     }
 };
@@ -100,6 +100,18 @@ function term(coef, varStr) {
     return coef === 1 ? varStr : `${coef}${varStr}`;
 }
 
+// unicode superscript digits, so exponents render as x⁴, x⁵, x¹⁰ etc.
+const SUPERSCRIPTS = { "0": "⁰", "1": "¹", "2": "²", "3": "³", "4": "⁴", "5": "⁵", "6": "⁶", "7": "⁷", "8": "⁸", "9": "⁹" };
+
+function sup(n) {
+    return String(n).split("").map(d => SUPERSCRIPTS[d]).join("");
+}
+
+// e.g. powVar("x", 1) -> "x", powVar("x", 4) -> "x⁴"
+function powVar(letter, exponent) {
+    return exponent === 1 ? letter : letter + sup(exponent);
+}
+
 // =====================
 // TASK GENERATOR
 // =====================
@@ -108,14 +120,10 @@ function generateTask() {
     const cfg = LEVELS[getLevelForRound(roundNumber)];
     const kind = pick(cfg.kinds);
 
-    let a, b;
+    let a, b, n = 1;
     const sign = Math.random() < 0.5 ? "+" : "−";
 
     switch (kind) {
-        case "expand_cube_2var":
-            a = rand(1, 4);
-            b = rand(1, 4);
-            break;
         case "extract_x2":
             a = rand(2, 9);
             b = null;
@@ -124,12 +132,22 @@ function generateTask() {
             a = rand(1, 4);
             b = rand(2, 6);
             break;
+        case "expand_pow2var":
+            a = rand(1, 4);
+            b = rand(1, 4);
+            n = pick([2, 3, 4, 5]);
+            break;
+        case "diff_squares_2var":
+            a = rand(cfg.aRange[0], cfg.aRange[1]);
+            b = rand(cfg.bRange[0], cfg.bRange[1]);
+            n = pick([1, 2, 3, 4, 5]);
+            break;
         default:
             a = rand(cfg.aRange[0], cfg.aRange[1]);
             b = rand(cfg.bRange[0], cfg.bRange[1]);
     }
 
-    currentTask = { type: kind, a, b, sign };
+    currentTask = { type: kind, a, b, sign, n };
 
     switch (kind) {
         case "expand_plus":
@@ -142,14 +160,10 @@ function generateTask() {
             return `${term(a * a, "x²")} + ${term(2 * a * b, "x")} + ${b * b}`;
         case "factor_square_minus":
             return `${term(a * a, "x²")} − ${term(2 * a * b, "x")} + ${b * b}`;
-        case "cube_sum":
-            return `${term(a * a * a, "x³")} + ${b * b * b}`;
-        case "cube_diff":
-            return `${term(a * a * a, "x³")} − ${b * b * b}`;
         case "diff_squares_2var":
-            return `${term(a * a, "x²")} − ${term(b * b, "y²")}`;
-        case "expand_cube_2var":
-            return `(${term(a, "x³")} ${sign} ${term(b, "y³")})²`;
+            return `${term(a * a, powVar("x", 2 * n))} − ${term(b * b, powVar("y", 2 * n))}`;
+        case "expand_pow2var":
+            return `(${term(a, powVar("x", n))} ${sign} ${term(b, powVar("y", n))})²`;
         case "extract_x2":
             return `${sign === "−" ? "−" : ""}x² + ${term(a, "x⁴")}`;
         case "multiply_diff_squares":
@@ -164,7 +178,7 @@ function generateTask() {
 // =====================
 function generateOptions(task) {
 
-    const a = task.a, b = task.b, sign = task.sign;
+    const a = task.a, b = task.b, sign = task.sign, n = task.n || 1;
 
     if (task.type === "expand_plus" || task.type === "expand_minus") {
 
@@ -185,18 +199,19 @@ function generateOptions(task) {
         return { options, correctSet: [t1, t2, t3], isMulti: true };
     }
 
-    if (task.type === "expand_cube_2var") {
+    if (task.type === "expand_pow2var") {
 
-        const t1 = term(a * a, "x⁶");
+        const t1 = term(a * a, powVar("x", 2 * n));
         const cross = 2 * a * b;
-        const t2 = sign === "+" ? term(cross, "x³y³") : `−${term(cross, "x³y³")}`;
-        const t3 = term(b * b, "y⁶");
-        const wrongCross = sign === "+" ? `−${term(cross, "x³y³")}` : term(cross, "x³y³");
+        const crossVar = powVar("x", n) + powVar("y", n);
+        const t2 = sign === "+" ? term(cross, crossVar) : `−${term(cross, crossVar)}`;
+        const t3 = term(b * b, powVar("y", 2 * n));
+        const wrongCross = sign === "+" ? `−${term(cross, crossVar)}` : term(cross, crossVar);
 
         const options = shuffle([
             t1, t2, t3, wrongCross,
-            `(${term(a, "x³")} + ${term(b, "y³")})²`,
-            `(${term(a, "x³")} − ${term(b, "y³")})²`
+            `(${term(a, powVar("x", n))} + ${term(b, powVar("y", n))})²`,
+            `(${term(a, powVar("x", n))} − ${term(b, powVar("y", n))})²`
         ]);
 
         return { options, correctSet: [t1, t2, t3], isMulti: true };
@@ -233,30 +248,12 @@ function generateOptions(task) {
             ];
             break;
 
-        case "cube_sum":
-            correct = `(${term(a, "x")} + ${b})(${term(a * a, "x²")} − ${term(a * b, "x")} + ${b * b})`;
-            distractors = [
-                `(${term(a, "x")} + ${b})(${term(a * a, "x²")} + ${term(a * b, "x")} + ${b * b})`,
-                `(${term(a, "x")} − ${b})(${term(a * a, "x²")} + ${term(a * b, "x")} + ${b * b})`,
-                `(${term(a, "x²")} + ${b})(${term(a * a, "x²")} − ${term(a * b, "x")} + ${b * b})`
-            ];
-            break;
-
-        case "cube_diff":
-            correct = `(${term(a, "x")} − ${b})(${term(a * a, "x²")} + ${term(a * b, "x")} + ${b * b})`;
-            distractors = [
-                `(${term(a, "x")} − ${b})(${term(a * a, "x²")} − ${term(a * b, "x")} + ${b * b})`,
-                `(${term(a, "x")} + ${b})(${term(a * a, "x²")} + ${term(a * b, "x")} + ${b * b})`,
-                `(${term(a, "x²")} − ${b})(${term(a * a, "x²")} + ${term(a * b, "x")} + ${b * b})`
-            ];
-            break;
-
         case "diff_squares_2var":
-            correct = `(${term(a, "x")} − ${term(b, "y")})(${term(a, "x")} + ${term(b, "y")})`;
+            correct = `(${term(a, powVar("x", n))} − ${term(b, powVar("y", n))})(${term(a, powVar("x", n))} + ${term(b, powVar("y", n))})`;
             distractors = [
-                `(${term(a, "x")} + ${term(b, "y")})²`,
-                `(${term(a, "x")} − ${term(b, "y")})²`,
-                `(${term(a, "x²")} − ${term(b, "y")})(${term(a, "x²")} + ${term(b, "y")})`
+                `(${term(a, powVar("x", n))} + ${term(b, powVar("y", n))})²`,
+                `(${term(a, powVar("x", n))} − ${term(b, powVar("y", n))})²`,
+                `(${term(a, powVar("x", n + 1))} − ${term(b, powVar("y", n))})(${term(a, powVar("x", n + 1))} + ${term(b, powVar("y", n))})`
             ];
             break;
 
