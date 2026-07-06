@@ -50,7 +50,7 @@ function rand(min, max) {
 }
 
 // =====================
-// TASK GENERATOR
+// TASK GENERATOR   
 // =====================
 function generateTask() {
 
