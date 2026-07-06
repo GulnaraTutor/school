@@ -261,7 +261,7 @@ function isCorrectAnswer() {
 // =====================
 function updateUI() {
 
-    percentEl.textContent = `${score} / 5`;
+    percentEl.textContent = `${score} / 4`;
     livesEl.innerHTML = "❤️ ".repeat(lives);
 }
 
@@ -364,7 +364,7 @@ checkBtn.addEventListener("click", () => {
         return;
     }
 
-    if (score >= 5) {
+    if (score >= 4) {
 
         sendResult("win");
 
