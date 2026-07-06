@@ -65,7 +65,9 @@ function rand(min, max) {
 
 // ===== СЛЕДУЮЩАЯ ЗАДАЧА =====
 let taskText = document.querySelector(".task");
-taskText.textContent = generateTask();
+const task = generateTask();
+taskText.textContent = task;
+renderButtons(currentTask);
 
 // ===== РЕНДЕР =====
 function render() {
@@ -177,3 +179,62 @@ checkBtn.addEventListener("click", () => {
     // новая задача
     taskText.textContent = generateTask();
 });
+function generateOptions(task) {
+
+    let options = [];
+
+    if (task.type === "square") {
+
+        const a = task.a;
+        const b = task.b;
+        const mid = 2 * a * b;
+
+        options = [
+            `${a * a}x²`,
+            `${mid}x`,
+            `−${mid}x`,
+            `${b * b}`,
+            `${(a + b) * 2}x`,
+            `${a * b}x`
+        ];
+    }
+
+    if (task.type === "diff") {
+
+        const a = task.a;
+        const b = task.b;
+
+        options = [
+            `${a * a}x²`,
+            `−${b * b}`,
+            `+${b * b}`,
+            `${(a + b)}x`,
+            `${(a - b)}x`
+        ];
+    }
+
+    return shuffle(options);
+}
+function shuffle(arr) {
+    return arr.sort(() => Math.random() - 0.5);
+}
+function renderButtons(task) {
+
+    const container = document.querySelector(".answer");
+    container.innerHTML = "";
+
+    const options = generateOptions(task);
+
+    options.forEach(opt => {
+
+        const btn = document.createElement("button");
+        btn.textContent = opt;
+
+        btn.addEventListener("click", () => {
+            currentAnswer.push(opt);
+            render();
+        });
+
+        container.appendChild(btn);
+    });
+}
