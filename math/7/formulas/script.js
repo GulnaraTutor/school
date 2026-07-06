@@ -16,6 +16,12 @@ const resultEmoji = document.getElementById("resultEmoji");
 const resultMessage = document.getElementById("resultMessage");
 const resultScore = document.getElementById("resultScore");
 const playAgainBtn = document.getElementById("playAgainBtn");
+const reviewMistakesBtn = document.getElementById("reviewMistakesBtn");
+
+const mistakesScreen = document.getElementById("mistakesScreen");
+const mistakesList = document.getElementById("mistakesList");
+const backToResultBtn = document.getElementById("backToResultBtn");
+const playAgainBtn2 = document.getElementById("playAgainBtn2");
 
 let studentName = "";
 
@@ -426,8 +432,81 @@ function analyzeMistakes() {
     });
 
     console.table(stats);
+}
 
-    alert("Смотри консоль — разбор ошибок готов");
+// =====================
+// ПОЯСНЕНИЯ К ТИПАМ ЗАДАНИЙ (почему ответ именно такой)
+// =====================
+const EXPLANATIONS = {
+
+    expand_plus: m =>
+        `Это квадрат суммы: (ax+b)² = a²x² + 2abx + b². ` +
+        `Здесь a=${m.a}, b=${m.b} → a²x²=${m.a*m.a}x², 2ab·x=${2*m.a*m.b}x, b²=${m.b*m.b}.`,
+
+    expand_minus: m =>
+        `Это квадрат разности: (ax−b)² = a²x² − 2abx + b². ` +
+        `Здесь a=${m.a}, b=${m.b} → a²x²=${m.a*m.a}x², −2ab·x=−${2*m.a*m.b}x, b²=${m.b*m.b}.`,
+
+    factor_diff: m =>
+        `Это разность квадратов: a²x² − b² = (ax−b)(ax+b). ` +
+        `Здесь ax=${m.a}x, b=${m.b} → (${m.a}x−${m.b})(${m.a}x+${m.b}).`,
+
+    factor_square_plus: m =>
+        `Проверяем средний член: 2ab = 2·${m.a}·${m.b} = ${2*m.a*m.b} — он совпадает со знаком «+» в задании, ` +
+        `значит это квадрат суммы (ax+b)² = (${m.a}x+${m.b})², а не разность и не что-то другое.`,
+
+    factor_square_minus: m =>
+        `Средний член в задании отрицательный: −2ab = −2·${m.a}·${m.b} = −${2*m.a*m.b}. ` +
+        `Это признак квадрата разности: a²x²−2abx+b² = (ax−b)² = (${m.a}x−${m.b})².`,
+
+    expand_pow2var: m =>
+        `Та же формула квадрата суммы/разности, только переменные в степени ${m.n}: ` +
+        `(Ax${m.n>1?'ⁿ':''}±By${m.n>1?'ⁿ':''})² = A²x^${2*m.n} ± 2ABx^${m.n}y^${m.n} + B²y^${2*m.n}. ` +
+        `Степень при раскрытии скобки удваивается: было x${m.n>1?'ⁿ':''}, стало x^${2*m.n} в первом и последнем слагаемом.`,
+
+    diff_squares_2var: m =>
+        `Разность квадратов с показателем степени ${m.n}: A²x^${2*m.n} − B²y^${2*m.n} = (Ax^${m.n} − By^${m.n})(Ax^${m.n} + By^${m.n}). ` +
+        `Раскладываем на разность и сумму тех же оснований, степень при этом делится пополам (не вычитается).`,
+
+    extract_x2: m =>
+        `Здесь не формула сокращённого умножения, а вынесение общего множителя: у обоих слагаемых есть x², ` +
+        `его выносим за скобку: ${m.sign==='−'?'−':''}x² ${m.sign} ${m.a}x⁴ = x²(${m.a}x² ${m.sign} 1).`,
+
+    multiply_diff_squares: m =>
+        `Это разность квадратов, но нужно было перемножить скобки в обратную сторону: ` +
+        `(${m.a}x−p)(p+${m.a}x) — это то же самое, что (${m.a}x−p)(${m.a}x+p) = ${m.a*m.a}x² − p². ` +
+        `Порядок слагаемых во второй скобке (p+${m.a}x вместо ${m.a}x+p) не меняет результат.`,
+
+    factor_trinomial_2var_deg4: m =>
+        `Слагаемые даны не по убыванию степени, из-за этого легко ошибиться. Крайние члены — точные квадраты: ` +
+        `${m.a}²x⁴ и ${m.b}²y² → в скобке ${m.a}x² и ${m.b}y. Знак посередине (${m.sign}) — это знак внутри скобки: ` +
+        `(${m.a}x² ${m.sign} ${m.b}y)².`
+};
+
+function explainMistake(m) {
+    const fn = EXPLANATIONS[m.type];
+    return fn ? fn(m) : "Сверьте свой ответ с правильным вариантом по формулам сокращённого умножения.";
+}
+
+function renderMistakes() {
+
+    mistakesList.innerHTML = "";
+
+    mistakes.forEach((m, i) => {
+
+        const card = document.createElement("div");
+        card.classList.add("mistake-item");
+
+        card.innerHTML = `
+            <div class="mistake-num">Ошибка ${i + 1}</div>
+            <div class="mistake-task">Задание: ${m.task}</div>
+            <div class="mistake-your">Ваш ответ: ${m.studentAnswer.join(", ")}</div>
+            <div class="mistake-correct">Правильный ответ: ${m.correctAnswer.join(", ")}</div>
+            <div class="mistake-why">${explainMistake(m)}</div>
+        `;
+
+        mistakesList.appendChild(card);
+    });
 }
 
 // =====================
@@ -440,7 +519,7 @@ const REACTIONS = [
     { min: 10, max: 12, emoji: "😺", text: name => `${name} набирает обороты!` },
     { min: 7,  max: 9,  emoji: "😿", text: name => `Ну норм, ${name}. Не Эйнштейн, но и не трагедия` },
     { min: 4,  max: 6,  emoji: "🙀", text: name => `Всё пропало, ${name}! Мы провалим все контрольные!` },
-    { min: 0,  max: 3,  emoji: "💀", text: name => `${name}, Это кринж. Зовите директора!` }
+    { min: 0,  max: 3,  emoji: "💀", text: name => `${name}, это кринж. Зовите директора!` }
 ];
 
 function getReaction(finalScore) {
@@ -455,14 +534,30 @@ function showResultScreen(status, finalScore) {
     resultMessage.textContent = reaction.text(studentName);
     resultScore.textContent = `Результат: ${finalScore} / ${TOTAL_ROUNDS}`;
 
+    reviewMistakesBtn.style.display = mistakes.length > 0 ? "inline-block" : "none";
+
     gameScreen.style.display = "none";
     resultScreen.style.display = "flex";
 }
 
-playAgainBtn.addEventListener("click", () => {
-
+function goToLogin() {
+    mistakesScreen.style.display = "none";
     resultScreen.style.display = "none";
     loginScreen.style.display = "flex";
+}
+
+playAgainBtn.addEventListener("click", goToLogin);
+playAgainBtn2.addEventListener("click", goToLogin);
+
+reviewMistakesBtn.addEventListener("click", () => {
+    renderMistakes();
+    resultScreen.style.display = "none";
+    mistakesScreen.style.display = "flex";
+});
+
+backToResultBtn.addEventListener("click", () => {
+    mistakesScreen.style.display = "none";
+    resultScreen.style.display = "flex";
 });
 
 // =====================
@@ -538,8 +633,13 @@ checkBtn.addEventListener("click", () => {
 
         mistakes.push({
             task: taskText.textContent,
-            answer: [...currentAnswer],
-            student: studentName
+            studentAnswer: [...currentAnswer],
+            correctAnswer: [...currentTask.correctSet],
+            type: currentTask.type,
+            a: currentTask.a,
+            b: currentTask.b,
+            sign: currentTask.sign,
+            n: currentTask.n || 1
         });
     }
 
@@ -557,6 +657,7 @@ checkBtn.addEventListener("click", () => {
 
         updateUI();
         sendResult("win");
+        analyzeMistakes();
 
         showResultScreen("win", score);
         return;
