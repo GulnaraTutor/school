@@ -238,3 +238,61 @@ h2 {
     background: #d7ebff;
     transform: none;
 }
+
+/* ===================== */
+/* RESULT SCREEN (emoji reaction) */
+/* ===================== */
+#resultScreen {
+    position: fixed;
+    inset: 0;
+    background: #eef6ff;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 999;
+}
+
+.result-card {
+    width: min(600px, 90vw);
+    background: white;
+    border-radius: 20px;
+    padding: 50px 40px;
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(0,0,0,.15);
+}
+
+.result-emoji {
+    font-size: 100px;
+    line-height: 1;
+    margin-bottom: 20px;
+}
+
+.result-message {
+    font-size: 26px;
+    font-weight: bold;
+    color: #2470ff;
+    margin-bottom: 10px;
+}
+
+.result-score {
+    font-size: 20px;
+    color: #888;
+    margin-bottom: 30px;
+}
+
+#playAgainBtn {
+    padding: 14px 36px;
+    font-size: 22px;
+    border-radius: 15px;
+    border: none;
+    background: #28c76f;
+    color: white;
+    cursor: pointer;
+    transition: .2s;
+}
+
+#playAgainBtn:hover {
+    transform: scale(1.05);
+}
