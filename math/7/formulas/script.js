@@ -3,7 +3,6 @@ const result = document.querySelector(".result");
 const checkBtn = document.querySelector(".check");
 const percentEl = document.getElementById("percent");
 const taskText = document.querySelector(".task");
-const answerContainer = document.querySelector(".answer");
 
 let currentAnswer = [];
 let total = 0;
@@ -12,50 +11,70 @@ let correct = 0;
 let currentTask = null;
 
 // =====================
-// РАНДОМ
+// RANDOM
 // =====================
 function rand(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 // =====================
-// ГЕНЕРАЦИЯ ЗАДАЧ
+// GENERATE TASK
 // =====================
 function generateTask() {
 
-    const type = Math.floor(Math.random() * 3);
+    const type = Math.floor(Math.random() * 4);
 
-    // (a ± b)^2
-    if (type === 0 || type === 1) {
+    // 1. expand (ax ± b)^2
+    if (type === 0) {
 
         const a = rand(2, 5);
         const b = rand(2, 6);
 
-        currentTask = {
-            type: "square",
-            a,
-            b,
-            sign: type === 0 ? "+" : "-"
-        };
+        currentTask = { type: "expand_square", a, b, sign: "+" };
 
-        return `(${a}x ${type === 0 ? "+" : "−"} ${b})²`;
+        return `(${a}x + ${b})²`;
     }
 
-    // ⭐ РАЗНОСТЬ КВАДРАТОВ = РАЗЛОЖЕНИЕ НА МНОЖИТЕЛИ
-    const a = rand(2, 6);
+    if (type === 1) {
+
+        const a = rand(2, 5);
+        const b = rand(2, 6);
+
+        currentTask = { type: "expand_square", a, b, sign: "-" };
+
+        return `(${a}x − ${b})²`;
+    }
+
+    // 2. expand difference of squares
+    if (type === 2) {
+
+        const a = rand(2, 6);
+        const b = rand(2, 6);
+
+        currentTask = { type: "factor_diff", a, b };
+
+        return `${a * a}x² − ${b * b}`;
+    }
+
+    // 3. factor square trinomial
+    const a = rand(2, 5);
     const b = rand(2, 6);
 
+    const A = a * a;
+    const B = 2 * a * b;
+    const C = b * b;
+
     currentTask = {
-        type: "factor",
+        type: "factor_square",
         a,
         b
     };
 
-    return `${a * a}x² − ${b * b}`;
+    return `${A}x² + ${B}x + ${C}`;
 }
 
 // =====================
-// ОТРИСОВКА ОТВЕТА
+// RENDER ANSWER
 // =====================
 function render() {
 
@@ -84,14 +103,13 @@ function render() {
 }
 
 // =====================
-// ВАРИАНТЫ ОТВЕТОВ
+// OPTIONS
 // =====================
 function generateOptions(task) {
 
     let options = [];
 
-    // квадрат суммы/разности
-    if (task.type === "square") {
+    if (task.type === "expand_square") {
 
         const a = task.a;
         const b = task.b;
@@ -102,23 +120,41 @@ function generateOptions(task) {
             `${mid}x`,
             `−${mid}x`,
             `${b * b}`,
+            `${(a + b) * 2}x`,
             `${a * b}x`,
-            `${(a + b) * 2}x`
+            `(${a}x + ${b})²`,
+            `(${a}x − ${b})²`
         ];
     }
 
-    // ⭐ РАЗЛОЖЕНИЕ НА МНОЖИТЕЛИ
-    if (task.type === "factor") {
+    if (task.type === "factor_diff") {
 
         const a = task.a;
         const b = task.b;
 
         options = [
-            `(${a}x − ${b})`,
-            `(${a}x + ${b})`,
-            `(x − ${b})(x + ${b})`,
-            `${a}x² − ${b}`,
-            `(${b}x − ${a})`
+            `${a * a}x² − ${b * b}`,
+            `(${a}x − ${b})(${a}x + ${b})`,
+            `(${a}x + ${b})²`,
+            `(${a}x − ${b})²`,
+            `${a * a}x² + ${b * b}`
+        ];
+    }
+
+    if (task.type === "factor_square") {
+
+        const a = task.a;
+        const b = task.b;
+
+        const A = a * a;
+        const B = 2 * a * b;
+        const C = b * b;
+
+        options = [
+            `(${a}x + ${b})²`,
+            `(${a}x − ${b})²`,
+            `${A}x² + ${B}x + ${C}`,
+            `${A}x² − ${B}x + ${C}`
         ];
     }
 
@@ -126,7 +162,7 @@ function generateOptions(task) {
 }
 
 // =====================
-// РЕНДЕР КНОПОК
+// BUTTONS
 // =====================
 function renderButtons(task) {
 
@@ -150,47 +186,53 @@ function renderButtons(task) {
 }
 
 // =====================
-// ПРОВЕРКА
+// CHECK
 // =====================
 function isCorrectAnswer() {
 
     const ans = currentAnswer;
 
-    // квадрат суммы/разности
-    if (currentTask.type === "square") {
+    // expand square
+    if (currentTask.type === "expand_square") {
 
         const a = currentTask.a;
         const b = currentTask.b;
-        const sign = currentTask.sign;
-
         const mid = 2 * a * b;
 
-        const term1 = `${a * a}x²`;
-        const term2 = sign === "+" ? `${mid}x` : `−${mid}x`;
-        const term3 = `${b * b}`;
+        const t1 = `${a * a}x²`;
+        const t2 = currentTask.sign === "+" ? `${mid}x` : `−${mid}x`;
+        const t3 = `${b * b}`;
 
-        return ans.includes(term1) &&
-               ans.includes(term2) &&
-               ans.includes(term3);
+        return ans.includes(t1) &&
+               ans.includes(t2) &&
+               ans.includes(t3);
     }
 
-    // ⭐ РАЗЛОЖЕНИЕ НА МНОЖИТЕЛИ
-    if (currentTask.type === "factor") {
+    // factor difference of squares
+    if (currentTask.type === "factor_diff") {
 
         const a = currentTask.a;
         const b = currentTask.b;
 
-        return (
-            ans.includes(`(${a}x − ${b})`) &&
-            ans.includes(`(${a}x + ${b})`)
-        );
+        return ans.includes(`(${a}x − ${b})(${a}x + ${b})`) ||
+               ans.includes(`${a * a}x² − ${b * b}`);
+    }
+
+    // factor trinomial
+    if (currentTask.type === "factor_square") {
+
+        const a = currentTask.a;
+        const b = currentTask.b;
+
+        return ans.includes(`(${a}x + ${b})²`) ||
+               ans.includes(`(${a}x − ${b})²`);
     }
 
     return false;
 }
 
 // =====================
-// ПРОЦЕНТ
+// PERCENT
 // =====================
 function updatePercent() {
 
@@ -204,7 +246,7 @@ function updatePercent() {
 }
 
 // =====================
-// НОВЫЙ РАУНД
+// ROUND
 // =====================
 function newRound() {
 
@@ -219,7 +261,7 @@ function newRound() {
 }
 
 // =====================
-// ПРОВЕРКА КНОПКА
+// CHECK BUTTON
 // =====================
 checkBtn.addEventListener("click", () => {
 
@@ -239,6 +281,6 @@ checkBtn.addEventListener("click", () => {
 });
 
 // =====================
-// СТАРТ
+// START
 // =====================
 newRound();
