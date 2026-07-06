@@ -12,7 +12,6 @@ const startBtn = document.getElementById("startBtn");
 const nameInput = document.getElementById("studentName");
 
 let studentName = "";
-let currentLevel = "novice";
 
 let currentAnswer = [];
 let currentTask = null;
@@ -21,41 +20,45 @@ let buttonsByText = {};
 // =====================
 // GAME STATE
 // =====================
+const TOTAL_ROUNDS = 15;
+const START_LIVES = 5;
+
 let score = 0;
-let lives = 3;
+let lives = START_LIVES;
+let roundNumber = 0;
 let mistakes = [];
 
 // =====================
-// LEVELS
+// DIFFICULTY TIERS
+// rounds 1-5 -> лёгкие, 6-10 -> средние, 11-15 -> сложные
 // =====================
 const LEVELS = {
     novice: {
-        label: "Новичок",
+        label: "Лёгкий",
         aRange: [2, 5],
         bRange: [2, 6],
         kinds: ["expand_plus", "expand_minus", "factor_diff", "factor_square_plus"]
     },
     middle: {
-        label: "Середнячок",
-        aRange: [2, 9],
-        bRange: [2, 12],
-        kinds: ["expand_plus", "expand_minus", "factor_diff", "factor_square_plus", "factor_square_minus"]
+        label: "Средний",
+        aRange: [1, 9],
+        bRange: [1, 12],
+        kinds: ["expand_plus", "expand_minus", "factor_diff", "factor_square_plus", "factor_square_minus", "expand_cube_2var"]
     },
     pro: {
-        label: "Профи",
+        label: "Сложный",
         aRange: [2, 9],
         bRange: [2, 12],
-        kinds: ["factor_diff", "factor_square_plus", "factor_square_minus", "cube_sum", "cube_diff", "diff_squares_2var"]
+        kinds: ["factor_diff", "factor_square_plus", "factor_square_minus", "cube_sum", "cube_diff",
+                "diff_squares_2var", "extract_x2", "multiply_diff_squares", "factor_trinomial_2var_deg4"]
     }
 };
 
-document.querySelectorAll(".levelBtn").forEach(btn => {
-    btn.addEventListener("click", () => {
-        document.querySelectorAll(".levelBtn").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        currentLevel = btn.dataset.level;
-    });
-});
+function getLevelForRound(n) {
+    if (n <= 5) return "novice";
+    if (n <= 10) return "middle";
+    return "pro";
+}
 
 // =====================
 // START GAME (LOGIN)
@@ -78,7 +81,7 @@ startBtn.addEventListener("click", () => {
 });
 
 // =====================
-// RANDOM
+// HELPERS
 // =====================
 function rand(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -92,62 +95,108 @@ function shuffle(arr) {
     return [...arr].sort(() => Math.random() - 0.5);
 }
 
+// omits a coefficient of 1 in front of a variable, e.g. term(1, "x²") -> "x²"
+function term(coef, varStr) {
+    return coef === 1 ? varStr : `${coef}${varStr}`;
+}
+
 // =====================
 // TASK GENERATOR
 // =====================
 function generateTask() {
 
-    const cfg = LEVELS[currentLevel];
+    const cfg = LEVELS[getLevelForRound(roundNumber)];
     const kind = pick(cfg.kinds);
-    const a = rand(cfg.aRange[0], cfg.aRange[1]);
-    const b = rand(cfg.bRange[0], cfg.bRange[1]);
 
-    currentTask = { type: kind, a, b };
+    let a, b;
+    const sign = Math.random() < 0.5 ? "+" : "−";
+
+    switch (kind) {
+        case "expand_cube_2var":
+            a = rand(1, 4);
+            b = rand(1, 4);
+            break;
+        case "extract_x2":
+            a = rand(2, 9);
+            b = null;
+            break;
+        case "factor_trinomial_2var_deg4":
+            a = rand(1, 4);
+            b = rand(2, 6);
+            break;
+        default:
+            a = rand(cfg.aRange[0], cfg.aRange[1]);
+            b = rand(cfg.bRange[0], cfg.bRange[1]);
+    }
+
+    currentTask = { type: kind, a, b, sign };
 
     switch (kind) {
         case "expand_plus":
-            return `(${a}x + ${b})²`;
+            return `(${term(a, "x")} + ${b})²`;
         case "expand_minus":
-            return `(${a}x − ${b})²`;
+            return `(${term(a, "x")} − ${b})²`;
         case "factor_diff":
-            return `${a * a}x² − ${b * b}`;
+            return `${term(a * a, "x²")} − ${b * b}`;
         case "factor_square_plus":
-            return `${a * a}x² + ${2 * a * b}x + ${b * b}`;
+            return `${term(a * a, "x²")} + ${term(2 * a * b, "x")} + ${b * b}`;
         case "factor_square_minus":
-            return `${a * a}x² − ${2 * a * b}x + ${b * b}`;
+            return `${term(a * a, "x²")} − ${term(2 * a * b, "x")} + ${b * b}`;
         case "cube_sum":
-            return `${a * a * a}x³ + ${b * b * b}`;
+            return `${term(a * a * a, "x³")} + ${b * b * b}`;
         case "cube_diff":
-            return `${a * a * a}x³ − ${b * b * b}`;
+            return `${term(a * a * a, "x³")} − ${b * b * b}`;
         case "diff_squares_2var":
-            return `${a * a}x² − ${b * b}y²`;
+            return `${term(a * a, "x²")} − ${term(b * b, "y²")}`;
+        case "expand_cube_2var":
+            return `(${term(a, "x³")} ${sign} ${term(b, "y³")})²`;
+        case "extract_x2":
+            return `${sign === "−" ? "−" : ""}x² + ${term(a, "x⁴")}`;
+        case "multiply_diff_squares":
+            return `(${term(a, "x")} − p)(p + ${term(a, "x")})`;
+        case "factor_trinomial_2var_deg4":
+            return `${term(a * a, "x⁴")} + ${term(b * b, "y²")} ${sign === "−" ? "−" : "+"} ${term(2 * a * b, "x²y")}`;
     }
 }
 
 // =====================
 // OPTIONS + CORRECT ANSWER
-// (each task gets: options to show, the exact correctSet,
-//  and whether several parts need to be collected (isMulti))
 // =====================
 function generateOptions(task) {
 
-    const a = task.a;
-    const b = task.b;
+    const a = task.a, b = task.b, sign = task.sign;
 
     if (task.type === "expand_plus" || task.type === "expand_minus") {
 
-        const sign = task.type === "expand_plus" ? "+" : "−";
+        const s = task.type === "expand_plus" ? "+" : "−";
         const mid = 2 * a * b;
 
-        const t1 = `${a * a}x²`;
-        const t2 = sign === "+" ? `${mid}x` : `−${mid}x`;
+        const t1 = term(a * a, "x²");
+        const t2 = s === "+" ? term(mid, "x") : `−${term(mid, "x")}`;
         const t3 = `${b * b}`;
-        const wrongMid = sign === "+" ? `−${mid}x` : `${mid}x`;
+        const wrongMid = s === "+" ? `−${term(mid, "x")}` : term(mid, "x");
 
         const options = shuffle([
             t1, t2, t3, wrongMid,
-            `(${a}x + ${b})²`,
-            `(${a}x − ${b})²`
+            `(${term(a, "x")} + ${b})²`,
+            `(${term(a, "x")} − ${b})²`
+        ]);
+
+        return { options, correctSet: [t1, t2, t3], isMulti: true };
+    }
+
+    if (task.type === "expand_cube_2var") {
+
+        const t1 = term(a * a, "x⁶");
+        const cross = 2 * a * b;
+        const t2 = sign === "+" ? term(cross, "x³y³") : `−${term(cross, "x³y³")}`;
+        const t3 = term(b * b, "y⁶");
+        const wrongCross = sign === "+" ? `−${term(cross, "x³y³")}` : term(cross, "x³y³");
+
+        const options = shuffle([
+            t1, t2, t3, wrongCross,
+            `(${term(a, "x³")} + ${term(b, "y³")})²`,
+            `(${term(a, "x³")} − ${term(b, "y³")})²`
         ]);
 
         return { options, correctSet: [t1, t2, t3], isMulti: true };
@@ -158,58 +207,89 @@ function generateOptions(task) {
     switch (task.type) {
 
         case "factor_diff":
-            correct = `(${a}x − ${b})(${a}x + ${b})`;
+            correct = `(${term(a, "x")} − ${b})(${term(a, "x")} + ${b})`;
             distractors = [
-                `(${a}x + ${b})²`,
-                `(${a}x − ${b})²`,
-                `(${a}x² − ${b})(${a}x² + ${b})`
+                `(${term(a, "x")} + ${b})²`,
+                `(${term(a, "x")} − ${b})²`,
+                `(${term(a, "x²")} − ${b})(${term(a, "x²")} + ${b})`
             ];
             break;
 
         case "factor_square_plus":
-            correct = `(${a}x + ${b})²`;
+            correct = `(${term(a, "x")} + ${b})²`;
             distractors = [
-                `(${a}x − ${b})²`,
-                `(${a}x − ${b})(${a}x + ${b})`,
-                `(${a}x² + ${b})²`
+                `(${term(a, "x")} − ${b})²`,
+                `(${term(a, "x")} − ${b})(${term(a, "x")} + ${b})`,
+                `(${term(a, "x²")} + ${b})²`
             ];
             break;
 
         case "factor_square_minus":
-            correct = `(${a}x − ${b})²`;
+            correct = `(${term(a, "x")} − ${b})²`;
             distractors = [
-                `(${a}x + ${b})²`,
-                `(${a}x − ${b})(${a}x + ${b})`,
-                `(${a}x² − ${b})²`
+                `(${term(a, "x")} + ${b})²`,
+                `(${term(a, "x")} − ${b})(${term(a, "x")} + ${b})`,
+                `(${term(a, "x²")} − ${b})²`
             ];
             break;
 
         case "cube_sum":
-            correct = `(${a}x + ${b})(${a * a}x² − ${a * b}x + ${b * b})`;
+            correct = `(${term(a, "x")} + ${b})(${term(a * a, "x²")} − ${term(a * b, "x")} + ${b * b})`;
             distractors = [
-                `(${a}x + ${b})(${a * a}x² + ${a * b}x + ${b * b})`,
-                `(${a}x − ${b})(${a * a}x² + ${a * b}x + ${b * b})`,
-                `(${a}x² + ${b})(${a * a}x² − ${a * b}x + ${b * b})`
+                `(${term(a, "x")} + ${b})(${term(a * a, "x²")} + ${term(a * b, "x")} + ${b * b})`,
+                `(${term(a, "x")} − ${b})(${term(a * a, "x²")} + ${term(a * b, "x")} + ${b * b})`,
+                `(${term(a, "x²")} + ${b})(${term(a * a, "x²")} − ${term(a * b, "x")} + ${b * b})`
             ];
             break;
 
         case "cube_diff":
-            correct = `(${a}x − ${b})(${a * a}x² + ${a * b}x + ${b * b})`;
+            correct = `(${term(a, "x")} − ${b})(${term(a * a, "x²")} + ${term(a * b, "x")} + ${b * b})`;
             distractors = [
-                `(${a}x − ${b})(${a * a}x² − ${a * b}x + ${b * b})`,
-                `(${a}x + ${b})(${a * a}x² + ${a * b}x + ${b * b})`,
-                `(${a}x² − ${b})(${a * a}x² + ${a * b}x + ${b * b})`
+                `(${term(a, "x")} − ${b})(${term(a * a, "x²")} − ${term(a * b, "x")} + ${b * b})`,
+                `(${term(a, "x")} + ${b})(${term(a * a, "x²")} + ${term(a * b, "x")} + ${b * b})`,
+                `(${term(a, "x²")} − ${b})(${term(a * a, "x²")} + ${term(a * b, "x")} + ${b * b})`
             ];
             break;
 
         case "diff_squares_2var":
-            correct = `(${a}x − ${b}y)(${a}x + ${b}y)`;
+            correct = `(${term(a, "x")} − ${term(b, "y")})(${term(a, "x")} + ${term(b, "y")})`;
             distractors = [
-                `(${a}x + ${b}y)²`,
-                `(${a}x − ${b}y)²`,
-                `(${a}x² − ${b}y)(${a}x² + ${b}y)`
+                `(${term(a, "x")} + ${term(b, "y")})²`,
+                `(${term(a, "x")} − ${term(b, "y")})²`,
+                `(${term(a, "x²")} − ${term(b, "y")})(${term(a, "x²")} + ${term(b, "y")})`
             ];
             break;
+
+        case "extract_x2": {
+            const other = sign === "−" ? "+" : "−";
+            correct = `x²(${term(a, "x²")} ${sign} 1)`;
+            distractors = [
+                `x²(${term(a, "x²")} ${other} 1)`,
+                `x(${term(a, "x³")} ${sign} x)`,
+                `x²(${term(a, "x")} ${sign} 1)`
+            ];
+            break;
+        }
+
+        case "multiply_diff_squares":
+            correct = `${term(a * a, "x²")} − p²`;
+            distractors = [
+                `${term(a * a, "x²")} + p²`,
+                `${term(a * a, "x²")} − ${term(2 * a, "xp")} − p²`,
+                `${term(a * a, "x²")} + ${term(2 * a, "xp")} − p²`
+            ];
+            break;
+
+        case "factor_trinomial_2var_deg4": {
+            const other = sign === "−" ? "+" : "−";
+            correct = `(${term(a, "x²")} ${sign} ${term(b, "y")})²`;
+            distractors = [
+                `(${term(a, "x²")} ${other} ${term(b, "y")})²`,
+                `(${term(a, "x²")} ${sign} ${term(b, "y")})(${term(a, "x²")} ${other} ${term(b, "y")})`,
+                `(${term(a, "x")} ${sign} ${term(b, "y")})²`
+            ];
+            break;
+        }
     }
 
     return {
@@ -314,10 +394,12 @@ function isCorrectAnswer() {
 // UI UPDATE
 // =====================
 function updateUI() {
-    percentEl.textContent = `${score} / 4`;
+    percentEl.textContent = `${score} / ${TOTAL_ROUNDS}`;
     livesEl.innerHTML = "❤️ ".repeat(lives);
+
     if (levelLabel) {
-        levelLabel.textContent = "Уровень: " + LEVELS[currentLevel].label;
+        const tier = LEVELS[getLevelForRound(roundNumber)].label;
+        levelLabel.textContent = `Раунд ${roundNumber} / ${TOTAL_ROUNDS} · Уровень: ${tier}`;
     }
 }
 
@@ -350,8 +432,8 @@ function sendResult(status) {
         body: JSON.stringify({
             name: studentName,
             score: score,
-            status: status,
-            level: currentLevel
+            roundsCompleted: roundNumber,
+            status: status
         })
     }).catch(err => console.log("Ошибка отправки результата:", err));
 }
@@ -362,10 +444,10 @@ function sendResult(status) {
 function resetGame() {
 
     score = 0;
-    lives = 3;
+    lives = START_LIVES;
+    roundNumber = 0;
     mistakes = [];
 
-    updateUI();
     newRound();
 }
 
@@ -373,6 +455,8 @@ function resetGame() {
 // NEW ROUND
 // =====================
 function newRound() {
+
+    roundNumber++;
 
     const taskStr = generateTask();
     const meta = generateOptions(currentTask);
@@ -415,26 +499,24 @@ checkBtn.addEventListener("click", () => {
         });
     }
 
-    updateUI();
-
-    currentAnswer = [];
-
     if (lives <= 0) {
 
+        updateUI();
         sendResult("lose");
 
-        alert("💀 Жизни закончились!");
+        alert(`💀 Жизни закончились! Результат: ${score} / ${roundNumber}`);
 
         analyzeMistakes();
         resetGame();
         return;
     }
 
-    if (score >= 4) {
+    if (roundNumber >= TOTAL_ROUNDS) {
 
+        updateUI();
         sendResult("win");
 
-        alert(`🏆 ${studentName}, ты прошёл уровень!`);
+        alert(`🏆 ${studentName}, готово! Результат: ${score} / ${TOTAL_ROUNDS}`);
         resetGame();
         return;
     }
