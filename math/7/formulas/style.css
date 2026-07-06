@@ -221,3 +221,8 @@ h2{
     background:#ffb3b3;
     transform:scale(1.05);
 }
+.stats{
+    font-size:28px;
+    font-weight:bold;
+    color:#2470ff;
+}
