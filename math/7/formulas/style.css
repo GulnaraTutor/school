@@ -296,3 +296,106 @@ h2 {
 #playAgainBtn:hover {
     transform: scale(1.05);
 }
+
+.secondary-btn {
+    padding: 14px 36px;
+    font-size: 22px;
+    border-radius: 15px;
+    border: 2px solid #2470ff;
+    background: white;
+    color: #2470ff;
+    cursor: pointer;
+    transition: .2s;
+    margin-bottom: 15px;
+}
+
+.secondary-btn:hover {
+    background: #eef6ff;
+}
+
+/* ===================== */
+/* MISTAKES REVIEW SCREEN */
+/* ===================== */
+#mistakesScreen {
+    position: fixed;
+    inset: 0;
+    background: #eef6ff;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 999;
+    padding: 20px;
+}
+
+.mistakes-card {
+    width: min(700px, 95vw);
+    max-height: 90vh;
+
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+
+    display: flex;
+    flex-direction: column;
+
+    box-shadow: 0 15px 35px rgba(0,0,0,.15);
+}
+
+.mistakes-card h2 {
+    text-align: center;
+    color: #2470ff;
+    margin-bottom: 20px;
+}
+
+.mistakes-list {
+    overflow-y: auto;
+    flex: 1;
+    margin-bottom: 20px;
+}
+
+.mistake-item {
+    border: 2px solid #ffd6d6;
+    border-radius: 15px;
+    padding: 18px 20px;
+    margin-bottom: 15px;
+    background: #fff9f9;
+}
+
+.mistake-num {
+    font-weight: bold;
+    color: #ff5c5c;
+    margin-bottom: 8px;
+}
+
+.mistake-task {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.mistake-your {
+    color: #ff5c5c;
+    margin-bottom: 4px;
+}
+
+.mistake-correct {
+    color: #28c76f;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.mistake-why {
+    font-size: 15px;
+    color: #555;
+    background: #eef6ff;
+    border-radius: 10px;
+    padding: 10px 14px;
+}
+
+.mistakes-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
