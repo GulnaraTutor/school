@@ -364,3 +364,20 @@ saveBtn.addEventListener("click", () => {
 
     renderHistory();
 });
+function renderHistory() {
+
+    let data = JSON.parse(localStorage.getItem("results")) || [];
+
+    historyDiv.innerHTML = "<h3>Прошедшие ученики:</h3>";
+
+    data.forEach(item => {
+
+        const div = document.createElement("div");
+
+        div.textContent =
+            `${item.name} — ${item.score}/20 — ${item.date}`;
+
+        historyDiv.appendChild(div);
+    });
+}
+renderHistory();
