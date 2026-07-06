@@ -28,21 +28,14 @@ function render() {
         const span = document.createElement("span");
         span.classList.add("chip");
 
-        // формируем красивый вид прямо тут
-        let text = item;
+        let display = item;
 
-        if (index > 0) {
-            const prev = currentAnswer[index - 1];
-
-            // если текущий элемент НЕ отрицательный → ставим +
-            if (!item.trim().startsWith("−") && !item.startsWith("-")) {
-                text = "+ " + item;
-            }
+        if (index > 0 && !item.startsWith("−") && !item.startsWith("-")) {
+            display = "+ " + item;
         }
 
-        span.textContent = text;
+        span.textContent = display;
 
-        // удалить по клику
         span.onclick = () => {
             currentAnswer.splice(index, 1);
             render();
@@ -68,12 +61,12 @@ checkBtn.addEventListener("click", () => {
 
     total++;
 
-    const answer = currentAnswer.join(" ");
+    const answer = currentAnswer;
 
     const isCorrect =
-        answer.includes("9x²") &&
-        answer.includes("−30x") &&
-        answer.includes("25");
+    answer.includes("9x²") &&
+    answer.includes("−30x") &&
+    answer.includes("25");
 
     if (isCorrect) {
         correct++;
