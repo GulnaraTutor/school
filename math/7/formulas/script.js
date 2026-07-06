@@ -24,11 +24,25 @@ function render() {
     result.innerHTML = "";
 
     currentAnswer.forEach((item, index) => {
+
         const span = document.createElement("span");
         span.classList.add("chip");
-        span.textContent = item;
 
-        // клик = удалить
+        // формируем красивый вид прямо тут
+        let text = item;
+
+        if (index > 0) {
+            const prev = currentAnswer[index - 1];
+
+            // если текущий элемент НЕ отрицательный → ставим +
+            if (!item.trim().startsWith("−") && !item.startsWith("-")) {
+                text = "+ " + item;
+            }
+        }
+
+        span.textContent = text;
+
+        // удалить по клику
         span.onclick = () => {
             currentAnswer.splice(index, 1);
             render();
@@ -47,26 +61,7 @@ buttons.forEach(btn => {
 });
 
 // ===== ФОРМАТ ОТВЕТА (+ и − красиво) =====
-function formatAnswer(arr) {
-    let out = "";
 
-    arr.forEach((item, i) => {
-
-        if (i > 0) {
-            const clean = item.trim();
-
-            if (clean.startsWith("−") || clean.startsWith("-")) {
-                out += " ";
-            } else {
-                out += " + ";
-            }
-        }
-
-        out += item;
-    });
-
-    return out;
-}
 
 // ===== ПРОВЕРКА =====
 checkBtn.addEventListener("click", () => {
