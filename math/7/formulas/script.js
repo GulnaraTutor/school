@@ -4,6 +4,7 @@ const checkBtn = document.querySelector(".check");
 const percentEl = document.getElementById("percent");
 const taskText = document.querySelector(".task");
 const livesEl = document.querySelector(".lives");
+const levelLabel = document.getElementById("levelLabel");
 
 const loginScreen = document.getElementById("loginScreen");
 const gameScreen = document.getElementById("gameScreen");
@@ -11,9 +12,11 @@ const startBtn = document.getElementById("startBtn");
 const nameInput = document.getElementById("studentName");
 
 let studentName = "";
+let currentLevel = "novice";
 
 let currentAnswer = [];
 let currentTask = null;
+let buttonsByText = {};
 
 // =====================
 // GAME STATE
@@ -21,6 +24,38 @@ let currentTask = null;
 let score = 0;
 let lives = 3;
 let mistakes = [];
+
+// =====================
+// LEVELS
+// =====================
+const LEVELS = {
+    novice: {
+        label: "Новичок",
+        aRange: [2, 5],
+        bRange: [2, 6],
+        kinds: ["expand_plus", "expand_minus", "factor_diff", "factor_square_plus"]
+    },
+    middle: {
+        label: "Середнячок",
+        aRange: [2, 9],
+        bRange: [2, 12],
+        kinds: ["expand_plus", "expand_minus", "factor_diff", "factor_square_plus", "factor_square_minus"]
+    },
+    pro: {
+        label: "Профи",
+        aRange: [2, 9],
+        bRange: [2, 12],
+        kinds: ["factor_diff", "factor_square_plus", "factor_square_minus", "cube_sum", "cube_diff", "diff_squares_2var"]
+    }
+};
+
+document.querySelectorAll(".levelBtn").forEach(btn => {
+    btn.addEventListener("click", () => {
+        document.querySelectorAll(".levelBtn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentLevel = btn.dataset.level;
+    });
+});
 
 // =====================
 // START GAME (LOGIN)
@@ -39,7 +74,7 @@ startBtn.addEventListener("click", () => {
     loginScreen.style.display = "none";
     gameScreen.style.display = "block";
 
-    newRound();
+    resetGame();
 });
 
 // =====================
@@ -49,63 +84,143 @@ function rand(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// =====================
-// TASK GENERATOR   
-// =====================
-function generateTask() {
+function pick(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
 
-    const type = Math.floor(Math.random() * 4);
-
-    // (ax ± b)^2
-    if (type === 0 || type === 1) {
-
-        const a = rand(2, 5);
-        const b = rand(2, 6);
-
-        currentTask = {
-            type: "expand_square",
-            a,
-            b,
-            sign: type === 0 ? "+" : "-"
-        };
-
-        return `(${a}x ${type === 0 ? "+" : "−"} ${b})²`;
-    }
-
-    // factor difference of squares
-    if (type === 2) {
-
-        const a = rand(2, 6);
-        const b = rand(2, 6);
-
-        currentTask = {
-            type: "factor_diff",
-            a,
-            b
-        };
-
-        return `${a * a}x² − ${b * b}`;
-    }
-
-    // factor trinomial
-    const a = rand(2, 5);
-    const b = rand(2, 6);
-
-    currentTask = {
-        type: "factor_square",
-        a,
-        b
-    };
-
-    const A = a * a;
-    const B = 2 * a * b;
-    const C = b * b;
-
-    return `${A}x² + ${B}x + ${C}`;
+function shuffle(arr) {
+    return [...arr].sort(() => Math.random() - 0.5);
 }
 
 // =====================
-// RENDER ANSWER
+// TASK GENERATOR
+// =====================
+function generateTask() {
+
+    const cfg = LEVELS[currentLevel];
+    const kind = pick(cfg.kinds);
+    const a = rand(cfg.aRange[0], cfg.aRange[1]);
+    const b = rand(cfg.bRange[0], cfg.bRange[1]);
+
+    currentTask = { type: kind, a, b };
+
+    switch (kind) {
+        case "expand_plus":
+            return `(${a}x + ${b})²`;
+        case "expand_minus":
+            return `(${a}x − ${b})²`;
+        case "factor_diff":
+            return `${a * a}x² − ${b * b}`;
+        case "factor_square_plus":
+            return `${a * a}x² + ${2 * a * b}x + ${b * b}`;
+        case "factor_square_minus":
+            return `${a * a}x² − ${2 * a * b}x + ${b * b}`;
+        case "cube_sum":
+            return `${a * a * a}x³ + ${b * b * b}`;
+        case "cube_diff":
+            return `${a * a * a}x³ − ${b * b * b}`;
+        case "diff_squares_2var":
+            return `${a * a}x² − ${b * b}y²`;
+    }
+}
+
+// =====================
+// OPTIONS + CORRECT ANSWER
+// (each task gets: options to show, the exact correctSet,
+//  and whether several parts need to be collected (isMulti))
+// =====================
+function generateOptions(task) {
+
+    const a = task.a;
+    const b = task.b;
+
+    if (task.type === "expand_plus" || task.type === "expand_minus") {
+
+        const sign = task.type === "expand_plus" ? "+" : "−";
+        const mid = 2 * a * b;
+
+        const t1 = `${a * a}x²`;
+        const t2 = sign === "+" ? `${mid}x` : `−${mid}x`;
+        const t3 = `${b * b}`;
+        const wrongMid = sign === "+" ? `−${mid}x` : `${mid}x`;
+
+        const options = shuffle([
+            t1, t2, t3, wrongMid,
+            `(${a}x + ${b})²`,
+            `(${a}x − ${b})²`
+        ]);
+
+        return { options, correctSet: [t1, t2, t3], isMulti: true };
+    }
+
+    let correct, distractors;
+
+    switch (task.type) {
+
+        case "factor_diff":
+            correct = `(${a}x − ${b})(${a}x + ${b})`;
+            distractors = [
+                `(${a}x + ${b})²`,
+                `(${a}x − ${b})²`,
+                `(${a}x² − ${b})(${a}x² + ${b})`
+            ];
+            break;
+
+        case "factor_square_plus":
+            correct = `(${a}x + ${b})²`;
+            distractors = [
+                `(${a}x − ${b})²`,
+                `(${a}x − ${b})(${a}x + ${b})`,
+                `(${a}x² + ${b})²`
+            ];
+            break;
+
+        case "factor_square_minus":
+            correct = `(${a}x − ${b})²`;
+            distractors = [
+                `(${a}x + ${b})²`,
+                `(${a}x − ${b})(${a}x + ${b})`,
+                `(${a}x² − ${b})²`
+            ];
+            break;
+
+        case "cube_sum":
+            correct = `(${a}x + ${b})(${a * a}x² − ${a * b}x + ${b * b})`;
+            distractors = [
+                `(${a}x + ${b})(${a * a}x² + ${a * b}x + ${b * b})`,
+                `(${a}x − ${b})(${a * a}x² + ${a * b}x + ${b * b})`,
+                `(${a}x² + ${b})(${a * a}x² − ${a * b}x + ${b * b})`
+            ];
+            break;
+
+        case "cube_diff":
+            correct = `(${a}x − ${b})(${a * a}x² + ${a * b}x + ${b * b})`;
+            distractors = [
+                `(${a}x − ${b})(${a * a}x² − ${a * b}x + ${b * b})`,
+                `(${a}x + ${b})(${a * a}x² + ${a * b}x + ${b * b})`,
+                `(${a}x² − ${b})(${a * a}x² + ${a * b}x + ${b * b})`
+            ];
+            break;
+
+        case "diff_squares_2var":
+            correct = `(${a}x − ${b}y)(${a}x + ${b}y)`;
+            distractors = [
+                `(${a}x + ${b}y)²`,
+                `(${a}x − ${b}y)²`,
+                `(${a}x² − ${b}y)(${a}x² + ${b}y)`
+            ];
+            break;
+    }
+
+    return {
+        options: shuffle([correct, ...distractors]),
+        correctSet: [correct],
+        isMulti: false
+    };
+}
+
+// =====================
+// RENDER ANSWER (chips)
 // =====================
 function render() {
 
@@ -118,7 +233,7 @@ function render() {
 
         let display = item;
 
-        if (index > 0 && !item.startsWith("−") && !item.startsWith("-")) {
+        if (currentTask.isMulti && index > 0 && !item.startsWith("−") && !item.startsWith("-")) {
             display = "+ " + item;
         }
 
@@ -126,66 +241,22 @@ function render() {
 
         span.onclick = () => {
             currentAnswer.splice(index, 1);
+
+            if (currentTask.isMulti) {
+                const btn = buttonsByText[item];
+                if (btn) {
+                    btn.disabled = false;
+                    btn.classList.remove("used");
+                }
+            } else {
+                Object.values(buttonsByText).forEach(b => b.classList.remove("selected"));
+            }
+
             render();
         };
 
         result.appendChild(span);
     });
-}
-
-// =====================
-// OPTIONS
-// =====================
-function generateOptions(task) {
-
-    let options = [];
-
-    if (task.type === "expand_square") {
-
-        const a = task.a;
-        const b = task.b;
-        const mid = 2 * a * b;
-
-        options = [
-            `${a * a}x²`,
-            `${mid}x`,
-            `−${mid}x`,
-            `${b * b}`,
-            `(${a}x + ${b})²`,
-            `(${a}x − ${b})²`
-        ];
-    }
-
-    if (task.type === "factor_diff") {
-
-        const a = task.a;
-        const b = task.b;
-
-        options = [
-            `${a * a}x² − ${b * b}`,
-            `(${a}x − ${b})(${a}x + ${b})`,
-            `(${a}x + ${b})²`,
-            `(${a}x − ${b})²`
-        ];
-    }
-
-    if (task.type === "factor_square") {
-
-        const a = task.a;
-        const b = task.b;
-
-        const A = a * a;
-        const B = 2 * a * b;
-        const C = b * b;
-
-        options = [
-            `(${a}x + ${b})²`,
-            `(${a}x − ${b})²`,
-            `${A}x² + ${B}x + ${C}`
-        ];
-    }
-
-    return options.sort(() => Math.random() - 0.5);
 }
 
 // =====================
@@ -195,16 +266,27 @@ function renderButtons(task) {
 
     const container = document.querySelector(".answer");
     container.innerHTML = "";
+    buttonsByText = {};
 
-    const options = generateOptions(task);
-
-    options.forEach(opt => {
+    task.options.forEach(opt => {
 
         const btn = document.createElement("button");
         btn.textContent = opt;
+        buttonsByText[opt] = btn;
 
         btn.onclick = () => {
-            currentAnswer.push(opt);
+
+            if (task.isMulti) {
+                if (currentAnswer.includes(opt)) return;
+                currentAnswer.push(opt);
+                btn.disabled = true;
+                btn.classList.add("used");
+            } else {
+                currentAnswer = [opt];
+                Object.values(buttonsByText).forEach(b => b.classList.remove("selected"));
+                btn.classList.add("selected");
+            }
+
             render();
         };
 
@@ -213,56 +295,30 @@ function renderButtons(task) {
 }
 
 // =====================
-// CHECK ANSWER
+// CHECK ANSWER (exact match — no missing pieces, no extra ones)
 // =====================
 function isCorrectAnswer() {
 
     const ans = currentAnswer;
+    const correct = currentTask.correctSet;
 
-    if (currentTask.type === "expand_square") {
+    if (ans.length !== correct.length) return false;
 
-        const a = currentTask.a;
-        const b = currentTask.b;
-        const mid = 2 * a * b;
+    const sortedAns = [...ans].sort();
+    const sortedCorrect = [...correct].sort();
 
-        const t1 = `${a * a}x²`;
-        const t2 = currentTask.sign === "+" ? `${mid}x` : `−${mid}x`;
-        const t3 = `${b * b}`;
-
-        return ans.includes(t1) &&
-               ans.includes(t2) &&
-               ans.includes(t3);
-    }
-
-    if (currentTask.type === "factor_diff") {
-
-        const a = currentTask.a;
-        const b = currentTask.b;
-
-        return ans.includes(`(${a}x − ${b})(${a}x + ${b})`) ||
-               ans.includes(`${a * a}x² − ${b * b}`);
-    }
-
-    if (currentTask.type === "factor_square") {
-
-        const a = currentTask.a;
-        const b = currentTask.b;
-
-        return ans.includes(`(${a}x + ${b})²`) ||
-               ans.includes(`(${a}x − ${b})²`) ||
-               ans.includes(`${a * a}x² + ${2 * a * b}x + ${b * b}`);
-    }
-
-    return false;
+    return sortedAns.every((v, i) => v === sortedCorrect[i]);
 }
 
 // =====================
 // UI UPDATE
 // =====================
 function updateUI() {
-
     percentEl.textContent = `${score} / 4`;
     livesEl.innerHTML = "❤️ ".repeat(lives);
+    if (levelLabel) {
+        levelLabel.textContent = "Уровень: " + LEVELS[currentLevel].label;
+    }
 }
 
 // =====================
@@ -294,7 +350,8 @@ function sendResult(status) {
         body: JSON.stringify({
             name: studentName,
             score: score,
-            status: status
+            status: status,
+            level: currentLevel
         })
     }).catch(err => console.log("Ошибка отправки результата:", err));
 }
@@ -318,6 +375,11 @@ function resetGame() {
 function newRound() {
 
     const taskStr = generateTask();
+    const meta = generateOptions(currentTask);
+
+    currentTask.options = meta.options;
+    currentTask.correctSet = meta.correctSet;
+    currentTask.isMulti = meta.isMulti;
 
     taskText.textContent = taskStr;
 
@@ -325,7 +387,6 @@ function newRound() {
     render();
 
     renderButtons(currentTask);
-
     updateUI();
 }
 
@@ -333,6 +394,11 @@ function newRound() {
 // CHECK BUTTON
 // =====================
 checkBtn.addEventListener("click", () => {
+
+    if (currentAnswer.length === 0) {
+        alert("Сначала выбери ответ!");
+        return;
+    }
 
     if (isCorrectAnswer()) {
 
