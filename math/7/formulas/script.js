@@ -1,10 +1,30 @@
 console.log("SCRIPT LOADED ✔");
+const result = document.querySelector(".result");
+const checkBtn = document.querySelector(".check");
+const percentEl = document.getElementById("percent");
+const taskText = document.querySelector(".task");
+const livesEl = document.querySelector(".lives");
+
 const loginScreen = document.getElementById("loginScreen");
 const gameScreen = document.getElementById("gameScreen");
 const startBtn = document.getElementById("startBtn");
 const nameInput = document.getElementById("studentName");
 
 let studentName = "";
+
+let currentAnswer = [];
+let currentTask = null;
+
+// =====================
+// GAME STATE
+// =====================
+let score = 0;
+let lives = 3;
+let mistakes = [];
+
+// =====================
+// START GAME (LOGIN)
+// =====================
 startBtn.addEventListener("click", () => {
 
     const name = nameInput.value.trim();
@@ -21,21 +41,6 @@ startBtn.addEventListener("click", () => {
 
     newRound();
 });
-const result = document.querySelector(".result");
-const checkBtn = document.querySelector(".check");
-const percentEl = document.getElementById("percent");
-const taskText = document.querySelector(".task");
-const livesEl = document.querySelector(".lives");
-
-let currentAnswer = [];
-let currentTask = null;
-
-// =====================
-// GAME STATE
-// =====================
-let score = 0;
-let lives = 3;
-let mistakes = [];
 
 // =====================
 // RANDOM
@@ -51,6 +56,7 @@ function generateTask() {
 
     const type = Math.floor(Math.random() * 4);
 
+    // (ax ± b)^2
     if (type === 0 || type === 1) {
 
         const a = rand(2, 5);
@@ -66,6 +72,7 @@ function generateTask() {
         return `(${a}x ${type === 0 ? "+" : "−"} ${b})²`;
     }
 
+    // factor difference of squares
     if (type === 2) {
 
         const a = rand(2, 6);
@@ -80,6 +87,7 @@ function generateTask() {
         return `${a * a}x² − ${b * b}`;
     }
 
+    // factor trinomial
     const a = rand(2, 5);
     const b = rand(2, 6);
 
@@ -240,11 +248,9 @@ function isCorrectAnswer() {
         const a = currentTask.a;
         const b = currentTask.b;
 
-        return (
-            ans.includes(`(${a}x + ${b})²`) ||
-            ans.includes(`(${a}x − ${b})²`) ||
-            ans.includes(`${a * a}x² + ${2 * a * b}x + ${b * b}`)
-        );
+        return ans.includes(`(${a}x + ${b})²`) ||
+               ans.includes(`(${a}x − ${b})²`) ||
+               ans.includes(`${a * a}x² + ${2 * a * b}x + ${b * b}`);
     }
 
     return false;
@@ -260,7 +266,7 @@ function updateUI() {
 }
 
 // =====================
-// ANALYSIS
+// ANALYZE MISTAKES
 // =====================
 function analyzeMistakes() {
 
@@ -322,7 +328,8 @@ checkBtn.addEventListener("click", () => {
 
         mistakes.push({
             task: taskText.textContent,
-            answer: [...currentAnswer]
+            answer: [...currentAnswer],
+            student: studentName
         });
     }
 
@@ -341,7 +348,7 @@ checkBtn.addEventListener("click", () => {
 
     if (score >= 20) {
 
-        alert("🏆 20 правильных ответов! Победа!");
+        alert(`🏆 ${studentName}, ты прошёл уровень!`);
 
         resetGame();
         return;
@@ -349,57 +356,3 @@ checkBtn.addEventListener("click", () => {
 
     newRound();
 });
-
-// =====================
-// START
-// =====================
-newRound();
-const saveBtn = document.getElementById("saveResult");
-const nameInput = document.getElementById("studentName");
-const historyDiv = document.getElementById("history");
-
-// =====================
-// СОХРАНЕНИЕ РЕЗУЛЬТАТА
-// =====================
-saveBtn.addEventListener("click", () => {
-
-    const name = nameInput.value.trim();
-
-    if (!name) {
-        alert("Введите имя ученика!");
-        return;
-    }
-
-    const result = {
-    name: studentName,
-    score: score,
-    date: new Date().toLocaleString()
-};
-
-    let data = JSON.parse(localStorage.getItem("results")) || [];
-
-    data.push(result);
-
-    localStorage.setItem("results", JSON.stringify(data));
-
-    alert("Результат сохранён!");
-
-    renderHistory();
-});
-function renderHistory() {
-
-    let data = JSON.parse(localStorage.getItem("results")) || [];
-
-    historyDiv.innerHTML = "<h3>Прошедшие ученики:</h3>";
-
-    data.forEach(item => {
-
-        const div = document.createElement("div");
-
-        div.textContent =
-            `${item.name} — ${item.score}/20 — ${item.date}`;
-
-        historyDiv.appendChild(div);
-    });
-}
-renderHistory();
