@@ -1,3 +1,4 @@
+console.log("SCRIPT LOADED ✔");
 const result = document.querySelector(".result");
 const checkBtn = document.querySelector(".check");
 const percentEl = document.getElementById("percent");
