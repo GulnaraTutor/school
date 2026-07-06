@@ -68,9 +68,8 @@ checkBtn.addEventListener("click", () => {
 
     total++;
 
-    const answer = formatAnswer(currentAnswer);
+    const answer = currentAnswer.join(" ");
 
-    // правильный ответ для (3x − 5)²
     const isCorrect =
         answer.includes("9x²") &&
         answer.includes("−30x") &&
