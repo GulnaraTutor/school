@@ -313,6 +313,25 @@ h2 {
     background: #eef6ff;
 }
 
+.review-btn {
+    padding: 14px 36px;
+    font-size: 22px;
+    font-weight: bold;
+    border-radius: 15px;
+    border: none;
+    background: linear-gradient(135deg, #ff9800, #ff5c5c);
+    color: white;
+    cursor: pointer;
+    transition: .2s;
+    margin-bottom: 15px;
+    box-shadow: 0 6px 16px rgba(255, 92, 92, .4);
+}
+
+.review-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(255, 92, 92, .55);
+}
+
 /* ===================== */
 /* MISTAKES REVIEW SCREEN */
 /* ===================== */
