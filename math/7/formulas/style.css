@@ -282,7 +282,7 @@ h2 {
     margin-bottom: 30px;
 }
 
-#playAgainBtn {
+.primary-btn {
     padding: 14px 36px;
     font-size: 22px;
     border-radius: 15px;
@@ -293,7 +293,7 @@ h2 {
     transition: .2s;
 }
 
-#playAgainBtn:hover {
+.primary-btn:hover {
     transform: scale(1.05);
 }
 
