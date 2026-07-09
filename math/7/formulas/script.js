@@ -498,19 +498,66 @@ const EXPLANATIONS = {
 // кружки вокруг частей выражения + стрелки к буквам a и b
 // =====================
 
-// какую часть примера обводить кружком для каждого типа задания
-// (для типов, где формула — это (a±b)² или (a−b)(a+b))
+// какие части ИСХОДНОГО примера обводить кружком и как подписать
+// (текст сегментов должен совпадать с тем, что генерирует generateTask())
 const ANNOTATION_SPECS = {
-    expand_plus:               m => ({ prefix: "(", aPart: `${m.a}x`,               mid: " + ",         bPart: `${m.b}`,                          suffix: ")²" }),
-    expand_minus:               m => ({ prefix: "(", aPart: `${m.a}x`,               mid: " − ",         bPart: `${m.b}`,                          suffix: ")²" }),
-    factor_square_plus:         m => ({ prefix: "(", aPart: `${m.a}x`,               mid: " + ",         bPart: `${m.b}`,                          suffix: ")²" }),
-    factor_square_minus:        m => ({ prefix: "(", aPart: `${m.a}x`,               mid: " − ",         bPart: `${m.b}`,                          suffix: ")²" }),
-    expand_pow2var:              m => ({ prefix: "(", aPart: term(m.a, powVar("x", m.n)), mid: ` ${m.sign} `, bPart: term(m.b, powVar("y", m.n)),  suffix: ")²" }),
-    factor_trinomial_2var_deg4: m => ({ prefix: "(", aPart: `${m.a}x²`,              mid: ` ${m.sign} `, bPart: `${m.b}y`,                         suffix: ")²" }),
-    factor_diff:                 m => ({ prefix: "(", aPart: `${m.a}x`,               mid: " − ",         bPart: `${m.b}`,                          suffix: ")" }),
-    diff_squares_2var:           m => ({ prefix: "(", aPart: term(m.a, powVar("x", m.n)), mid: " − ",     bPart: term(m.b, powVar("y", m.n)),      suffix: ")" }),
-    multiply_diff_squares:       m => ({ prefix: "(", aPart: `${m.a}x`,               mid: " − ",         bPart: "p",                               suffix: ")" })
+
+    expand_plus: m => [
+        "(", { text: `${m.a}x`, label: "a" }, " + ", { text: `${m.b}`, label: "b" }, ")²"
+    ],
+
+    expand_minus: m => [
+        "(", { text: `${m.a}x`, label: "a" }, " − ", { text: `${m.b}`, label: "b" }, ")²"
+    ],
+
+    expand_pow2var: m => [
+        "(", { text: term(m.a, powVar("x", m.n)), label: "a" }, ` ${m.sign} `,
+        { text: term(m.b, powVar("y", m.n)), label: "b" }, ")²"
+    ],
+
+    // задание уже дано в развёрнутом виде a²+2ab+b² — размечаем именно его
+    factor_square_plus: m => [
+        { text: term(m.a * m.a, "x²"), label: "a²" }, " + ",
+        { text: term(2 * m.a * m.b, "x"), label: "2ab" }, " + ",
+        { text: `${m.b * m.b}`, label: "b²" }
+    ],
+
+    factor_square_minus: m => [
+        { text: term(m.a * m.a, "x²"), label: "a²" }, " − ",
+        { text: term(2 * m.a * m.b, "x"), label: "2ab" }, " + ",
+        { text: `${m.b * m.b}`, label: "b²" }
+    ],
+
+    // задание уже дано как a² − b² — размечаем сами квадраты
+    factor_diff: m => [
+        { text: term(m.a * m.a, "x²"), label: "a²" }, " − ",
+        { text: `${m.b * m.b}`, label: "b²" }
+    ],
+
+    diff_squares_2var: m => [
+        { text: term(m.a * m.a, powVar("x", 2 * m.n)), label: "a²" }, " − ",
+        { text: term(m.b * m.b, powVar("y", 2 * m.n)), label: "b²" }
+    ],
+
+    factor_trinomial_2var_deg4: m => [
+        { text: term(m.a * m.a, "x⁴"), label: "a²" }, " + ",
+        { text: term(m.b * m.b, "y²"), label: "b²" }, ` ${m.sign} `,
+        { text: term(2 * m.a * m.b, "x²y"), label: "2ab" }
+    ],
+
+    // задание дано как произведение двух скобок — размечаем a и b в обеих
+    multiply_diff_squares: m => [
+        "(", { text: `${m.a}x`, label: "a" }, " − ", { text: "p", label: "b" }, ")(",
+        { text: "p", label: "b" }, " + ", { text: `${m.a}x`, label: "a" }, ")"
+    ]
 };
+
+function colorForLabel(label) {
+    if (label === "2ab") return "#9b5de5";
+    if (label.startsWith("a")) return "#2470ff";
+    if (label.startsWith("b")) return "#ff5c5c";
+    return "#555";
+}
 
 function measureTextWidth(text, font) {
     if (!measureTextWidth._ctx) {
@@ -520,25 +567,20 @@ function measureTextWidth(text, font) {
     return measureTextWidth._ctx.measureText(text).width;
 }
 
-function buildAnnotatedSVG(spec) {
+// segments: массив строк (обычный текст) и/или объектов { text, label } (текст, который нужно обвести)
+function buildAnnotatedSVG(segments) {
 
     const font = "bold 28px Arial, sans-serif";
     const baselineY = 92;
     const svgHeight = 130;
     const padX = 16;
 
-    const segments = [
-        { text: spec.prefix, tag: null },
-        { text: spec.aPart,  tag: "a" },
-        { text: spec.mid,    tag: null },
-        { text: spec.bPart,  tag: "b" },
-        { text: spec.suffix, tag: null }
-    ];
-
     let x = padX;
-    const laidOut = segments.map(seg => {
-        const w = measureTextWidth(seg.text, font);
-        const item = Object.assign({}, seg, { x, width: w });
+    const laidOut = segments.map((seg, idx) => {
+        const text = typeof seg === "string" ? seg : seg.text;
+        const label = typeof seg === "string" ? null : seg.label;
+        const w = measureTextWidth(text, font);
+        const item = { text, label, x, width: w, idx };
         x += w;
         return item;
     });
@@ -546,34 +588,33 @@ function buildAnnotatedSVG(spec) {
     const svgWidth = x + padX;
 
     let body = "";
+    let defs = "<defs>";
 
     laidOut.forEach(seg => {
-        const color = seg.tag === "a" ? "#2470ff" : seg.tag === "b" ? "#ff5c5c" : "#222";
+        const color = seg.label ? colorForLabel(seg.label) : "#222";
         body += `<text x="${seg.x}" y="${baselineY}" style="font:${font};" fill="${color}">${seg.text}</text>`;
     });
 
-    laidOut.filter(seg => seg.tag).forEach(seg => {
+    laidOut.filter(seg => seg.label).forEach(seg => {
         const cx = seg.x + seg.width / 2;
         const cy = baselineY - 9;
         const rx = seg.width / 2 + 10;
         const ry = 26;
-        const color = seg.tag === "a" ? "#2470ff" : "#ff5c5c";
+        const color = colorForLabel(seg.label);
+        const markerId = `arrowhead-${seg.idx}`;
+
+        defs += `<marker id="${markerId}" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+            <path d="M0,0 L8,4 L0,8 Z" fill="${color}"/>
+        </marker>`;
 
         body += `<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="none" stroke="${color}" stroke-width="2.5"/>`;
-        body += `<line x1="${cx}" y1="${cy - ry}" x2="${cx}" y2="22" stroke="${color}" stroke-width="2.5" marker-end="url(#arrowhead-${seg.tag})"/>`;
-        body += `<text x="${cx}" y="16" text-anchor="middle" style="font: bold 20px Arial, sans-serif;" fill="${color}">${seg.tag}</text>`;
+        body += `<line x1="${cx}" y1="${cy - ry}" x2="${cx}" y2="22" stroke="${color}" stroke-width="2.5" marker-end="url(#${markerId})"/>`;
+        body += `<text x="${cx}" y="16" text-anchor="middle" style="font: bold 18px Arial, sans-serif;" fill="${color}">${seg.label}</text>`;
     });
 
-    const defs = `<defs>
-        <marker id="arrowhead-a" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
-            <path d="M0,0 L8,4 L0,8 Z" fill="#2470ff"/>
-        </marker>
-        <marker id="arrowhead-b" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
-            <path d="M0,0 L8,4 L0,8 Z" fill="#ff5c5c"/>
-        </marker>
-    </defs>`;
+    defs += "</defs>";
 
-    return `<svg viewBox="0 0 ${svgWidth} ${svgHeight}" style="width:100%; max-width:280px; height:auto; display:block; margin:12px auto;" xmlns="http://www.w3.org/2000/svg">${defs}${body}</svg>`;
+    return `<svg viewBox="0 0 ${svgWidth} ${svgHeight}" style="width:100%; max-width:340px; height:auto; display:block; margin:12px auto;" xmlns="http://www.w3.org/2000/svg">${defs}${body}</svg>`;
 }
 
 function buildDiagramFor(m) {
