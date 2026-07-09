@@ -27,6 +27,7 @@ let studentName = "";
 
 let currentAnswer = [];
 let currentTask = null;
+let lastParams = null; // { a, b } предыдущего задания — чтобы числа не повторялись подряд
 let buttonsByText = {};
 
 // =====================
@@ -135,36 +136,47 @@ function generateTask() {
 
     const levelKey = getLevelForRound(roundNumber);
     const cfg = LEVELS[levelKey];
-    const kind = pick(cfg.kinds);
 
-    let a, b, n = 1;
-    const sign = Math.random() < 0.5 ? "+" : "−";
+    let kind, a, b, n, sign;
+    let attempts = 0;
 
-    switch (kind) {
-        case "extract_x2":
-            do {
-                a = rand(2, 9);
-            } while (isPerfectSquare(a));
-            b = null;
-            break;
-        case "factor_trinomial_2var_deg4":
-            a = rand(1, 4);
-            b = rand(2, 6);
-            break;
-        case "expand_pow2var":
-            a = rand(1, 4);
-            b = rand(1, 4);
-            n = levelKey === "novice" ? 1 : pick([1, 2, 3, 4, 5]);
-            break;
-        case "diff_squares_2var":
-            a = rand(cfg.aRange[0], cfg.aRange[1]);
-            b = rand(cfg.bRange[0], cfg.bRange[1]);
-            n = pick([1, 2, 3, 4, 5]);
-            break;
-        default:
-            a = rand(cfg.aRange[0], cfg.aRange[1]);
-            b = rand(cfg.bRange[0], cfg.bRange[1]);
-    }
+    do {
+        kind = pick(cfg.kinds);
+        sign = Math.random() < 0.5 ? "+" : "−";
+        n = 1;
+
+        switch (kind) {
+            case "extract_x2":
+                do {
+                    a = rand(2, 9);
+                } while (isPerfectSquare(a));
+                b = null;
+                break;
+            case "factor_trinomial_2var_deg4":
+                a = rand(1, 4);
+                b = rand(2, 6);
+                break;
+            case "expand_pow2var":
+                a = rand(1, 4);
+                b = rand(1, 4);
+                n = levelKey === "novice" ? 1 : pick([1, 2, 3, 4, 5]);
+                break;
+            case "diff_squares_2var":
+                a = rand(cfg.aRange[0], cfg.aRange[1]);
+                b = rand(cfg.bRange[0], cfg.bRange[1]);
+                n = pick([1, 2, 3, 4, 5]);
+                break;
+            default:
+                a = rand(cfg.aRange[0], cfg.aRange[1]);
+                b = rand(cfg.bRange[0], cfg.bRange[1]);
+        }
+
+        attempts++;
+
+        // не даём числам a/b повториться сразу в следующем раунде подряд
+    } while (lastParams && lastParams.a === a && lastParams.b === b && attempts < 15);
+
+    lastParams = { a, b };
 
     currentTask = { type: kind, a, b, sign, n };
 
@@ -737,6 +749,7 @@ function resetGame() {
     lives = START_LIVES;
     roundNumber = 0;
     mistakes = [];
+    lastParams = null;
 
     newRound();
 }
