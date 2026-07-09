@@ -1,1 +1,319 @@
-<h1>MathLab работает 🎉</h1>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MathLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+
+    :root {
+        --bg: #f6f9ff;
+        --ink: #1b2436;
+        --ink-soft: #5b6478;
+
+        --algebra: #2470ff;
+        --algebra-soft: #e9f1ff;
+        --algebra-line: #cfe0ff;
+
+        --geometry: #8b5cf6;
+        --geometry-soft: #f2edff;
+        --geometry-line: #ddccff;
+
+        --ready-green: #1fae6b;
+        --soon-grey: #aab2c5;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: Arial, Helvetica, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 40px 20px 70px;
+    }
+
+    /* ===================== */
+    /* HEADER */
+    /* ===================== */
+    header {
+        text-align: center;
+        max-width: 640px;
+        margin-bottom: 46px;
+    }
+
+    .brand {
+        font-family: "Fredoka", Arial, sans-serif;
+        font-weight: 700;
+        font-size: 52px;
+        letter-spacing: -0.5px;
+        margin: 0;
+        color: var(--ink);
+    }
+
+    .brand span {
+        color: var(--algebra);
+    }
+
+    .brand-underline {
+        display: block;
+        margin: 6px auto 0;
+        width: 190px;
+        height: 14px;
+    }
+
+    header p {
+        margin: 18px 0 0;
+        font-size: 18px;
+        color: var(--ink-soft);
+    }
+
+    /* ===================== */
+    /* SUBJECT PANELS */
+    /* ===================== */
+    main {
+        width: 100%;
+        max-width: 960px;
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+    }
+
+    @media (min-width: 860px) {
+        main {
+            flex-direction: row;
+            align-items: flex-start;
+        }
+    }
+
+    .panel {
+        flex: 1;
+        border-radius: 24px;
+        padding: 30px 28px 34px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(20, 30, 60, .06);
+    }
+
+    /* лёгкая "тетрадная клетка" на фоне панели */
+    .panel::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        opacity: .5;
+        pointer-events: none;
+        background-image:
+            repeating-linear-gradient(0deg, var(--grid-line) 0 1px, transparent 1px 28px),
+            repeating-linear-gradient(90deg, var(--grid-line) 0 1px, transparent 1px 28px);
+    }
+
+    .panel.algebra {
+        background: var(--algebra-soft);
+        --grid-line: var(--algebra-line);
+    }
+
+    .panel.geometry {
+        background: var(--geometry-soft);
+        --grid-line: var(--geometry-line);
+    }
+
+    .panel-head {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 22px;
+    }
+
+    .panel-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Fredoka", Arial, sans-serif;
+        font-weight: 700;
+        font-size: 22px;
+        color: white;
+        flex-shrink: 0;
+    }
+
+    .algebra .panel-icon { background: var(--algebra); }
+    .geometry .panel-icon { background: var(--geometry); }
+
+    .panel-head h2 {
+        font-family: "Fredoka", Arial, sans-serif;
+        font-size: 26px;
+        margin: 0;
+    }
+
+    .panel-head p {
+        margin: 2px 0 0;
+        font-size: 14px;
+        color: var(--ink-soft);
+    }
+
+    /* ===================== */
+    /* GRADE GRID */
+    /* ===================== */
+    .grade-grid {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+        gap: 12px;
+    }
+
+    .grade {
+        position: relative;
+        border-radius: 16px;
+        padding: 16px 10px 14px;
+        text-align: center;
+        text-decoration: none;
+        color: inherit;
+        background: white;
+        border: 2px solid transparent;
+        transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    }
+
+    .grade-num {
+        display: block;
+        font-family: "Fredoka", Arial, sans-serif;
+        font-weight: 700;
+        font-size: 28px;
+        line-height: 1;
+    }
+
+    .grade-label {
+        display: block;
+        font-size: 12px;
+        color: var(--ink-soft);
+        margin-top: 4px;
+    }
+
+    /* готовый (кликабельный) класс */
+    .grade.ready {
+        cursor: pointer;
+        box-shadow: 0 4px 14px rgba(20, 30, 60, .08);
+    }
+
+    .algebra .grade.ready { border-color: var(--algebra); }
+    .algebra .grade.ready .grade-num { color: var(--algebra); }
+
+    .geometry .grade.ready { border-color: var(--geometry); }
+    .geometry .grade.ready .grade-num { color: var(--geometry); }
+
+    .grade.ready:hover,
+    .grade.ready:focus-visible {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 22px rgba(20, 30, 60, .14);
+        outline: none;
+    }
+
+    .grade.ready .grade-topic {
+        display: block;
+        font-size: 11px;
+        margin-top: 6px;
+        font-weight: bold;
+        color: var(--ready-green);
+    }
+
+    /* класс, которого пока нет */
+    .grade.soon {
+        background: rgba(255,255,255,.55);
+        color: var(--soon-grey);
+    }
+
+    .grade.soon .grade-num { color: var(--soon-grey); }
+
+    .grade.soon .grade-label {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+    }
+
+    footer {
+        margin-top: 50px;
+        font-size: 13px;
+        color: var(--ink-soft);
+        text-align: center;
+    }
+
+</style>
+</head>
+<body>
+
+    <header>
+        <h1 class="brand">Math<span>Lab</span></h1>
+        <svg class="brand-underline" viewBox="0 0 190 14" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 9 C 30 -2, 55 14, 80 6 S 130 -2, 155 8 S 175 12, 188 5"
+                  fill="none" stroke="#2470ff" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <p>Выберите предмет и класс, чтобы начать тренировку</p>
+    </header>
+
+    <main>
+
+        <section class="panel algebra">
+            <div class="panel-head">
+                <div class="panel-icon">∑</div>
+                <div>
+                    <h2>Алгебра</h2>
+                    <p>Математика и алгебра</p>
+                </div>
+            </div>
+
+            <div class="grade-grid">
+
+                <span class="grade soon"><span class="grade-num">5</span><span class="grade-label">скоро</span></span>
+                <span class="grade soon"><span class="grade-num">6</span><span class="grade-label">скоро</span></span>
+
+                <a class="grade ready" href="math/7/formulas/index.html">
+                    <span class="grade-num">7</span>
+                    <span class="grade-label">класс</span>
+                    <span class="grade-topic">Формулы</span>
+                </a>
+
+                <span class="grade soon"><span class="grade-num">8</span><span class="grade-label">скоро</span></span>
+                <span class="grade soon"><span class="grade-num">9</span><span class="grade-label">скоро</span></span>
+                <span class="grade soon"><span class="grade-num">10</span><span class="grade-label">скоро</span></span>
+                <span class="grade soon"><span class="grade-num">11</span><span class="grade-label">скоро</span></span>
+
+            </div>
+        </section>
+
+        <section class="panel geometry">
+            <div class="panel-head">
+                <div class="panel-icon">△</div>
+                <div>
+                    <h2>Геометрия</h2>
+                    <p>Фигуры, теоремы, доказательства</p>
+                </div>
+            </div>
+
+            <div class="grade-grid">
+
+                <span class="grade soon"><span class="grade-num">5</span><span class="grade-label">скоро</span></span>
+                <span class="grade soon"><span class="grade-num">6</span><span class="grade-label">скоро</span></span>
+                <span class="grade soon"><span class="grade-num">7</span><span class="grade-label">скоро</span></span>
+                <span class="grade soon"><span class="grade-num">8</span><span class="grade-label">скоро</span></span>
+                <span class="grade soon"><span class="grade-num">9</span><span class="grade-label">скоро</span></span>
+                <span class="grade soon"><span class="grade-num">10</span><span class="grade-label">скоро</span></span>
+                <span class="grade soon"><span class="grade-num">11</span><span class="grade-label">скоро</span></span>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer>MathLab · тренажёры по математике</footer>
+
+</body>
+</html>
