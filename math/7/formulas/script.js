@@ -432,49 +432,155 @@ function analyzeMistakes() {
 // =====================
 const EXPLANATIONS = {
 
-    expand_plus: m =>
-        `Это квадрат суммы: (ax+b)² = a²x² + 2abx + b². ` +
-        `Здесь a=${m.a}, b=${m.b} → a²x²=${m.a*m.a}x², 2ab·x=${2*m.a*m.b}x, b²=${m.b*m.b}.`,
+    expand_plus: m => {
+        const aStr = `${m.a}x`, bStr = `${m.b}`;
+        return `Это квадрат суммы: (a+b)² = a² + 2ab + b². ` +
+               `Здесь a = ${aStr}, b = ${bStr} → a² = ${m.a*m.a}x², 2ab = ${2*m.a*m.b}x, b² = ${m.b*m.b}.`;
+    },
 
-    expand_minus: m =>
-        `Это квадрат разности: (ax−b)² = a²x² − 2abx + b². ` +
-        `Здесь a=${m.a}, b=${m.b} → a²x²=${m.a*m.a}x², −2ab·x=−${2*m.a*m.b}x, b²=${m.b*m.b}.`,
+    expand_minus: m => {
+        const aStr = `${m.a}x`, bStr = `${m.b}`;
+        return `Это квадрат разности: (a−b)² = a² − 2ab + b². ` +
+               `Здесь a = ${aStr}, b = ${bStr} → a² = ${m.a*m.a}x², 2ab = ${2*m.a*m.b}x, b² = ${m.b*m.b}.`;
+    },
 
-    factor_diff: m =>
-        `Это разность квадратов: a²x² − b² = (ax−b)(ax+b). ` +
-        `Здесь ax=${m.a}x, b=${m.b} → (${m.a}x−${m.b})(${m.a}x+${m.b}).`,
+    factor_diff: m => {
+        const aStr = `${m.a}x`, bStr = `${m.b}`;
+        return `Это разность квадратов: a² − b² = (a−b)(a+b). ` +
+               `Здесь a = ${aStr}, b = ${bStr} → (${aStr}−${bStr})(${aStr}+${bStr}).`;
+    },
 
-    factor_square_plus: m =>
-        `Проверяем средний член: 2ab = 2·${m.a}·${m.b} = ${2*m.a*m.b} — он совпадает со знаком «+» в задании, ` +
-        `значит это квадрат суммы (ax+b)² = (${m.a}x+${m.b})², а не разность и не что-то другое.`,
+    factor_square_plus: m => {
+        const aStr = `${m.a}x`, bStr = `${m.b}`;
+        return `Формула квадрата суммы: a² + 2ab + b² = (a+b)². Проверяем средний член: ` +
+               `2ab = 2·${aStr}·${bStr} = ${2*m.a*m.b} — совпадает со знаком «+» в задании, значит здесь a = ${aStr}, b = ${bStr} → (a+b)² = (${aStr}+${bStr})².`;
+    },
 
-    factor_square_minus: m =>
-        `Средний член в задании отрицательный: −2ab = −2·${m.a}·${m.b} = −${2*m.a*m.b}. ` +
-        `Это признак квадрата разности: a²x²−2abx+b² = (ax−b)² = (${m.a}x−${m.b})².`,
+    factor_square_minus: m => {
+        const aStr = `${m.a}x`, bStr = `${m.b}`;
+        return `Формула квадрата разности: a² − 2ab + b² = (a−b)². Средний член в задании отрицательный: ` +
+               `−2ab = −${2*m.a*m.b} — значит здесь a = ${aStr}, b = ${bStr} → (a−b)² = (${aStr}−${bStr})².`;
+    },
 
-    expand_pow2var: m =>
-        `Та же формула квадрата суммы/разности, только переменные в степени ${m.n}: ` +
-        `(Ax${m.n>1?'ⁿ':''}±By${m.n>1?'ⁿ':''})² = A²x^${2*m.n} ± 2ABx^${m.n}y^${m.n} + B²y^${2*m.n}. ` +
-        `Степень при раскрытии скобки удваивается: было x${m.n>1?'ⁿ':''}, стало x^${2*m.n} в первом и последнем слагаемом.`,
+    expand_pow2var: m => {
+        const aStr = term(m.a, powVar("x", m.n)), bStr = term(m.b, powVar("y", m.n));
+        return `Та же формула (a±b)² = a² ± 2ab + b², только a и b — не просто буквы, а целые слагаемые со степенями. ` +
+               `Здесь a = ${aStr}, b = ${bStr} → a² = ${m.a*m.a}${powVar("x", 2*m.n)}, 2ab = ${2*m.a*m.b}${powVar("x", m.n)}${powVar("y", m.n)}, b² = ${m.b*m.b}${powVar("y", 2*m.n)}.`;
+    },
 
-    diff_squares_2var: m =>
-        `Разность квадратов с показателем степени ${m.n}: A²x^${2*m.n} − B²y^${2*m.n} = (Ax^${m.n} − By^${m.n})(Ax^${m.n} + By^${m.n}). ` +
-        `Раскладываем на разность и сумму тех же оснований, степень при этом делится пополам (не вычитается).`,
+    diff_squares_2var: m => {
+        const aStr = term(m.a, powVar("x", m.n)), bStr = term(m.b, powVar("y", m.n));
+        return `Разность квадратов: a² − b² = (a−b)(a+b). ` +
+               `Здесь a = ${aStr}, b = ${bStr} → (${aStr}−${bStr})(${aStr}+${bStr}).`;
+    },
 
     extract_x2: m =>
         `Здесь не формула сокращённого умножения, а вынесение общего множителя: у обоих слагаемых есть x², ` +
         `его выносим за скобку: ${m.sign==='−'?'−':''}x² ${m.sign} ${m.a}x⁴ = x²(${m.a}x² ${m.sign} 1).`,
 
-    multiply_diff_squares: m =>
-        `Это разность квадратов, но нужно было перемножить скобки в обратную сторону: ` +
-        `(${m.a}x−p)(p+${m.a}x) — это то же самое, что (${m.a}x−p)(${m.a}x+p) = ${m.a*m.a}x² − p². ` +
-        `Порядок слагаемых во второй скобке (p+${m.a}x вместо ${m.a}x+p) не меняет результат.`,
+    multiply_diff_squares: m => {
+        const aStr = `${m.a}x`, bStr = "p";
+        return `Это тоже разность квадратов a² − b² = (a−b)(a+b), просто нужно было перемножить готовые скобки. ` +
+               `Здесь a = ${aStr}, b = ${bStr}: (${aStr}−${bStr})(${bStr}+${aStr}) — во второй скобке слагаемые ` +
+               `переставлены (${bStr}+${aStr} вместо ${aStr}+${bStr}), от перестановки сумма не меняется: (a−b)(a+b) = a²−b² = ${m.a*m.a}x² − p².`;
+    },
 
-    factor_trinomial_2var_deg4: m =>
-        `Слагаемые даны не по убыванию степени, из-за этого легко ошибиться. Крайние члены — точные квадраты: ` +
-        `${m.a}²x⁴ и ${m.b}²y² → в скобке ${m.a}x² и ${m.b}y. Знак посередине (${m.sign}) — это знак внутри скобки: ` +
-        `(${m.a}x² ${m.sign} ${m.b}y)².`
+    factor_trinomial_2var_deg4: m => {
+        const aStr = `${m.a}x²`, bStr = `${m.b}y`;
+        return `Слагаемые даны не по убыванию степени, из-за этого легко ошибиться. Это формула (a±b)² = a²±2ab+b². ` +
+               `Крайние члены — точные квадраты: отсюда a = ${aStr}, b = ${bStr}. Знак посередине (${m.sign}) — это знак внутри скобки: ` +
+               `(${aStr} ${m.sign} ${bStr})².`;
+    }
 };
+
+// =====================
+// ВИЗУАЛЬНАЯ ПОДПИСЬ a / b НАД ПРИМЕРОМ
+// кружки вокруг частей выражения + стрелки к буквам a и b
+// =====================
+
+// какую часть примера обводить кружком для каждого типа задания
+// (для типов, где формула — это (a±b)² или (a−b)(a+b))
+const ANNOTATION_SPECS = {
+    expand_plus:               m => ({ prefix: "(", aPart: `${m.a}x`,               mid: " + ",         bPart: `${m.b}`,                          suffix: ")²" }),
+    expand_minus:               m => ({ prefix: "(", aPart: `${m.a}x`,               mid: " − ",         bPart: `${m.b}`,                          suffix: ")²" }),
+    factor_square_plus:         m => ({ prefix: "(", aPart: `${m.a}x`,               mid: " + ",         bPart: `${m.b}`,                          suffix: ")²" }),
+    factor_square_minus:        m => ({ prefix: "(", aPart: `${m.a}x`,               mid: " − ",         bPart: `${m.b}`,                          suffix: ")²" }),
+    expand_pow2var:              m => ({ prefix: "(", aPart: term(m.a, powVar("x", m.n)), mid: ` ${m.sign} `, bPart: term(m.b, powVar("y", m.n)),  suffix: ")²" }),
+    factor_trinomial_2var_deg4: m => ({ prefix: "(", aPart: `${m.a}x²`,              mid: ` ${m.sign} `, bPart: `${m.b}y`,                         suffix: ")²" }),
+    factor_diff:                 m => ({ prefix: "(", aPart: `${m.a}x`,               mid: " − ",         bPart: `${m.b}`,                          suffix: ")" }),
+    diff_squares_2var:           m => ({ prefix: "(", aPart: term(m.a, powVar("x", m.n)), mid: " − ",     bPart: term(m.b, powVar("y", m.n)),      suffix: ")" }),
+    multiply_diff_squares:       m => ({ prefix: "(", aPart: `${m.a}x`,               mid: " − ",         bPart: "p",                               suffix: ")" })
+};
+
+function measureTextWidth(text, font) {
+    if (!measureTextWidth._ctx) {
+        measureTextWidth._ctx = document.createElement("canvas").getContext("2d");
+    }
+    measureTextWidth._ctx.font = font;
+    return measureTextWidth._ctx.measureText(text).width;
+}
+
+function buildAnnotatedSVG(spec) {
+
+    const font = "bold 28px Arial, sans-serif";
+    const baselineY = 92;
+    const svgHeight = 130;
+    const padX = 16;
+
+    const segments = [
+        { text: spec.prefix, tag: null },
+        { text: spec.aPart,  tag: "a" },
+        { text: spec.mid,    tag: null },
+        { text: spec.bPart,  tag: "b" },
+        { text: spec.suffix, tag: null }
+    ];
+
+    let x = padX;
+    const laidOut = segments.map(seg => {
+        const w = measureTextWidth(seg.text, font);
+        const item = Object.assign({}, seg, { x, width: w });
+        x += w;
+        return item;
+    });
+
+    const svgWidth = x + padX;
+
+    let body = "";
+
+    laidOut.forEach(seg => {
+        const color = seg.tag === "a" ? "#2470ff" : seg.tag === "b" ? "#ff5c5c" : "#222";
+        body += `<text x="${seg.x}" y="${baselineY}" style="font:${font};" fill="${color}">${seg.text}</text>`;
+    });
+
+    laidOut.filter(seg => seg.tag).forEach(seg => {
+        const cx = seg.x + seg.width / 2;
+        const cy = baselineY - 9;
+        const rx = seg.width / 2 + 10;
+        const ry = 26;
+        const color = seg.tag === "a" ? "#2470ff" : "#ff5c5c";
+
+        body += `<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="none" stroke="${color}" stroke-width="2.5"/>`;
+        body += `<line x1="${cx}" y1="${cy - ry}" x2="${cx}" y2="22" stroke="${color}" stroke-width="2.5" marker-end="url(#arrowhead-${seg.tag})"/>`;
+        body += `<text x="${cx}" y="16" text-anchor="middle" style="font: bold 20px Arial, sans-serif;" fill="${color}">${seg.tag}</text>`;
+    });
+
+    const defs = `<defs>
+        <marker id="arrowhead-a" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+            <path d="M0,0 L8,4 L0,8 Z" fill="#2470ff"/>
+        </marker>
+        <marker id="arrowhead-b" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+            <path d="M0,0 L8,4 L0,8 Z" fill="#ff5c5c"/>
+        </marker>
+    </defs>`;
+
+    return `<svg viewBox="0 0 ${svgWidth} ${svgHeight}" style="width:100%; max-width:280px; height:auto; display:block; margin:12px auto;" xmlns="http://www.w3.org/2000/svg">${defs}${body}</svg>`;
+}
+
+function buildDiagramFor(m) {
+    const specFn = ANNOTATION_SPECS[m.type];
+    if (!specFn) return "";
+    return buildAnnotatedSVG(specFn(m));
+}
 
 function explainMistake(m) {
     const fn = EXPLANATIONS[m.type];
@@ -493,6 +599,7 @@ function renderMistakes() {
         card.innerHTML = `
             <div class="mistake-num">Ошибка ${i + 1}</div>
             <div class="mistake-task">Задание: ${m.task}</div>
+            ${buildDiagramFor(m)}
             <div class="mistake-your">Ваш ответ: ${m.studentAnswer.join(", ")}</div>
             <div class="mistake-correct">Правильный ответ: ${m.correctAnswer.join(", ")}</div>
             <div class="mistake-why">${explainMistake(m)}</div>
