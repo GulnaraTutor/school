@@ -49,7 +49,7 @@ const LEVELS = {
         label: "Лёгкий",
         aRange: [2, 5],
         bRange: [2, 6],
-        kinds: ["expand_plus", "expand_minus", "factor_diff", "factor_square_plus"]
+        kinds: ["expand_plus", "expand_minus", "factor_diff", "factor_square_plus", "expand_pow2var"]
     },
     middle: {
         label: "Средний",
@@ -133,7 +133,8 @@ function powVar(letter, exponent) {
 // =====================
 function generateTask() {
 
-    const cfg = LEVELS[getLevelForRound(roundNumber)];
+    const levelKey = getLevelForRound(roundNumber);
+    const cfg = LEVELS[levelKey];
     const kind = pick(cfg.kinds);
 
     let a, b, n = 1;
@@ -153,7 +154,7 @@ function generateTask() {
         case "expand_pow2var":
             a = rand(1, 4);
             b = rand(1, 4);
-            n = pick([2, 3, 4, 5]);
+            n = levelKey === "novice" ? 1 : pick([1, 2, 3, 4, 5]);
             break;
         case "diff_squares_2var":
             a = rand(cfg.aRange[0], cfg.aRange[1]);
@@ -183,7 +184,7 @@ function generateTask() {
         case "expand_pow2var":
             return `(${term(a, powVar("x", n))} ${sign} ${term(b, powVar("y", n))})²`;
         case "extract_x2":
-            return `${sign === "−" ? "−" : ""}x² + ${term(a, "x⁴")}`;
+            return `${term(a, "x⁴")} ${sign} x²`;
         case "multiply_diff_squares":
             return `(${term(a, "x")} − p)(p + ${term(a, "x")})`;
         case "factor_trinomial_2var_deg4":
@@ -476,11 +477,11 @@ const EXPLANATIONS = {
 
     extract_x2: m =>
         `Здесь не формула сокращённого умножения, а вынесение общего множителя: у обоих слагаемых есть x², ` +
-        `его выносим за скобку: ${m.sign==='−'?'−':''}x² ${m.sign} ${m.a}x⁴ = x²(${m.a}x² ${m.sign} 1).`,
+        `его выносим за скобку: ${m.a}x⁴ ${m.sign} x² = x²(${m.a}x² ${m.sign} 1).`,
 
     multiply_diff_squares: m => {
         const aStr = `${m.a}x`, bStr = "p";
-        return `Это тоже разность квадратов a² − b² = (a−b)(a+b), просто нужно было перемножить готовые скобки. ` +
+        return `Это тоже разность квадратов: a² − b² = (a−b)(a+b). ` +
                `Здесь a = ${aStr}, b = ${bStr}: (${aStr}−${bStr})(${bStr}+${aStr}) — во второй скобке слагаемые ` +
                `переставлены (${bStr}+${aStr} вместо ${aStr}+${bStr}), от перестановки сумма не меняется: (a−b)(a+b) = a²−b² = ${m.a*m.a}x² − p².`;
     },
@@ -579,9 +580,15 @@ function buildAnnotatedSVG(segments) {
     const laidOut = segments.map((seg, idx) => {
         const text = typeof seg === "string" ? seg : seg.text;
         const label = typeof seg === "string" ? null : seg.label;
+
+        if (label) x += 12; // отступ перед кружком, чтобы не наезжал на соседний знак
+
         const w = measureTextWidth(text, font);
         const item = { text, label, x, width: w, idx };
         x += w;
+
+        if (label) x += 12; // отступ после кружка
+
         return item;
     });
 
@@ -598,7 +605,7 @@ function buildAnnotatedSVG(segments) {
     laidOut.filter(seg => seg.label).forEach(seg => {
         const cx = seg.x + seg.width / 2;
         const cy = baselineY - 9;
-        const rx = seg.width / 2 + 10;
+        const rx = seg.width / 2 + 8;
         const ry = 26;
         const color = colorForLabel(seg.label);
         const markerId = `arrowhead-${seg.idx}`;
@@ -608,8 +615,8 @@ function buildAnnotatedSVG(segments) {
         </marker>`;
 
         body += `<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="none" stroke="${color}" stroke-width="2.5"/>`;
-        body += `<line x1="${cx}" y1="${cy - ry}" x2="${cx}" y2="22" stroke="${color}" stroke-width="2.5" marker-end="url(#${markerId})"/>`;
-        body += `<text x="${cx}" y="16" text-anchor="middle" style="font: bold 18px Arial, sans-serif;" fill="${color}">${seg.label}</text>`;
+        body += `<line x1="${cx}" y1="${cy - ry}" x2="${cx}" y2="36" stroke="${color}" stroke-width="2.5" marker-end="url(#${markerId})"/>`;
+        body += `<text x="${cx}" y="14" text-anchor="middle" style="font: bold 18px Arial, sans-serif;" fill="${color}">${seg.label}</text>`;
     });
 
     defs += "</defs>";
