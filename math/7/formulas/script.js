@@ -204,9 +204,9 @@ function generateOptions(task) {
         const mid = 2 * a * b;
 
         const t1 = term(a * a, "x²");
-        const t2 = s === "+" ? term(mid, "x") : `−${term(mid, "x")}`;
-        const t3 = `${b * b}`;
-        const wrongMid = s === "+" ? `−${term(mid, "x")}` : term(mid, "x");
+        const t2 = s === "+" ? `+ ${term(mid, "x")}` : `− ${term(mid, "x")}`;
+        const t3 = `+ ${b * b}`;
+        const wrongMid = s === "+" ? `− ${term(mid, "x")}` : `+ ${term(mid, "x")}`;
 
         const options = shuffle([
             t1, t2, t3, wrongMid,
@@ -222,9 +222,9 @@ function generateOptions(task) {
         const t1 = term(a * a, powVar("x", 2 * n));
         const cross = 2 * a * b;
         const crossVar = powVar("x", n) + powVar("y", n);
-        const t2 = sign === "+" ? term(cross, crossVar) : `−${term(cross, crossVar)}`;
-        const t3 = term(b * b, powVar("y", 2 * n));
-        const wrongCross = sign === "+" ? `−${term(cross, crossVar)}` : term(cross, crossVar);
+        const t2 = sign === "+" ? `+ ${term(cross, crossVar)}` : `− ${term(cross, crossVar)}`;
+        const t3 = `+ ${term(b * b, powVar("y", 2 * n))}`;
+        const wrongCross = sign === "+" ? `− ${term(cross, crossVar)}` : `+ ${term(cross, crossVar)}`;
 
         const options = shuffle([
             t1, t2, t3, wrongCross,
@@ -325,14 +325,7 @@ function render() {
 
         const span = document.createElement("span");
         span.classList.add("chip");
-
-        let display = item;
-
-        if (currentTask.isMulti && index > 0 && !item.startsWith("−") && !item.startsWith("-")) {
-            display = "+ " + item;
-        }
-
-        span.textContent = display;
+        span.textContent = item;
 
         span.onclick = () => {
             currentAnswer.splice(index, 1);
@@ -514,10 +507,10 @@ function renderMistakes() {
 // диапазоны заданы по score (0..TOTAL_ROUNDS), проверяются по порядку сверху вниз
 // =====================
 const REACTIONS = [
-    { min: 15, max: 15, emoji: "🤯", text: name => `${name} взломала симуляцию!` },
-    { min: 13, max: 14, emoji: "😼", text: name => `Кто тут крут?! Мы с ${name}!` },
-    { min: 10, max: 12, emoji: "😺", text: name => `${name} набирает обороты!` },
-    { min: 7,  max: 9,  emoji: "😿", text: name => `Ну норм, ${name}. Не Эйнштейн, но и не трагедия` },
+    { min: 15, max: 15, emoji: "😎", text: name => `Имба! Легенда школы!` },
+    { min: 13, max: 14, emoji: "👑", text: name => `+10000 к ауре!` },
+    { min: 10, max: 12, emoji: "🤓", text: name => `Ну норм, ${name}. Не Эйнштейн, но и не трагедия` },
+    { min: 7,  max: 9,  emoji: "😿", text: name => `Ну... бывает. Нажимай «Попробовать ещё раз»` },
     { min: 4,  max: 6,  emoji: "🙀", text: name => `Всё пропало, ${name}! Мы провалим все контрольные!` },
     { min: 0,  max: 3,  emoji: "💀", text: name => `${name}, это кринж. Зовите директора!` }
 ];
