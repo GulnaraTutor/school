@@ -308,13 +308,49 @@ body {
 /* REDUCE STEP EXAMPLE CARDS */
 /* ===================== */
 .reduce-example {
-    border: 2px solid #edf1fb;
-    border-radius: 16px;
-    padding: 18px 18px 20px;
-    margin-bottom: 16px;
+    border: 2px solid var(--ex-line, #edf1fb);
+    border-radius: 18px;
+    padding: 20px 22px 24px;
+    margin-bottom: 18px;
+    background: var(--ex-bg, #fbfcff);
 }
 
 .reduce-example:last-child { margin-bottom: 0; }
+
+.ex-1 { --ex-color: #2470ff; --ex-bg: #f5f9ff; --ex-line: #d7e6ff; }
+.ex-2 { --ex-color: #8b5cf6; --ex-bg: #faf7ff; --ex-line: #e5d9ff; }
+.ex-3 { --ex-color: #1fae6b; --ex-bg: #f2fbf7; --ex-line: #c9ecdc; }
+.ex-4 { --ex-color: #ff9800; --ex-bg: #fff9f1; --ex-line: #ffe1ae; }
+.ex-5 { --ex-color: #e64980; --ex-bg: #fff5f8; --ex-line: #ffd0e0; }
+
+.ex-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.ex-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--ex-color);
+    color: white;
+    font-family: "Fredoka", Arial, sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.ex-title {
+    font-family: "Fredoka", Arial, sans-serif;
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--ex-color);
+}
 
 .derivation {
     display: flex;
@@ -334,12 +370,6 @@ body {
     font-size: 16px;
     margin-top: 4px;
     font-family: Arial, sans-serif;
-}
-
-.reduce-example .step-label {
-    font-size: 13px;
-    color: var(--ink-soft);
-    margin-bottom: 6px;
 }
 
 /* ===================== */
