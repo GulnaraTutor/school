@@ -256,6 +256,7 @@ body {
 .correction {
     position: relative;
     display: inline-block;
+    padding-top: 0.75em;
 }
 
 .correction .old {
@@ -266,11 +267,12 @@ body {
 }
 
 .correction .new {
+    position: absolute;
+    top: -0.1em;
+    left: -0.35em;
     color: var(--green);
     font-weight: 700;
-    font-size: 0.62em;
-    vertical-align: super;
-    margin-left: 1px;
+    font-size: 0.85em;
 }
 
 /* показатель степени: старый зачёркнут, новый рядом (тот же приём, что и .correction) */
