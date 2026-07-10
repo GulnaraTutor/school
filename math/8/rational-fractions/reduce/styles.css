@@ -44,6 +44,21 @@ body {
     z-index: 999;
 }
 
+.home-link {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: var(--blue);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    z-index: 1000;
+}
+
+.home-link:hover {
+    text-decoration: underline;
+}
+
 #loginScreen h2 {
     font-family: "Fredoka", Arial, sans-serif;
     font-size: 32px;
