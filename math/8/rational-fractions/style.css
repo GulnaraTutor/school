@@ -261,6 +261,13 @@ body {
     line-height: 1.1;
 }
 
+/* для знаменателя — новая цифра снизу, зеркально числителю,
+   чтобы не наезжать на черту дроби и не "съезжать" вниз */
+.correction.below {
+    flex-direction: column;
+    vertical-align: top;
+}
+
 .correction .old {
     text-decoration: line-through;
     text-decoration-color: var(--strike);
@@ -273,6 +280,11 @@ body {
     font-weight: 700;
     font-size: 0.8em;
     margin-bottom: 2px;
+}
+
+.correction.below .new {
+    margin-bottom: 0;
+    margin-top: 2px;
 }
 
 /* показатель степени: старый зачёркнут, новый рядом (тот же приём, что и .correction) */
