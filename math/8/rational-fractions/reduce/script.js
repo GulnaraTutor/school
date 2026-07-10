@@ -9,6 +9,7 @@ let mistakes = [];
 let currentTask = null;
 let lastParams = null; // сигнатура предыдущего задания — чтобы числа не повторялись подряд
 let locked = false;    // блокировка кликов, пока идёт переход между раундами
+let noviceSequence = []; // порядок "с скобками / без скобок" на лёгком уровне, перемешивается раз в игру
 
 const TOTAL_ROUNDS = 15;
 const START_LIVES = 3;
@@ -17,9 +18,9 @@ const START_LIVES = 3;
 // УРОВНИ СЛОЖНОСТИ
 // =====================
 const LEVELS = {
-    novice: { label: "Лёгкий",   from: 1,  to: 5,  kinds: ["numeric", "monomial"] },
-    middle: { label: "Средний",  from: 6,  to: 10, kinds: ["monomial", "visible", "factorout"] },
-    pro:    { label: "Сложный",  from: 11, to: 15, kinds: ["factorout", "diffsquares"] }
+    novice: { label: "Лёгкий",  from: 1,  to: 5 },
+    middle: { label: "Средний", from: 6,  to: 10, kinds: ["diffSquaresLinear", "perfectSquareOverMonomial", "trinomialOverDiffSquares", "signFlipCommonFactor", "sumDiffCubes"] },
+    pro:    { label: "Сложный", from: 11, to: 15, kinds: ["groupingFactor", "signFlipIdentity", "cubesFactorReciprocal", "diffSquaresSignFlip", "powerFactorExtraction"] }
 };
 
 function getLevelForRound(n) {
@@ -52,6 +53,23 @@ function shuffle(arr) {
     return a;
 }
 
+const LETTERS = ["a", "b", "c", "x", "y", "z", "m", "n"];
+
+function pickLetters(count) {
+    return shuffle(LETTERS).slice(0, count);
+}
+
+const SUPERSCRIPTS = { "0": "⁰", "1": "¹", "2": "²", "3": "³", "4": "⁴", "5": "⁵", "6": "⁶", "7": "⁷", "8": "⁸", "9": "⁹" };
+
+function sup(n) {
+    return String(n).split("").map(d => SUPERSCRIPTS[d]).join("");
+}
+
+// powVar("x", 1) -> "x", powVar("x", 3) -> "x³"
+function powVar(letter, exponent) {
+    return exponent === 1 ? letter : letter + sup(exponent);
+}
+
 function valueKey(v) {
     return typeof v === "string" ? v : `${v.num}/${v.den}`;
 }
@@ -61,10 +79,6 @@ function valueToHTML(v) {
         return `<span class="task-plain">${v}</span>`;
     }
     return `<div class="frac"><span class="frac-num">${v.num}</span><span class="frac-den">${v.den}</span></div>`;
-}
-
-function valueToText(v) {
-    return typeof v === "string" ? v : `${v.num} / ${v.den}`;
 }
 
 function optionsAreUnique(options) {
@@ -78,130 +92,453 @@ function optionsAreUnique(options) {
 }
 
 // =====================
-// ГЕНЕРАТОРЫ ЗАДАНИЙ
+// ГЕНЕРАТОРЫ ЗАДАНИЙ — ЛЁГКИЙ УРОВЕНЬ, БЕЗ СКОБОК
 // =====================
-function genNumeric() {
+
+// 10xz / 15yz -> 2x / 3y  (числа + общая буква сокращаются)
+function genPlainA() {
+    const [L1, L2, Lc] = pickLetters(3);
+
     let p, q;
     do { p = rand(2, 9); q = rand(2, 9); } while (gcd(p, q) !== 1 || p === q);
     const g = rand(2, 6);
-    const a = p * g, b = q * g;
+    const c1 = p * g, c2 = q * g;
 
-    const correct = { num: `${p}`, den: `${q}` };
+    const correct = { num: `${p}${L1}`, den: `${q}${L2}` };
 
     const options = shuffle([
         { value: correct, correct: true },
-        { value: { num: `${p}`, den: `${b}` }, correct: false },
-        { value: { num: `${a}`, den: `${q}` }, correct: false },
-        { value: { num: `${q}`, den: `${p}` }, correct: false }
+        { value: { num: `${c1}${L1}`, den: `${q}${L2}` }, correct: false },
+        { value: { num: `${p}${L2}`, den: `${q}${L1}` }, correct: false },
+        { value: { num: `${q}${L1}`, den: `${p}${L2}` }, correct: false }
     ]);
 
     return {
-        kind: "numeric",
-        taskValue: { num: `${a}`, den: `${b}` },
+        kind: "plainA",
+        taskValue: { num: `${c1}${L1}${Lc}`, den: `${c2}${L2}${Lc}` },
         correctValue: correct,
         options,
-        signature: `numeric:${a}:${b}`,
-        why: `Общий множитель чисел ${a} и ${b} — это ${g}. Делим числитель и знаменатель на ${g}: ${a}÷${g}=${p}, ${b}÷${g}=${q}.`
+        signature: `plainA:${c1}:${c2}:${L1}:${L2}:${Lc}`,
+        why: `Общий множитель чисел ${c1} и ${c2} — это ${g}. Буква ${Lc} есть и сверху, и снизу — сокращаем её полностью. Получаем ${p}${L1}/${q}${L2}.`
     };
 }
 
-function genMonomial() {
+// 2ay³ / −4a²b -> y³ / (−2ab)  (буква сокращается частично, знак сохраняется)
+function genPlainB() {
+    const [A, Y, B] = pickLetters(3);
+
     let p, q;
     do { p = rand(2, 9); q = rand(2, 9); } while (gcd(p, q) !== 1 || p === q);
+    const g = rand(2, 6);
+    const c1 = p * g, c2 = q * g;
+    const e = rand(2, 3);
+    const sign = Math.random() < 0.5 ? "−" : "";
 
-    const correct = { num: `${p}`, den: `${q}y` };
+    const correct = { num: `${p}${powVar(Y, e)}`, den: `${sign}${q}${A}${B}` };
+
+    const options = shuffle([
+        { value: correct, correct: true },
+        { value: { num: `${p}${A}${powVar(Y, e)}`, den: `${sign}${q}${B}` }, correct: false },
+        { value: { num: `${p}${powVar(Y, e)}`, den: `${sign}${q}${B}` }, correct: false },
+        { value: { num: `${p}${powVar(Y, e)}`, den: `${sign === "−" ? "" : "−"}${q}${A}${B}` }, correct: false }
+    ]);
+
+    return {
+        kind: "plainB",
+        taskValue: { num: `${c1}${A}${powVar(Y, e)}`, den: `${sign}${c2}${A}²${B}` },
+        correctValue: correct,
+        options,
+        signature: `plainB:${c1}:${c2}:${A}:${Y}:${B}:${e}:${sign}`,
+        why: `Общий множитель чисел ${c1} и ${c2} — это ${g}. Буква ${A} есть в степени 1 сверху и 2 снизу — одна степень сокращается, снизу остаётся ${A}. Буквы ${Y} и ${B} общих множителей не имеют, остаются как есть.`
+    };
+}
+
+// =====================
+// ГЕНЕРАТОРЫ ЗАДАНИЙ — ЛЁГКИЙ УРОВЕНЬ, СО СКОБКАМИ
+// =====================
+
+// a(b−2) / 5(b−2) -> a / 5  (скобка сокращается полностью)
+function genBracketC() {
+    const [L1, L2] = pickLetters(2);
+    const k = rand(2, 9);
+    const sign = Math.random() < 0.5 ? "+" : "−";
+    const n = rand(2, 9);
+
+    const binom = `${L2} ${sign} ${k}`;
+    const correct = { num: `${L1}`, den: `${n}` };
+
+    const options = shuffle([
+        { value: correct, correct: true },
+        { value: { num: `${L1}`, den: `${n}(${binom})` }, correct: false },
+        { value: { num: `${n}`, den: `${L1}` }, correct: false },
+        { value: { num: `${L2}`, den: `${n}` }, correct: false }
+    ]);
+
+    return {
+        kind: "bracketC",
+        taskValue: { num: `${L1}(${binom})`, den: `${n}(${binom})` },
+        correctValue: correct,
+        options,
+        signature: `bracketC:${L1}:${L2}:${k}:${sign}:${n}`,
+        why: `Скобка (${binom}) есть и сверху, и снизу — сокращаем её полностью. Остаётся ${L1}/${n}.`
+    };
+}
+
+// 15a(a−b) / 20a²(a−b) -> 3 / (4a)  (число + степень буквы + скобка сокращаются)
+function genBracketD() {
+    const [L, M] = pickLetters(2);
+    const sign = Math.random() < 0.5 ? "+" : "−";
+
+    let p, q;
+    do { p = rand(2, 9); q = rand(2, 9); } while (gcd(p, q) !== 1 || p === q);
+    const g = rand(2, 6);
+    const c1 = p * g, c2 = q * g;
+
+    const binom = `${L} ${sign} ${M}`;
+    const correct = { num: `${p}`, den: `${q}${L}` };
+
+    const options = shuffle([
+        { value: correct, correct: true },
+        { value: { num: `${p}${L}`, den: `${q}` }, correct: false },
+        { value: { num: `${p}`, den: `${q}` }, correct: false },
+        { value: { num: `${q}`, den: `${p}${L}` }, correct: false }
+    ]);
+
+    return {
+        kind: "bracketD",
+        taskValue: { num: `${c1}${L}(${binom})`, den: `${c2}${L}²(${binom})` },
+        correctValue: correct,
+        options,
+        signature: `bracketD:${L}:${M}:${sign}:${c1}:${c2}`,
+        why: `Сначала сокращаем числа: общий множитель ${c1} и ${c2} — это ${g}, получаем ${p} и ${q}. Скобка (${binom}) сокращается полностью. Буква ${L} есть в степени 1 сверху и 2 снизу — одна степень сокращается, снизу остаётся ${L}. Итог: ${p}/(${q}${L}).`
+    };
+}
+
+// =====================
+// ГЕНЕРАТОРЫ ЗАДАНИЙ — СРЕДНИЙ УРОВЕНЬ
+// =====================
+
+// (y² − 16) / (3y + 12) -> (y − 4) / 3
+function genDiffSquaresLinear() {
+    const [L] = pickLetters(1);
+    const n = rand(3, 9);
+    const k = rand(2, 6);
+
+    const correct = { num: `${L} − ${n}`, den: `${k}` };
+
+    const options = shuffle([
+        { value: correct, correct: true },
+        { value: { num: `${L} + ${n}`, den: `${k}` }, correct: false },
+        { value: { num: `${L}² − ${n * n}`, den: `${k}` }, correct: false },
+        { value: { num: `${n} − ${L}`, den: `${k}` }, correct: false }
+    ]);
+
+    return {
+        kind: "diffSquaresLinear",
+        taskValue: { num: `${L}² − ${n * n}`, den: `${k}${L} + ${k * n}` },
+        correctValue: correct,
+        options,
+        signature: `diffSquaresLinear:${L}:${n}:${k}`,
+        why: `Числитель — разность квадратов: ${L}²−${n * n} = (${L}−${n})(${L}+${n}). Знаменатель раскладывается как ${k}(${L}+${n}). Сокращаем (${L}+${n}), остаётся (${L}−${n})/${k}.`
+    };
+}
+
+// (c+2)² / (7c² + 14c) -> (c+2) / (7c)
+function genPerfectSquareOverMonomial() {
+    const [L] = pickLetters(1);
+    const n = rand(2, 9);
+    const k = rand(2, 6);
+
+    const correct = { num: `${L} + ${n}`, den: `${k}${L}` };
+
+    const options = shuffle([
+        { value: correct, correct: true },
+        { value: { num: `${L} − ${n}`, den: `${k}${L}` }, correct: false },
+        { value: { num: `(${L} + ${n})²`, den: `${k}${L}` }, correct: false },
+        { value: { num: `${L} + ${n}`, den: `${k}` }, correct: false }
+    ]);
+
+    return {
+        kind: "perfectSquareOverMonomial",
+        taskValue: { num: `(${L} + ${n})²`, den: `${k}${L}² + ${k * n}${L}` },
+        correctValue: correct,
+        options,
+        signature: `perfectSquareOverMonomial:${L}:${n}:${k}`,
+        why: `Знаменатель раскладываем: ${k}${L}²+${k * n}${L} = ${k}${L}(${L}+${n}). Одна скобка (${L}+${n}) сокращается с числителем (${L}+${n})², остаётся (${L}+${n})/(${k}${L}).`
+    };
+}
+
+// (a²+10a+25) / (a²−25) -> (a+5) / (a−5)
+function genTrinomialOverDiffSquares() {
+    const [L] = pickLetters(1);
+    const n = rand(2, 9);
+
+    const correct = { num: `${L} + ${n}`, den: `${L} − ${n}` };
+
+    const options = shuffle([
+        { value: correct, correct: true },
+        { value: { num: `${L} − ${n}`, den: `${L} + ${n}` }, correct: false },
+        { value: { num: `${L} + ${n}`, den: `${L} + ${n}` }, correct: false },
+        { value: { num: `(${L} + ${n})²`, den: `${L} − ${n}` }, correct: false }
+    ]);
+
+    return {
+        kind: "trinomialOverDiffSquares",
+        taskValue: { num: `${L}² + ${2 * n}${L} + ${n * n}`, den: `${L}² − ${n * n}` },
+        correctValue: correct,
+        options,
+        signature: `trinomialOverDiffSquares:${L}:${n}`,
+        why: `Числитель — квадрат суммы: ${L}²+${2 * n}${L}+${n * n} = (${L}+${n})². Знаменатель — разность квадратов: ${L}²−${n * n} = (${L}−${n})(${L}+${n}). Сокращаем (${L}+${n}), остаётся (${L}+${n})/(${L}−${n}).`
+    };
+}
+
+// (7b − 14b²) / (42b² − 21b) -> −1/3  (буква сокращается полностью, меняется знак)
+function genSignFlipCommonFactor() {
+    const [L] = pickLetters(1);
+
+    let p0, q0;
+    do { p0 = rand(2, 9); q0 = rand(2, 9); } while (p0 === q0);
+    const k = rand(2, 6);
+    const g = gcd(p0, q0);
+    const p = p0 / g, q = q0 / g;
+
+    const correct = { num: `−${p}`, den: `${q}` };
 
     const options = shuffle([
         { value: correct, correct: true },
         { value: { num: `${p}`, den: `${q}` }, correct: false },
-        { value: { num: `${p}x`, den: `${q}y` }, correct: false },
-        { value: { num: `${q}`, den: `${p}y` }, correct: false }
+        { value: { num: `−${q}`, den: `${p}` }, correct: false },
+        { value: { num: `${q0}`, den: `${p0}` }, correct: false }
     ]);
 
     return {
-        kind: "monomial",
-        taskValue: { num: `${p}x`, den: `${q}xy` },
+        kind: "signFlipCommonFactor",
+        taskValue: { num: `${p0}${L} − ${p0 * k}${L}²`, den: `${q0 * k}${L}² − ${q0}${L}` },
         correctValue: correct,
         options,
-        signature: `monomial:${p}:${q}`,
-        why: `Общий множитель — x. Сокращаем: ${p}x÷x=${p}, ${q}xy÷x=${q}y.`
+        signature: `signFlipCommonFactor:${L}:${p0}:${q0}:${k}`,
+        why: `Выносим общий множитель ${L}: ${p0}${L}(1−${k}${L}) сверху и ${q0}${L}(${k}${L}−1) снизу. Скобки (1−${k}${L}) и (${k}${L}−1) — противоположные, отличаются только знаком. После сокращения буквы ${L} и скобки остаётся −${p0}/${q0}, что после сокращения чисел равно −${p}/${q}.`
     };
 }
 
-function genVisible() {
-    const p = rand(2, 9);
-    const k = rand(2, 9);
+// (a³−b³) / (a−b) -> a² + ab + b²
+function genSumDiffCubes() {
+    const [L, M] = pickLetters(2);
 
-    const correct = `${p}`;
+    const correct = `${L}² + ${L}${M} + ${M}²`;
 
     const options = shuffle([
         { value: correct, correct: true },
-        { value: `${p}(x + ${k})`, correct: false },
-        { value: `x + ${k}`, correct: false },
-        { value: `${p}x`, correct: false }
+        { value: `${L}² − ${L}${M} + ${M}²`, correct: false },
+        { value: `${L} + ${M}`, correct: false },
+        { value: `${L}² + ${M}²`, correct: false }
     ]);
 
     return {
-        kind: "visible",
-        taskValue: { num: `${p}(x + ${k})`, den: `(x + ${k})` },
+        kind: "sumDiffCubes",
+        taskValue: { num: `${L}³ − ${M}³`, den: `${L} − ${M}` },
         correctValue: correct,
         options,
-        signature: `visible:${p}:${k}`,
-        why: `Скобка (x + ${k}) есть и в числителе, и в знаменателе — сокращаем её полностью, остаётся ${p}.`
+        signature: `sumDiffCubes:${L}:${M}`,
+        why: `Разность кубов: a³−b³ = (a−b)(a²+ab+b²). Здесь a=${L}, b=${M}. Знаменатель (${L}−${M}) сокращается с одним из множителей, остаётся ${L}²+${L}${M}+${M}².`
     };
 }
 
-function genFactorout() {
-    const p = rand(2, 6);
+// =====================
+// ГЕНЕРАТОРЫ ЗАДАНИЙ — СЛОЖНЫЙ УРОВЕНЬ
+// =====================
+
+// (2x+bx−2y−by) / (7x−7y) -> (b+2) / 7  (группировка слагаемых)
+function genGroupingFactor() {
+    const [X, Y] = pickLetters(2);
+    const coefLetter = pick(LETTERS.filter(l => l !== X && l !== Y));
+    const n = rand(2, 9);
     const k = rand(2, 9);
 
-    const correct = `x + ${k}`;
+    const correct = { num: `${coefLetter} + ${n}`, den: `${k}` };
 
     const options = shuffle([
         { value: correct, correct: true },
-        { value: `${p}x + ${k}`, correct: false },
-        { value: `x + ${p * k}`, correct: false },
-        { value: `${p}(x + ${k})`, correct: false }
+        { value: { num: `${coefLetter} − ${n}`, den: `${k}` }, correct: false },
+        { value: { num: `${coefLetter} + ${n}`, den: `−${k}` }, correct: false },
+        { value: { num: `${n}${coefLetter}`, den: `${k}` }, correct: false }
     ]);
 
     return {
-        kind: "factorout",
-        taskValue: { num: `${p}x + ${p * k}`, den: `${p}` },
+        kind: "groupingFactor",
+        taskValue: { num: `${n}${X} + ${coefLetter}${X} − ${n}${Y} − ${coefLetter}${Y}`, den: `${k}${X} − ${k}${Y}` },
         correctValue: correct,
         options,
-        signature: `factorout:${p}:${k}`,
-        why: `Сначала выносим общий множитель в числителе: ${p}x + ${p * k} = ${p}(x + ${k}). Теперь ${p} сокращается со знаменателем, остаётся x + ${k}.`
+        signature: `groupingFactor:${X}:${Y}:${coefLetter}:${n}:${k}`,
+        why: `Группируем слагаемые числителя: ${X}(${n}+${coefLetter}) − ${Y}(${n}+${coefLetter}) = (${n}+${coefLetter})(${X}−${Y}). Знаменатель: ${k}(${X}−${Y}). Сокращаем (${X}−${Y}), остаётся (${coefLetter}+${n})/${k}.`
     };
 }
 
-function genDiffSquares() {
+// варианты по образцу №40: смена знака в скобках даёт −1, 1 или (L+M)
+function genSignFlipIdentity() {
+    const [L, M] = pickLetters(2);
+    const variant = pick(["v1", "v2", "v3", "v4"]);
+
+    let taskValue, correct, why;
+
+    if (variant === "v1") {
+        taskValue = { num: `${L} − ${M}`, den: `${M} − ${L}` };
+        correct = "−1";
+        why = `Знаменатель — это числитель с обратным знаком: ${M}−${L} = −(${L}−${M}). Дробь вида k/(−k) всегда равна −1.`;
+    } else if (variant === "v2") {
+        taskValue = { num: `(${L} − ${M})²`, den: `(${M} − ${L})²` };
+        correct = "1";
+        why = `(${M}−${L}) = −(${L}−${M}), но после возведения в квадрат знак пропадает: (${M}−${L})² = (${L}−${M})². Числитель и знаменатель равны, дробь равна 1.`;
+    } else if (variant === "v3") {
+        taskValue = { num: `(−${L} − ${M})²`, den: `${L} + ${M}` };
+        correct = `${L} + ${M}`;
+        why = `(−${L}−${M})² = (${L}+${M})², так как при возведении в квадрат знак не важен. Получаем (${L}+${M})²/(${L}+${M}) = ${L}+${M}.`;
+    } else {
+        taskValue = { num: `−${L} − ${M}`, den: `${L} + ${M}` };
+        correct = "−1";
+        why = `Числитель −${L}−${M} = −(${L}+${M}) — это знаменатель с обратным знаком. Дробь вида (−k)/k всегда равна −1.`;
+    }
+
+    const pool = ["1", "−1", `${L} + ${M}`, `−(${L} + ${M})`].filter(v => v !== correct);
+
+    const options = shuffle([
+        { value: correct, correct: true },
+        { value: pool[0], correct: false },
+        { value: pool[1], correct: false },
+        { value: pool[2], correct: false }
+    ]);
+
+    return {
+        kind: "signFlipIdentity",
+        taskValue,
+        correctValue: correct,
+        options,
+        signature: `signFlipIdentity:${variant}:${L}:${M}`,
+        why
+    };
+}
+
+// (a²−ab+b²)/(a³+b³) -> 1/(a+b)  ИЛИ  (b+2)/(b³+8) -> 1/(b²−2b+4)
+function genCubesFactorReciprocal() {
+    const sub = pick(["trinomial", "linear"]);
+
+    if (sub === "trinomial") {
+        const [L, M] = pickLetters(2);
+        const correct = { num: "1", den: `${L} + ${M}` };
+
+        const options = shuffle([
+            { value: correct, correct: true },
+            { value: { num: "1", den: `${L} − ${M}` }, correct: false },
+            { value: { num: `${L} + ${M}`, den: "1" }, correct: false },
+            { value: { num: "1", den: `${L}² + ${M}²` }, correct: false }
+        ]);
+
+        return {
+            kind: "cubesFactorReciprocal",
+            taskValue: { num: `${L}² − ${L}${M} + ${M}²`, den: `${L}³ + ${M}³` },
+            correctValue: correct,
+            options,
+            signature: `cubesFactorReciprocal:trinomial:${L}:${M}`,
+            why: `Знаменатель — сумма кубов: ${L}³+${M}³ = (${L}+${M})(${L}²−${L}${M}+${M}²). Числитель совпадает со вторым множителем — сокращаем его, остаётся 1/(${L}+${M}).`
+        };
+    }
+
+    const [L] = pickLetters(1);
+    const n = rand(2, 9);
+    const correct = { num: "1", den: `${L}² − ${n}${L} + ${n * n}` };
+
+    const options = shuffle([
+        { value: correct, correct: true },
+        { value: { num: "1", den: `${L}² + ${n}${L} + ${n * n}` }, correct: false },
+        { value: { num: `${L}² − ${n}${L} + ${n * n}`, den: "1" }, correct: false },
+        { value: { num: "1", den: `${L}² − ${n * n}` }, correct: false }
+    ]);
+
+    return {
+        kind: "cubesFactorReciprocal",
+        taskValue: { num: `${L} + ${n}`, den: `${L}³ + ${n * n * n}` },
+        correctValue: correct,
+        options,
+        signature: `cubesFactorReciprocal:linear:${L}:${n}`,
+        why: `Знаменатель — сумма кубов: ${L}³+${n * n * n} = (${L}+${n})(${L}²−${n}${L}+${n * n}). Числитель совпадает с первым множителем — сокращаем его, остаётся 1/(${L}²−${n}${L}+${n * n}).`
+    };
+}
+
+// (25−a²) / (3a−15) -> −(a+5) / 3
+function genDiffSquaresSignFlip() {
+    const [L] = pickLetters(1);
     const n = rand(3, 9);
+    const k = rand(2, 6);
 
-    const correct = { num: `a + ${n}`, den: `a − ${n}` };
+    const correct = { num: `−${L} − ${n}`, den: `${k}` };
 
     const options = shuffle([
         { value: correct, correct: true },
-        { value: { num: `a + ${n}`, den: `a + ${n}` }, correct: false },
-        { value: { num: `a − ${n}`, den: `a + ${n}` }, correct: false },
-        { value: `a + ${n}`, correct: false }
+        { value: { num: `${L} + ${n}`, den: `${k}` }, correct: false },
+        { value: { num: `${L} − ${n}`, den: `${k}` }, correct: false },
+        { value: { num: `−${L} + ${n}`, den: `${k}` }, correct: false }
     ]);
 
     return {
-        kind: "diffsquares",
-        taskValue: { num: `a² − ${n * n}`, den: `a² − ${2 * n}a + ${n * n}` },
+        kind: "diffSquaresSignFlip",
+        taskValue: { num: `${n * n} − ${L}²`, den: `${k}${L} − ${k * n}` },
         correctValue: correct,
         options,
-        signature: `diffsquares:${n}`,
-        why: `Числитель — разность квадратов: a²−${n * n} = (a−${n})(a+${n}). Знаменатель — квадрат разности: a²−${2 * n}a+${n * n} = (a−${n})². Один множитель (a−${n}) сокращается, остаётся (a+${n})/(a−${n}).`
+        signature: `diffSquaresSignFlip:${L}:${n}:${k}`,
+        why: `Числитель ${n * n}−${L}² — это разность квадратов с переставленными слагаемыми: = −(${L}²−${n * n}) = −(${L}−${n})(${L}+${n}). Знаменатель: ${k}${L}−${k * n} = ${k}(${L}−${n}). Сокращаем (${L}−${n}), остаётся −(${L}+${n})/${k}.`
+    };
+}
+
+// по образцу №44: (x⁶+x⁴)/(x⁴+x²) -> x²  ;  (x⁴−x⁶)/(x²−x⁴) -> −x²
+function genPowerFactorExtraction() {
+    const [L] = pickLetters(1);
+    const e = rand(3, 5);
+    const form = pick(["sum", "diff"]);
+
+    let taskValue, correct, why;
+
+    if (form === "sum") {
+        taskValue = { num: `${powVar(L, e + 2)} + ${powVar(L, e)}`, den: `${powVar(L, e)} + ${powVar(L, e - 2)}` };
+        correct = `${powVar(L, 2)}`;
+        why = `Выносим общий множитель ${powVar(L, e)} в числителе и ${powVar(L, e - 2)} в знаменателе: числитель = ${powVar(L, e)}(${L}²+1), знаменатель = ${powVar(L, e - 2)}(${L}²+1). Скобки одинаковые — сокращаются. Остаётся ${powVar(L, e)}/${powVar(L, e - 2)} = ${powVar(L, 2)}.`;
+    } else {
+        taskValue = { num: `${powVar(L, e)} − ${powVar(L, e + 2)}`, den: `${powVar(L, e)} − ${powVar(L, e - 2)}` };
+        correct = `−${powVar(L, 2)}`;
+        why = `Выносим общий множитель: числитель = ${powVar(L, e)}(1−${L}²), знаменатель = ${powVar(L, e - 2)}(${L}²−1) = −${powVar(L, e - 2)}(1−${L}²). Скобки сокращаются, но остаётся минус: ${powVar(L, e)}/(−${powVar(L, e - 2)}) = −${powVar(L, 2)}.`;
+    }
+
+    const options = shuffle([
+        { value: correct, correct: true },
+        { value: form === "sum" ? `−${powVar(L, 2)}` : `${powVar(L, 2)}`, correct: false },
+        { value: `${powVar(L, 4)}`, correct: false },
+        { value: `${L}`, correct: false }
+    ]);
+
+    return {
+        kind: "powerFactorExtraction",
+        taskValue,
+        correctValue: correct,
+        options,
+        signature: `powerFactorExtraction:${L}:${e}:${form}`,
+        why
     };
 }
 
 const GENERATORS = {
-    numeric: genNumeric,
-    monomial: genMonomial,
-    visible: genVisible,
-    factorout: genFactorout,
-    diffsquares: genDiffSquares
+    plainA: genPlainA,
+    plainB: genPlainB,
+    bracketC: genBracketC,
+    bracketD: genBracketD,
+    diffSquaresLinear: genDiffSquaresLinear,
+    perfectSquareOverMonomial: genPerfectSquareOverMonomial,
+    trinomialOverDiffSquares: genTrinomialOverDiffSquares,
+    signFlipCommonFactor: genSignFlipCommonFactor,
+    sumDiffCubes: genSumDiffCubes,
+    groupingFactor: genGroupingFactor,
+    signFlipIdentity: genSignFlipIdentity,
+    cubesFactorReciprocal: genCubesFactorReciprocal,
+    diffSquaresSignFlip: genDiffSquaresSignFlip,
+    powerFactorExtraction: genPowerFactorExtraction
 };
 
 function generateTask() {
@@ -213,7 +550,13 @@ function generateTask() {
     let attempts = 0;
 
     do {
-        const kind = pick(cfg.kinds);
+        let kind;
+        if (levelKey === "novice") {
+            const bucket = noviceSequence[roundNumber - 1];
+            kind = bucket === "plain" ? pick(["plainA", "plainB"]) : pick(["bracketC", "bracketD"]);
+        } else {
+            kind = pick(cfg.kinds);
+        }
         result = GENERATORS[kind]();
         attempts++;
     } while (
@@ -278,6 +621,7 @@ function resetGame() {
     roundNumber = 0;
     mistakes = [];
     lastParams = null;
+    noviceSequence = shuffle(["plain", "plain", "bracket", "bracket", "bracket"]);
     newRound();
 }
 
@@ -342,9 +686,9 @@ function handleAnswer(opt, btn) {
         lives--;
 
         mistakes.push({
-            task: valueToText(currentTask.taskValue),
-            studentAnswer: valueToText(opt.value),
-            correctAnswer: valueToText(currentTask.correctValue),
+            taskHTML: valueToHTML(currentTask.taskValue),
+            studentHTML: valueToHTML(opt.value),
+            correctHTML: valueToHTML(currentTask.correctValue),
             why: currentTask.why
         });
     }
@@ -417,10 +761,11 @@ function renderMistakes() {
         card.classList.add("mistake-item");
 
         card.innerHTML = `
-            <div class="mistake-task">Ошибка ${i + 1}: ${m.task}</div>
-            <div class="mistake-your">Ваш ответ: ${m.studentAnswer}</div>
-            <div class="mistake-correct">Правильный ответ: ${m.correctAnswer}</div>
-            <div style="margin-top:10px; font-size:15px; color:#555; background:#eef6ff; border-radius:10px; padding:10px 14px;">${m.why}</div>
+            <div class="mistake-num">Ошибка ${i + 1}</div>
+            <div class="mistake-task">Задание: ${m.taskHTML}</div>
+            <div class="mistake-your">Ваш ответ: ${m.studentHTML}</div>
+            <div class="mistake-correct">Правильный ответ: ${m.correctHTML}</div>
+            <div class="mistake-why">${m.why}</div>
         `;
 
         mistakesList.appendChild(card);
