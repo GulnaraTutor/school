@@ -7,6 +7,7 @@
     --green: #1fae6b;
     --red: #ff5c5c;
     --purple: #8b5cf6;
+    --strike: #e64980;
     --card-bg: #ffffff;
 }
 
@@ -117,6 +118,13 @@ body {
     padding: 8px 14px;
     border-radius: 12px;
     font-size: 15px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.example-chip .frac {
+    margin: 0;
+    font-size: 16px;
 }
 
 .note {
@@ -139,7 +147,7 @@ body {
 }
 
 .split-root {
-    background: var(--ink);
+    background: var(--blue);
     color: white;
     padding: 10px 20px;
     border-radius: 12px;
@@ -210,7 +218,7 @@ body {
 }
 
 .frac .frac-num {
-    border-bottom: 2.5px solid var(--ink);
+    border-bottom: 2.5px solid currentColor;
 }
 
 .frac-block {
@@ -227,10 +235,10 @@ body {
     color: var(--ink-soft);
 }
 
-/* сокращаемая часть — перечёркнута */
+/* сокращаемая часть — перечёркнута (цвет линии отличается от цвета цифр) */
 .cancel {
     position: relative;
-    color: var(--red);
+    color: var(--ink-soft);
 }
 
 .cancel::after {
@@ -240,14 +248,36 @@ body {
     right: -3px;
     top: 50%;
     height: 2.5px;
-    background: var(--red);
+    background: var(--strike);
     transform: rotate(-14deg);
 }
 
-/* показатель степени: старый зачёркнут, новый рядом */
+/* исправление "было → стало": старое значение зачёркнуто, новое пишем рядом/сверху */
+.correction {
+    position: relative;
+    display: inline-block;
+}
+
+.correction .old {
+    text-decoration: line-through;
+    text-decoration-color: var(--strike);
+    text-decoration-thickness: 2.5px;
+    color: var(--ink-soft);
+}
+
+.correction .new {
+    color: var(--green);
+    font-weight: 700;
+    font-size: 0.62em;
+    vertical-align: super;
+    margin-left: 1px;
+}
+
+/* показатель степени: старый зачёркнут, новый рядом (тот же приём, что и .correction) */
 .exp-old {
     text-decoration: line-through;
-    color: var(--red);
+    text-decoration-color: var(--strike);
+    color: var(--ink-soft);
     font-size: 13px;
     vertical-align: super;
 }
@@ -271,6 +301,26 @@ body {
 }
 
 .reduce-example:last-child { margin-bottom: 0; }
+
+.derivation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin: 6px 0 22px;
+    font-family: "Fredoka", Arial, sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.deriv-line:not(:last-child)::after {
+    content: "↓";
+    display: block;
+    color: var(--ink-soft);
+    font-size: 16px;
+    margin-top: 4px;
+    font-family: Arial, sans-serif;
+}
 
 .reduce-example .step-label {
     font-size: 13px;
