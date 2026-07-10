@@ -1,0 +1,317 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #eef6ff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ===================== */
+/* LOGIN SCREEN */
+/* ===================== */
+#loginScreen {
+    position: fixed;
+    inset: 0;
+    background: #eef6ff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    z-index: 999;
+    padding: 20px;
+    text-align: center;
+}
+
+#loginScreen h2 {
+    font-size: 30px;
+    color: #2470ff;
+}
+
+#loginScreen .subtitle {
+    color: #777;
+    margin-top: -12px;
+}
+
+#loginScreen input {
+    padding: 12px 18px;
+    font-size: 20px;
+    border-radius: 10px;
+    border: 2px solid #8fbfff;
+    outline: none;
+    width: min(280px, 80vw);
+}
+
+#loginScreen button {
+    padding: 12px 30px;
+    font-size: 20px;
+    border-radius: 12px;
+    border: none;
+    background: #2470ff;
+    color: white;
+    cursor: pointer;
+    transition: .2s;
+}
+
+#loginScreen button:hover { transform: scale(1.05); }
+
+/* ===================== */
+/* GAME CONTAINER */
+/* ===================== */
+.container {
+    width: min(700px, 95vw);
+    background: white;
+    border-radius: 20px;
+    padding: 34px;
+    box-shadow: 0 15px 35px rgba(0,0,0,.15);
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.lives { font-size: 26px; }
+
+.stats { font-size: 22px; font-weight: bold; color: #2470ff; }
+
+h1 {
+    margin-top: 22px;
+    text-align: center;
+    color: #2470ff;
+    font-size: 30px;
+    font-family: "Fredoka", Arial, sans-serif;
+}
+
+.level-tag {
+    display: block;
+    text-align: center;
+    color: #999;
+    font-size: 14px;
+    margin-top: 6px;
+}
+
+/* ===================== */
+/* TASK — дробь крупно по центру */
+/* ===================== */
+.task-wrap {
+    margin: 40px auto 34px;
+    display: flex;
+    justify-content: center;
+}
+
+.frac {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: "Fredoka", Arial, sans-serif;
+    font-weight: 600;
+    font-size: 34px;
+}
+
+.frac .frac-num,
+.frac .frac-den {
+    padding: 4px 10px;
+    white-space: nowrap;
+}
+
+.frac .frac-num {
+    border-bottom: 3px solid #222;
+}
+
+.task-plain {
+    font-family: "Fredoka", Arial, sans-serif;
+    font-weight: 600;
+    font-size: 34px;
+}
+
+/* ===================== */
+/* ОТВЕТЫ */
+/* ===================== */
+.options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+@media (max-width: 480px) {
+    .options { grid-template-columns: 1fr; }
+}
+
+.option-btn {
+    background: #eef6ff;
+    border: 2px solid #cfe0ff;
+    border-radius: 16px;
+    padding: 18px 12px;
+    cursor: pointer;
+    transition: .15s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80px;
+}
+
+.option-btn:hover {
+    background: #dcebff;
+    transform: translateY(-2px);
+}
+
+.option-btn.correct {
+    background: #e4f9ee;
+    border-color: #1fae6b;
+}
+
+.option-btn.wrong {
+    background: #ffeaea;
+    border-color: #ff5c5c;
+}
+
+.option-btn:disabled {
+    cursor: default;
+}
+
+.option-btn .frac,
+.option-btn .task-plain {
+    font-size: 24px;
+}
+
+/* ===================== */
+/* RESULT SCREEN */
+/* ===================== */
+#resultScreen {
+    position: fixed;
+    inset: 0;
+    background: #eef6ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    padding: 20px;
+}
+
+.result-card {
+    width: min(600px, 90vw);
+    background: white;
+    border-radius: 20px;
+    padding: 50px 40px;
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(0,0,0,.15);
+}
+
+.result-emoji { font-size: 100px; line-height: 1; margin-bottom: 20px; }
+
+.result-message {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2470ff;
+    margin-bottom: 10px;
+}
+
+.result-score { font-size: 20px; color: #888; margin-bottom: 30px; }
+
+.primary-btn {
+    padding: 14px 36px;
+    font-size: 22px;
+    border-radius: 15px;
+    border: none;
+    background: #28c76f;
+    color: white;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.primary-btn:hover { transform: scale(1.05); }
+
+.review-btn {
+    padding: 14px 36px;
+    font-size: 22px;
+    font-weight: bold;
+    border-radius: 15px;
+    border: none;
+    background: linear-gradient(135deg, #ff9800, #ff5c5c);
+    color: white;
+    cursor: pointer;
+    transition: .2s;
+    margin-bottom: 15px;
+    box-shadow: 0 6px 16px rgba(255, 92, 92, .4);
+}
+
+.review-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(255, 92, 92, .55);
+}
+
+.secondary-btn {
+    padding: 14px 36px;
+    font-size: 22px;
+    border-radius: 15px;
+    border: 2px solid #2470ff;
+    background: white;
+    color: #2470ff;
+    cursor: pointer;
+    transition: .2s;
+    margin-bottom: 15px;
+}
+
+.secondary-btn:hover { background: #eef6ff; }
+
+/* ===================== */
+/* MISTAKES REVIEW SCREEN */
+/* ===================== */
+#mistakesScreen {
+    position: fixed;
+    inset: 0;
+    background: #eef6ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    padding: 20px;
+}
+
+.mistakes-card {
+    width: min(700px, 95vw);
+    max-height: 90vh;
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 15px 35px rgba(0,0,0,.15);
+}
+
+.mistakes-card h2 {
+    text-align: center;
+    color: #2470ff;
+    margin-bottom: 20px;
+    font-family: "Fredoka", Arial, sans-serif;
+}
+
+.mistakes-list { overflow-y: auto; flex: 1; margin-bottom: 20px; }
+
+.mistake-item {
+    border: 2px solid #ffd6d6;
+    border-radius: 15px;
+    padding: 18px 20px;
+    margin-bottom: 15px;
+    background: #fff9f9;
+}
+
+.mistake-task { font-size: 18px; font-weight: bold; margin-bottom: 8px; }
+.mistake-your { color: #ff5c5c; margin-bottom: 4px; }
+.mistake-correct { color: #28c76f; font-weight: bold; }
+
+.mistakes-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
