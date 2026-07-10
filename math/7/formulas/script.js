@@ -735,7 +735,8 @@ function sendResult(status) {
             name: studentName,
             score: score,
             roundsCompleted: roundNumber,
-            status: status
+            status: status,
+            topic: "formulas"
         })
     }).catch(err => console.log("Ошибка отправки результата:", err));
 }
