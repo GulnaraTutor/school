@@ -254,9 +254,11 @@ body {
 
 /* исправление "было → стало": старое значение зачёркнуто, новое пишем рядом/сверху */
 .correction {
-    position: relative;
-    display: inline-block;
-    padding-top: 0.75em;
+    display: inline-flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    vertical-align: bottom;
+    line-height: 1.1;
 }
 
 .correction .old {
@@ -267,12 +269,10 @@ body {
 }
 
 .correction .new {
-    position: absolute;
-    top: -0.1em;
-    left: -0.35em;
     color: var(--green);
     font-weight: 700;
-    font-size: 0.85em;
+    font-size: 0.8em;
+    margin-bottom: 2px;
 }
 
 /* показатель степени: старый зачёркнут, новый рядом (тот же приём, что и .correction) */
