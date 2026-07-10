@@ -19,8 +19,8 @@ const START_LIVES = 3;
 // =====================
 const LEVELS = {
     novice: { label: "Лёгкий",  from: 1,  to: 5 },
-    middle: { label: "Средний", from: 6,  to: 10, kinds: ["diffSquaresLinear", "perfectSquareOverMonomial", "trinomialOverDiffSquares", "signFlipCommonFactor", "sumDiffCubes"] },
-    pro:    { label: "Сложный", from: 11, to: 15, kinds: ["groupingFactor", "signFlipIdentity", "cubesFactorReciprocal", "diffSquaresSignFlip", "powerFactorExtraction"] }
+    middle: { label: "Средний", from: 6,  to: 10, kinds: ["diffSquaresLinear", "perfectSquareOverMonomial", "trinomialOverDiffSquares", "signFlipCommonFactor", "sumDiffCubes", "squareOverLinearCommonFactor"] },
+    pro:    { label: "Сложный", from: 11, to: 15, kinds: ["groupingFactor", "signFlipIdentity", "cubesFactorReciprocal", "diffSquaresSignFlip", "powerFactorExtraction", "diffSquaresOverSquaredLinear"] }
 };
 
 function getLevelForRound(n) {
@@ -68,6 +68,11 @@ function sup(n) {
 // powVar("x", 1) -> "x", powVar("x", 3) -> "x³"
 function powVar(letter, exponent) {
     return exponent === 1 ? letter : letter + sup(exponent);
+}
+
+// term(1, "x") -> "x", term(3, "x") -> "3x"  (не показываем коэффициент 1)
+function term(coef, variable) {
+    return coef === 1 ? variable : `${coef}${variable}`;
 }
 
 function valueKey(v) {
@@ -344,6 +349,44 @@ function genSumDiffCubes() {
     };
 }
 
+// (2a−2b)² / (a−b) -> 4(a−b)  ;  (3x+6y)² / (5x+10y) -> 9(x+2y)/5
+function genSquareOverLinearCommonFactor() {
+    const [A, B] = pickLetters(2);
+    const sign = Math.random() < 0.5 ? "+" : "−";
+    const k = rand(1, 4);
+    const p = rand(2, 4);
+    let q;
+    do { q = rand(1, 6); } while (q === p * p);
+
+    const g = gcd(p * p, q);
+    const numCoef = (p * p) / g;
+    const denCoef = q / g;
+
+    const binom = `${A} ${sign} ${term(k, B)}`;
+    const wrongSign = sign === "+" ? "−" : "+";
+    const wrongBinom = `${A} ${wrongSign} ${term(k, B)}`;
+
+    const makeVal = (coef, binomStr, den) => den === 1 ? `${term(coef, `(${binomStr})`)}` : { num: `${term(coef, `(${binomStr})`)}`, den: `${den}` };
+
+    const correct = makeVal(numCoef, binom, denCoef);
+
+    const options = shuffle([
+        { value: correct, correct: true },
+        { value: makeVal(numCoef, wrongBinom, denCoef), correct: false },        // перепутали знак в скобке
+        { value: { num: `${term(p, `(${binom})`)}`, den: `${q}` }, correct: false },      // забыли возвести p в квадрат (числа не сокращены)
+        { value: { num: `${term(q, `(${binom})`)}`, den: `${p * p}` }, correct: false }   // перевернули дробь (числа не сокращены)
+    ]);
+
+    return {
+        kind: "squareOverLinearCommonFactor",
+        taskValue: { num: `(${term(p, A)} ${sign} ${term(p * k, B)})²`, den: `${term(q, A)} ${sign} ${term(q * k, B)}` },
+        correctValue: correct,
+        options,
+        signature: `squareOverLinearCommonFactor:${A}:${B}:${sign}:${k}:${p}:${q}`,
+        why: `Числитель — квадрат общего множителя: (${term(p, A)} ${sign} ${term(p * k, B)})² = (${p}(${binom}))² = ${p * p}(${binom})². Знаменатель: ${term(q, A)} ${sign} ${term(q * k, B)} = ${q}(${binom}). Сокращаем одну скобку (${binom}), остаётся ${p * p}(${binom})/${q}, что после сокращения чисел равно ${numCoef}(${binom})${denCoef === 1 ? "" : `/${denCoef}`}.`
+    };
+}
+
 // =====================
 // ГЕНЕРАТОРЫ ЗАДАНИЙ — СЛОЖНЫЙ УРОВЕНЬ
 // =====================
@@ -524,6 +567,35 @@ function genPowerFactorExtraction() {
     };
 }
 
+// (4x²−y²) / (10x+5y)² -> (2x−y) / (25(2x+y))
+function genDiffSquaresOverSquaredLinear() {
+    const [A, B] = pickLetters(2);
+    const m = rand(1, 4);
+    const n = rand(1, 4);
+    const q = rand(2, 6);
+
+    const plusBinom = `${term(m, A)} + ${term(n, B)}`;
+    const minusBinom = `${term(m, A)} − ${term(n, B)}`;
+
+    const correct = { num: minusBinom, den: `${q * q}(${plusBinom})` };
+
+    const options = shuffle([
+        { value: correct, correct: true },
+        { value: { num: plusBinom, den: `${q * q}(${plusBinom})` }, correct: false },   // перепутали знак в числителе
+        { value: { num: minusBinom, den: `${q}(${plusBinom})` }, correct: false },      // забыли возвести множитель в квадрат
+        { value: { num: `${q * q}(${minusBinom})`, den: `${plusBinom}` }, correct: false } // перепутали, где квадрат
+    ]);
+
+    return {
+        kind: "diffSquaresOverSquaredLinear",
+        taskValue: { num: `${term(m * m, powVar(A, 2))} − ${term(n * n, powVar(B, 2))}`, den: `(${term(q * m, A)} + ${term(q * n, B)})²` },
+        correctValue: correct,
+        options,
+        signature: `diffSquaresOverSquaredLinear:${A}:${B}:${m}:${n}:${q}`,
+        why: `Числитель — разность квадратов: ${term(m * m, powVar(A, 2))}−${term(n * n, powVar(B, 2))} = (${minusBinom})(${plusBinom}). Знаменатель — квадрат общего множителя: (${term(q * m, A)}+${term(q * n, B)})² = (${q}(${plusBinom}))² = ${q * q}(${plusBinom})². Сокращаем (${plusBinom}), остаётся (${minusBinom})/(${q * q}(${plusBinom})).`
+    };
+}
+
 const GENERATORS = {
     plainA: genPlainA,
     plainB: genPlainB,
@@ -534,11 +606,13 @@ const GENERATORS = {
     trinomialOverDiffSquares: genTrinomialOverDiffSquares,
     signFlipCommonFactor: genSignFlipCommonFactor,
     sumDiffCubes: genSumDiffCubes,
+    squareOverLinearCommonFactor: genSquareOverLinearCommonFactor,
     groupingFactor: genGroupingFactor,
     signFlipIdentity: genSignFlipIdentity,
     cubesFactorReciprocal: genCubesFactorReciprocal,
     diffSquaresSignFlip: genDiffSquaresSignFlip,
-    powerFactorExtraction: genPowerFactorExtraction
+    powerFactorExtraction: genPowerFactorExtraction,
+    diffSquaresOverSquaredLinear: genDiffSquaresOverSquaredLinear
 };
 
 function generateTask() {
