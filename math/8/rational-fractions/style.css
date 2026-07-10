@@ -7,7 +7,6 @@
     --green: #1fae6b;
     --red: #ff5c5c;
     --purple: #8b5cf6;
-    --strike: #e64980;
     --card-bg: #ffffff;
 }
 
@@ -235,24 +234,31 @@ body {
     color: var(--ink-soft);
 }
 
-/* сокращаемая часть — перечёркнута (цвет линии отличается от цвета цифр) */
-.cancel {
+/* сокращаемая часть — перечёркнута под 45°.
+   Полоска задана в % от ширины блока и растягивается под неё,
+   поэтому не бывает "слишком короткой" ни для цифры, ни для длинной скобки. */
+.cancel-num,
+.cancel-var {
     position: relative;
-    color: var(--ink-soft);
+    display: inline-block;
 }
 
-.cancel::after {
+.cancel-num::after,
+.cancel-var::after {
     content: "";
     position: absolute;
-    left: -3px;
-    right: -3px;
     top: 50%;
+    left: 50%;
+    width: 141%;
     height: 2.5px;
-    background: var(--strike);
-    transform: rotate(-14deg);
+    transform: translate(-50%, -50%) rotate(-45deg);
 }
 
-/* исправление "было → стало": старое значение зачёркнуто, новое пишем рядом/сверху */
+/* числа — красным, буквы/выражения с буквой — синим */
+.cancel-num::after { background: var(--red); }
+.cancel-var::after { background: var(--blue); }
+
+/* исправление "было → стало": старое значение зачёркнуто (та же диагональ, красный — это число), новое пишем рядом/сверху */
 .correction {
     display: inline-flex;
     flex-direction: column-reverse;
@@ -269,10 +275,19 @@ body {
 }
 
 .correction .old {
-    text-decoration: line-through;
-    text-decoration-color: var(--strike);
-    text-decoration-thickness: 2.5px;
-    color: var(--ink-soft);
+    position: relative;
+    display: inline-block;
+}
+
+.correction .old::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 141%;
+    height: 2.5px;
+    background: var(--red);
+    transform: translate(-50%, -50%) rotate(-45deg);
 }
 
 .correction .new {
@@ -285,23 +300,6 @@ body {
 .correction.below .new {
     margin-bottom: 0;
     margin-top: 2px;
-}
-
-/* показатель степени: старый зачёркнут, новый рядом (тот же приём, что и .correction) */
-.exp-old {
-    text-decoration: line-through;
-    text-decoration-color: var(--strike);
-    color: var(--ink-soft);
-    font-size: 13px;
-    vertical-align: super;
-}
-
-.exp-new {
-    color: var(--green);
-    font-weight: 700;
-    font-size: 13px;
-    vertical-align: super;
-    margin-left: 2px;
 }
 
 /* ===================== */
