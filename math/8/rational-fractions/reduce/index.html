@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Сокращение дробей — MathLab</title>
+<title>Рациональные дроби — 8 класс — MathLab</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
@@ -11,65 +11,190 @@
 </head>
 <body>
 
-<!-- ===================== -->
-<!-- LOGIN SCREEN -->
-<!-- ===================== -->
-<div id="loginScreen">
-    <a href="../index.html" style="color:#2470ff; font-weight:bold; font-size:14px; text-decoration:none; position:absolute; top:20px; left:20px;">← Тема</a>
-    <h2>Сокращение дробей</h2>
-    <p class="subtitle">Введите имя, чтобы начать</p>
-    <input id="studentName" type="text" placeholder="Ваше имя" maxlength="30">
-    <button id="startBtn" type="button">Начать</button>
-</div>
+<div class="wrap">
 
-<!-- ===================== -->
-<!-- GAME SCREEN -->
-<!-- ===================== -->
-<div id="gameScreen" class="container" style="display:none;">
-
-    <header>
-        <div id="lives" class="lives">❤️❤️❤️</div>
-        <div id="stats" class="stats">0 / 15</div>
-    </header>
-
-    <h1>Сократи дробь</h1>
-    <span id="levelTag" class="level-tag"></span>
-
-    <div class="task-wrap">
-        <div id="taskDisplay"></div>
+    <div class="topbar">
+        <a href="../../../index.html">← MathLab</a>
     </div>
 
-    <div id="options" class="options"></div>
-
-</div>
-
-<!-- ===================== -->
-<!-- RESULT SCREEN -->
-<!-- ===================== -->
-<div id="resultScreen" style="display:none;">
-    <div class="result-card">
-        <div id="resultEmoji" class="result-emoji">🎉</div>
-        <div id="resultMessage" class="result-message"></div>
-        <div id="resultScore" class="result-score"></div>
-        <button id="reviewMistakesBtn" type="button" class="review-btn" style="display:none;">🔍 Разбор ошибок</button>
-        <button id="playAgainBtn" type="button" class="primary-btn">Играть снова</button>
+    <div class="page-header">
+        <span class="eyebrow">8 класс · Алгебра</span>
+        <h1>Рациональные дроби</h1>
     </div>
-</div>
 
-<!-- ===================== -->
-<!-- MISTAKES REVIEW SCREEN -->
-<!-- ===================== -->
-<div id="mistakesScreen" style="display:none;">
-    <div class="mistakes-card">
-        <h2>Работа над ошибками</h2>
-        <div id="mistakesList" class="mistakes-list"></div>
-        <div class="mistakes-actions">
-            <button id="backToResultBtn" type="button" class="secondary-btn">Назад</button>
-            <button id="playAgainBtn2" type="button" class="primary-btn">Играть снова</button>
+    <!-- 1. ЧТО ТАКОЕ РАЦИОНАЛЬНОЕ ВЫРАЖЕНИЕ -->
+    <div class="card">
+        <h2><span class="num">1</span>Что такое рациональное выражение</h2>
+        <p>
+            Рациональное выражение — это выражение, где числа и буквы соединены знакомыми действиями:
+            сложением, вычитанием, умножением и делением. Проще говоря — это почти любое выражение
+            с буквами, которое вам встречалось раньше, только теперь в нём может появиться <b>деление на выражение с буквой</b>.
+        </p>
+        <div class="examples">
+            <span class="example-chip">3x + 7</span>
+            <span class="example-chip">5a² − 2a</span>
+            <span class="example-chip"><div class="frac"><span class="frac-num">x + 1</span><span class="frac-den">x − 3</span></div></span>
+            <span class="example-chip"><div class="frac"><span class="frac-num">8xy</span><span class="frac-den">y + 2</span></div></span>
         </div>
     </div>
+
+    <!-- 2. ЦЕЛЫЕ И ДРОБНЫЕ -->
+    <div class="card">
+        <h2><span class="num">2</span>Целые и дробные выражения</h2>
+        <p>Все рациональные выражения делятся на два вида — смотрим, есть ли буква в знаменателе (внизу дроби):</p>
+
+        <div class="split-diagram">
+            <div class="split-root">Рациональные выражения</div>
+            <div class="split-lines"></div>
+            <div class="split-branches">
+                <div class="split-branch whole">
+                    <h3>Целые</h3>
+                    <p>буквы в знаменателе нет (или знаменателя нет вообще)</p>
+                    <span class="example-chip">3x + 7</span>
+                    <span class="example-chip">5a² − 2a</span>
+                    <span class="example-chip"><div class="frac"><span class="frac-num">x</span><span class="frac-den">5</span></div></span>
+                </div>
+                <div class="split-branch frac">
+                    <h3>Дробные</h3>
+                    <p>в знаменателе есть буква</p>
+                    <span class="example-chip"><div class="frac"><span class="frac-num">x + 1</span><span class="frac-den">x − 3</span></div></span>
+                    <span class="example-chip"><div class="frac"><span class="frac-num">8</span><span class="frac-den">y + 2</span></div></span>
+                </div>
+            </div>
+        </div>
+        <div class="note">💡 Обратите внимание на <span class="frac" style="font-size:15px; margin:0 3px;"><span class="frac-num">x</span><span class="frac-den">5</span></span> выше — это тоже дробь, но она целая, потому что внизу просто число 5, без буквы. Дело именно в букве в знаменателе, а не в дроби как таковой.</div>
+    </div>
+
+    <!-- 3. ОБЛАСТЬ ОПРЕДЕЛЕНИЯ -->
+    <div class="card">
+        <h2><span class="num">3</span>Область определения</h2>
+        <p>
+            Область определения дроби — это все значения переменной, при которых дробь вообще имеет смысл.
+        </p>
+        <div class="note">⚠️ Главное правило: <b>на 0 делить нельзя.</b> Значит, знаменатель никогда не может равняться нулю.</div>
+        <p style="margin-top:14px;">Пример:</p>
+        <div class="frac-block">
+            <div class="frac"><span class="frac-num">5</span><span class="frac-den">x − 3</span></div>
+            <span class="frac-arrow">→</span>
+            <span>знаменатель <b>x − 3</b> не должен быть равен 0</span>
+        </div>
+        <p>Значит x − 3 ≠ 0, то есть <b>x ≠ 3</b>. Область определения — все числа, кроме 3.</p>
+    </div>
+
+    <!-- 4. ОСНОВНОЕ СВОЙСТВО ДРОБЕЙ -->
+    <div class="card">
+        <h2><span class="num">4</span>Основное свойство дробей</h2>
+        <p>
+            Если числитель и знаменатель дроби умножить (или разделить) на одно и то же число или выражение,
+            <b>не равное нулю</b> — значение дроби не изменится.
+        </p>
+        <div class="frac-block">
+            <div class="frac"><span class="frac-num">a</span><span class="frac-den">b</span></div>
+            <span>=</span>
+            <div class="frac"><span class="frac-num">a · k</span><span class="frac-den">b · k</span></div>
+            <span style="color:var(--ink-soft); font-size:14px;">(где k ≠ 0)</span>
+        </div>
+    </div>
+
+    <!-- 5. СОКРАЩЕНИЕ ДРОБЕЙ -->
+    <div class="card">
+        <h2><span class="num">5</span>Сокращение дробей</h2>
+        <p>
+            Сокращение дроби — это деление числителя и знаменателя на их <b>общий множитель</b>
+            (используем как раз основное свойство дробей выше). Разберём на примерах.
+        </p>
+
+        <!-- Пример 1 -->
+        <div class="reduce-example">
+            <div class="step-label">Пример 1 — просто числа</div>
+            <div class="frac-block">
+                <div class="frac"><span class="frac-num">12</span><span class="frac-den">18</span></div>
+                <span class="frac-arrow">=</span>
+                <div class="frac"><span class="frac-num"><span class="cancel">6</span>·2</span><span class="frac-den"><span class="cancel">6</span>·3</span></div>
+                <span class="frac-arrow">=</span>
+                <div class="frac"><span class="frac-num">2</span><span class="frac-den">3</span></div>
+            </div>
+            <p>Ищем общий множитель чисел 12 и 18 — это 6. Делим обе части на 6.</p>
+        </div>
+
+        <!-- Пример 2 -->
+        <div class="reduce-example">
+            <div class="step-label">Пример 2 — с буквами</div>
+            <div class="frac-block">
+                <div class="frac">
+                    <span class="frac-num"><span class="correction"><span class="old">6</span><span class="new">2</span></span><span class="cancel">x</span></span>
+                    <span class="frac-den"><span class="correction"><span class="old">9</span><span class="new">3</span></span><span class="cancel">x</span>y</span>
+                </div>
+                <span class="frac-arrow">=</span>
+                <div class="frac"><span class="frac-num">2</span><span class="frac-den">3y</span></div>
+            </div>
+            <p>Общий множитель — 3x. Сокращаем сразу: 6÷3=2, 9÷3=3, а x полностью уходит и сверху, и снизу.</p>
+        </div>
+
+        <!-- Пример 3 -->
+        <div class="reduce-example">
+            <div class="step-label">Пример 3 — целая скобка сокращается</div>
+            <div class="frac-block">
+                <div class="frac"><span class="frac-num">5·<span class="cancel">(x + 4)</span></span><span class="frac-den"><span class="cancel">(x + 4)</span></span></div>
+                <span class="frac-arrow">=</span>
+                <span style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:20px;">5</span>
+            </div>
+            <p>Здесь общий множитель — целая скобка (x + 4). Она есть и сверху, и снизу — сокращаем её полностью.</p>
+        </div>
+
+        <!-- Пример 4 -->
+        <div class="reduce-example">
+            <div class="step-label">Пример 4 — сначала выносим общий множитель</div>
+            <div class="frac-block">
+                <div class="frac"><span class="frac-num">6x + 12</span><span class="frac-den">3</span></div>
+                <span class="frac-arrow">=</span>
+                <div class="frac">
+                    <span class="frac-num"><span class="correction"><span class="old">6</span><span class="new">2</span></span>(x + 2)</span>
+                    <span class="frac-den"><span class="correction"><span class="old">3</span><span class="new">1</span></span></span>
+                </div>
+                <span class="frac-arrow">=</span>
+                <span style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:20px;">2(x + 2)</span>
+            </div>
+            <p>Сначала выносим общий множитель в числителе: 6x + 12 = 6(x + 2). Теперь сокращаем 6 и 3 на 3: 6÷3=2, 3÷3=1.</p>
+        </div>
+
+        <!-- Пример 5 -->
+        <div class="reduce-example">
+            <div class="step-label">Пример 5 — раскладываем по формулам</div>
+
+            <div class="derivation">
+                <div class="deriv-line">a² − 25 = (a − 5)(a + 5)</div>
+                <div class="deriv-line">a² − 10a + 25 = (a − 5)²</div>
+                <div class="deriv-line">(a − 5)² = (a − 5)(a − 5)</div>
+            </div>
+
+            <div class="frac-block">
+                <div class="frac">
+                    <span class="frac-num"><span class="cancel">(a − 5)</span>(a + 5)</span>
+                    <span class="frac-den"><span class="cancel">(a − 5)</span>(a − 5)</span>
+                </div>
+                <span class="frac-arrow">=</span>
+                <div class="frac"><span class="frac-num">a + 5</span><span class="frac-den">a − 5</span></div>
+            </div>
+
+            <p>
+                Числитель — разность квадратов, знаменатель — квадрат разности. Разворачиваем квадрат
+                в произведение двух одинаковых скобок и сокращаем одну из них сверху и снизу.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- ТРЕНАЖЁР -->
+    <a class="trainer-link" href="reduce/index.html">
+        <div class="tl-text">
+            <h3>Тренажёр: Сокращение дробей</h3>
+            <p>Потренироваться на примерах разных типов</p>
+        </div>
+        <div class="tl-go">→</div>
+    </a>
+
 </div>
 
-<script src="script.js"></script>
 </body>
 </html>
