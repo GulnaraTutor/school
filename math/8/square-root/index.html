@@ -41,10 +41,10 @@
         <div class="reduce-example ex-2">
             <div class="ex-head"><span class="ex-num">2</span><span class="ex-title">Арифметический корень — всегда один ответ</span></div>
             <p>
-                А вот запись √9 — это уже не уравнение, а число, и договорились считать его всегда
-                <b>неотрицательным</b>. Поэтому √9 = 3, а не −3, хотя (−3)² тоже даёт 9.
+                А вот запись <span class="radical"><span class="radical-symbol">√</span><span class="radical-content">9</span></span> — это уже не уравнение, а число, и договорились считать его всегда
+                <b>неотрицательным</b>. Поэтому <span class="radical"><span class="radical-symbol">√</span><span class="radical-content">9</span></span> = 3, а не −3, хотя (−3)² тоже даёт 9.
             </p>
-            <div class="note">💡 Математики договорились не разрешать корню быть отрицательным — иначе у одного и того же выражения √n было бы сразу два значения, а с этим неудобно работать.</div>
+            <div class="note">💡 Математики договорились не разрешать корню быть отрицательным — иначе у одного и того же выражения <span class="radical"><span class="radical-symbol">√</span><span class="radical-content">n</span></span> было бы сразу два значения, а с этим неудобно работать.</div>
         </div>
     </div>
 
@@ -77,13 +77,19 @@
         <p>Корень «дружит» с умножением и делением — его можно раскладывать на множители или собирать обратно:</p>
 
         <div class="frac-block">
-            <span>√(a · b) = √a · √b</span>
+            <span class="radical"><span class="radical-symbol">√</span><span class="radical-content">a · b</span></span>
+            <span>=</span>
+            <span class="radical"><span class="radical-symbol">√</span><span class="radical-content">a</span></span>
+            <span>·</span>
+            <span class="radical"><span class="radical-symbol">√</span><span class="radical-content">b</span></span>
         </div>
         <div class="frac-block">
-            <div class="frac"><span class="frac-num">√a</span><span class="frac-den">√b</span></div>
+            <span class="radical radical-tall"><span class="radical-symbol">√</span><span class="radical-content"><div class="frac"><span class="frac-num">a</span><span class="frac-den">b</span></div></span></span>
             <span>=</span>
-            <span style="font-size:20px;">√</span>
-            <div class="frac"><span class="frac-num">a</span><span class="frac-den">b</span></div>
+            <div class="frac">
+                <span class="frac-num"><span class="radical"><span class="radical-symbol">√</span><span class="radical-content">a</span></span></span>
+                <span class="frac-den"><span class="radical"><span class="radical-symbol">√</span><span class="radical-content">b</span></span></span>
+            </div>
         </div>
         <p style="text-align:center; color:var(--ink-soft); font-size:13px; margin-top:-6px;">(здесь a ≥ 0, b &gt; 0)</p>
 
@@ -94,7 +100,11 @@
                 а не само выражение:
             </p>
             <div class="frac-block">
-                <span>√((−5)²) = √25 = 5</span>
+                <span class="radical"><span class="radical-symbol">√</span><span class="radical-content">(−5)²</span></span>
+                <span>=</span>
+                <span class="radical"><span class="radical-symbol">√</span><span class="radical-content">25</span></span>
+                <span>=</span>
+                <span>5</span>
             </div>
             <p>А не −5! Возведение в квадрат «съедает» минус, и корень его обратно не возвращает — результат всегда неотрицательный.</p>
         </div>
@@ -111,21 +121,29 @@
         <div class="reduce-example ex-1">
             <div class="ex-head"><span class="ex-num">1</span><span class="ex-title">Одинаковые корни — складываем коэффициенты</span></div>
             <div class="frac-block">
-                <span>2√3 + 5√3 = 7√3</span>
+                <span>2<span class="radical"><span class="radical-symbol">√</span><span class="radical-content">3</span></span> + 5<span class="radical"><span class="radical-symbol">√</span><span class="radical-content">3</span></span> = 7<span class="radical"><span class="radical-symbol">√</span><span class="radical-content">3</span></span></span>
             </div>
             <p>Как 2y + 5y = 7y — просто складываем числа перед корнем, сам корень не трогаем.</p>
         </div>
 
         <div class="reduce-example ex-3">
             <div class="ex-head"><span class="ex-num">2</span><span class="ex-title">Разные корни напрямую не складываются</span></div>
-            <p>Выражение √5 + √7 нельзя упростить и записать одним корнем — так и остаётся суммой.</p>
+            <p>Выражение <span class="radical"><span class="radical-symbol">√</span><span class="radical-content">5</span></span> + <span class="radical"><span class="radical-symbol">√</span><span class="radical-content">7</span></span> нельзя упростить и записать одним корнем — так и остаётся суммой.</p>
         </div>
 
         <div class="reduce-example ex-5">
             <div class="ex-head"><span class="ex-num">3</span><span class="ex-title">Иногда корни можно сделать одинаковыми</span></div>
             <p>Если разложить число под корнем на множители, из него можно вынести точный квадрат:</p>
             <div class="frac-block">
-                <span>√50 = √(25 · 2) = √25 · √2 = 5√2</span>
+                <span class="radical"><span class="radical-symbol">√</span><span class="radical-content">50</span></span>
+                <span>=</span>
+                <span class="radical"><span class="radical-symbol">√</span><span class="radical-content">25 · 2</span></span>
+                <span>=</span>
+                <span class="radical"><span class="radical-symbol">√</span><span class="radical-content">25</span></span>
+                <span>·</span>
+                <span class="radical"><span class="radical-symbol">√</span><span class="radical-content">2</span></span>
+                <span>=</span>
+                <span>5<span class="radical"><span class="radical-symbol">√</span><span class="radical-content">2</span></span></span>
             </div>
             <p>После такого упрощения выражение иногда становится похоже на соседний корень, и их уже можно сложить.</p>
         </div>

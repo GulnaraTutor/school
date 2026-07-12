@@ -56,6 +56,10 @@ function sqTerm(n) {
     return n < 0 ? `(${numStr(n)})` : `${n}`;
 }
 
+function radicalHTML(content) {
+    return `<span class="radical"><span class="radical-symbol">√</span><span class="radical-content">${content}</span></span>`;
+}
+
 function nonZeroRand(min, max) {
     let n;
     do { n = rand(min, max); } while (n === 0);
@@ -253,7 +257,7 @@ function genSolveViaDiscriminant() {
         correctValue: correct,
         options,
         signature: `solveViaDiscriminant:${x1}:${x2}`,
-        why: `D = ${sqTerm(b)}² − 4×${c} = ${D}, √D = ${Math.round(Math.sqrt(D))}. x = (${numStr(-b)} ± ${Math.round(Math.sqrt(D))}) / 2 → ${correct}.`
+        why: `D = ${sqTerm(b)}² − 4×${c} = ${D}, ${radicalHTML("D")} = ${Math.round(Math.sqrt(D))}. x = (${numStr(-b)} ± ${Math.round(Math.sqrt(D))}) / 2 → ${correct}.`
     };
 }
 
@@ -374,7 +378,7 @@ function genSolveNonUnitA() {
         correctValue: correct,
         options,
         signature: `solveNonUnitA:${a}:${x1}:${x2}`,
-        why: `D = ${sqTerm(b)}² − 4×${a}×${numStr(c)} = ${D}, √D = ${Math.round(Math.sqrt(D))}. x = (${numStr(-b)} ± ${Math.round(Math.sqrt(D))}) / ${2 * a} → ${correct}.`
+        why: `D = ${sqTerm(b)}² − 4×${a}×${numStr(c)} = ${D}, ${radicalHTML("D")} = ${Math.round(Math.sqrt(D))}. x = (${numStr(-b)} ± ${Math.round(Math.sqrt(D))}) / ${2 * a} → ${correct}.`
     };
 }
 
@@ -465,7 +469,7 @@ function genSolveHarderNonUnitA() {
         correctValue: correct,
         options,
         signature: `solveHarderNonUnitA:${a}:${x1}:${x2}`,
-        why: `D = ${sqTerm(b)}² − 4×${a}×${numStr(c)} = ${D}, √D = ${Math.round(Math.sqrt(D))}. x = (${numStr(-b)} ± ${Math.round(Math.sqrt(D))}) / ${2 * a} → ${correct}.`
+        why: `D = ${sqTerm(b)}² − 4×${a}×${numStr(c)} = ${D}, ${radicalHTML("D")} = ${Math.round(Math.sqrt(D))}. x = (${numStr(-b)} ± ${Math.round(Math.sqrt(D))}) / ${2 * a} → ${correct}.`
     };
 }
 

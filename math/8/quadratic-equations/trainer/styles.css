@@ -199,6 +199,32 @@ h2 {
 }
 
 /* ===================== */
+/* RADICAL (√ с чертой сверху) */
+/* ===================== */
+.radical {
+    display: inline-flex;
+    align-items: stretch;
+    vertical-align: middle;
+    margin: 0 2px;
+}
+
+.radical-symbol {
+    display: inline-flex;
+    align-items: flex-end;
+    font-family: "Fredoka", Arial, sans-serif;
+    font-weight: 600;
+    font-size: 1.1em;
+    padding-bottom: 1px;
+    padding-right: 1px;
+}
+
+.radical-content {
+    border-top: 2.2px solid currentColor;
+    padding: 2px 3px 0 2px;
+    margin-top: 2px;
+}
+
+/* ===================== */
 /* ANSWER OPTIONS */
 /* ===================== */
 .options {

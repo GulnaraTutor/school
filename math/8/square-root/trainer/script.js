@@ -72,8 +72,12 @@ function pickLetters(count) {
 // числа без квадратных множителей — из них корень не упрощается дальше
 const SQUAREFREE_POOL = [2, 3, 5, 6, 7, 10, 11, 13, 14, 15, 17, 19, 21, 22, 23, 26, 29, 30];
 
+function radicalHTML(content) {
+    return `<span class="radical"><span class="radical-symbol">√</span><span class="radical-content">${content}</span></span>`;
+}
+
 function radicalStr(coef, radicand) {
-    const rad = `√${radicand}`;
+    const rad = radicalHTML(radicand);
     if (coef === 1) return rad;
     if (coef === -1) return `−${rad}`;
     return `${numStr(coef)}${rad}`;
@@ -103,7 +107,7 @@ function optionsAreUnique(options) {
 const IMPOSSIBLE_POOL = ["Нельзя объединить в один корень", "Можно, получится один корень", "Всегда равно 0", "Нужно перемножить корни"];
 const DOMAIN_POOL = ["x ≥ 0", "x > 0", "x ≤ 0", "При любых x"];
 const SOLUTIONS_POOL = ["2", "1", "0", "Бесконечно много"];
-const POWER_NOTE_POOL = ["То же самое, что √a", "a, делённое на 2", "Квадрат числа a", "Половина от a²"];
+const POWER_NOTE_POOL = [`То же самое, что ${radicalHTML("a")}`, "a, делённое на 2", "Квадрат числа a", "Половина от a²"];
 
 // =====================
 // ГЕНЕРАТОРЫ — ЛЁГКИЙ УРОВЕНЬ
@@ -124,11 +128,11 @@ function genSimpleSqrt() {
 
     return {
         kind: "simpleSqrt",
-        taskHTML: `<p class="task-question">√${n} = ?</p>`,
+        taskHTML: `<p class="task-question">${radicalHTML(n)} = ?</p>`,
         correctValue: correct,
         options,
         signature: `simpleSqrt:${r}`,
-        why: `${r}² = ${n}, значит √${n} = ${r}.`
+        why: `${r}² = ${n}, значит ${radicalHTML(n)} = ${r}.`
     };
 }
 
@@ -170,11 +174,11 @@ function genMultiplySqrt() {
 
     return {
         kind: "multiplySqrt",
-        taskHTML: `<p class="task-question">√${a} × √${b} = ?</p>`,
+        taskHTML: `<p class="task-question">${radicalHTML(a)} × ${radicalHTML(b)} = ?</p>`,
         correctValue: correct,
         options,
         signature: `multiplySqrt:${p}:${q}`,
-        why: `√${a} = ${p}, √${b} = ${q}. Перемножаем сами корни: ${p} × ${q} = ${p * q}.`
+        why: `${radicalHTML(a)} = ${p}, ${radicalHTML(b)} = ${q}. Перемножаем сами корни: ${p} × ${q} = ${p * q}.`
     };
 }
 
@@ -194,11 +198,11 @@ function genDivideSqrt() {
 
     return {
         kind: "divideSqrt",
-        taskHTML: `<p class="task-question">√${a} ÷ √${b} = ?</p>`,
+        taskHTML: `<p class="task-question">${radicalHTML(a)} ÷ ${radicalHTML(b)} = ?</p>`,
         correctValue: correct,
         options,
         signature: `divideSqrt:${p}:${q}`,
-        why: `√${a} = ${p}, √${b} = ${q}. Делим сами корни: ${p}/${q} — дальше не сокращается.`
+        why: `${radicalHTML(a)} = ${p}, ${radicalHTML(b)} = ${q}. Делим сами корни: ${p}/${q} — дальше не сокращается.`
     };
 }
 
@@ -220,11 +224,11 @@ function genSquareOfNegativeAbs() {
 
     return {
         kind: "squareOfNegativeAbs",
-        taskHTML: `<p class="task-question">√((−${n})²) = ?</p>`,
+        taskHTML: `<p class="task-question">${radicalHTML(`(−${n})²`)} = ?</p>`,
         correctValue: correct,
         options,
         signature: `squareOfNegativeAbs:${n}`,
-        why: `(−${n})² = ${n * n} — минус исчезает при возведении в квадрат. √${n * n} = ${n}. Результат всегда неотрицательный, даже если под квадратом было отрицательное число.`
+        why: `(−${n})² = ${n * n} — минус исчезает при возведении в квадрат. ${radicalHTML(n * n)} = ${n}. Результат всегда неотрицательный, даже если под квадратом было отрицательное число.`
     };
 }
 
@@ -252,7 +256,7 @@ function genAddSubtractLikeRadicals() {
         correctValue: correct,
         options,
         signature: `addSubtractLikeRadicals:${n}:${p}:${q}:${sign}`,
-        why: `Корни одинаковые (√${n}) — складываем только числа перед корнем, как обычные слагаемые: ${p}${sign}${q}=${resultCoef}. Получаем ${correct}.`
+        why: `Корни одинаковые (${radicalHTML(n)}) — складываем только числа перед корнем, как обычные слагаемые: ${p}${sign}${q}=${resultCoef}. Получаем ${correct}.`
     };
 }
 
@@ -279,7 +283,7 @@ function genAddUnlikeRadicalsImpossible() {
         correctValue: correct,
         options,
         signature: `addUnlikeRadicalsImpossible:${a}:${b}:${p}:${q}`,
-        why: `√${a} и √${b} — разные корни, которые не сводятся друг к другу. Складывать можно только одинаковые корни, поэтому это выражение и остаётся суммой.`
+        why: `${radicalHTML(a)} и ${radicalHTML(b)} — разные корни, которые не сводятся друг к другу. Складывать можно только одинаковые корни, поэтому это выражение и остаётся суммой.`
     };
 }
 
@@ -299,11 +303,11 @@ function genFactorOutSquareSimple() {
 
     return {
         kind: "factorOutSquareSimple",
-        taskHTML: `<p class="task-question">Упростите: √${n}</p>`,
+        taskHTML: `<p class="task-question">Упростите: ${radicalHTML(n)}</p>`,
         correctValue: correct,
         options,
         signature: `factorOutSquareSimple:${k}:${m}`,
-        why: `${n} = ${k * k} × ${m}, а ${k * k} — точный квадрат. √${n} = √${k * k} × √${m} = ${k}√${m}.`
+        why: `${n} = ${k * k} × ${m}, а ${k * k} — точный квадрат. ${radicalHTML(n)} = ${radicalHTML(k * k)} × ${radicalHTML(m)} = ${k}${radicalHTML(m)}.`
     };
 }
 
@@ -320,11 +324,11 @@ function genDomainOfSqrt() {
 
     return {
         kind: "domainOfSqrt",
-        taskHTML: `<p class="task-question">При каких x определено выражение √x?</p>`,
+        taskHTML: `<p class="task-question">При каких x определено выражение ${radicalHTML("x")}?</p>`,
         correctValue: correct,
         options,
         signature: `domainOfSqrt`,
-        why: `Из отрицательного числа арифметический квадратный корень не извлекается, а из нуля — извлекается (√0 = 0). Значит подходят все x ≥ 0.`
+        why: `Из отрицательного числа арифметический квадратный корень не извлекается, а из нуля — извлекается (${radicalHTML(0)} = 0). Значит подходят все x ≥ 0.`
     };
 }
 
@@ -348,11 +352,11 @@ function genFactorOutSquareHard() {
 
     return {
         kind: "factorOutSquareHard",
-        taskHTML: `<p class="task-question">Упростите: √${n}</p>`,
+        taskHTML: `<p class="task-question">Упростите: ${radicalHTML(n)}</p>`,
         correctValue: correct,
         options,
         signature: `factorOutSquareHard:${k}:${m}`,
-        why: `${n} = ${k * k} × ${m}, а ${k * k} — точный квадрат (${k}²). √${n} = ${k}√${m}.`
+        why: `${n} = ${k * k} × ${m}, а ${k * k} — точный квадрат (${k}²). ${radicalHTML(n)} = ${k}${radicalHTML(m)}.`
     };
 }
 
@@ -377,33 +381,33 @@ function genCombineAfterFactoring() {
 
     return {
         kind: "combineAfterFactoring",
-        taskHTML: `<p class="task-question">${radicalStr(p, n)} ${sign} √${b} = ?</p>`,
+        taskHTML: `<p class="task-question">${radicalStr(p, n)} ${sign} ${radicalHTML(b)} = ?</p>`,
         correctValue: correct,
         options,
         signature: `combineAfterFactoring:${n}:${p}:${k}:${sign}`,
-        why: `Сначала упрощаем второй корень: √${b} = √(${k * k}×${n}) = ${k}√${n}. Теперь оба корня одинаковые (√${n}), складываем коэффициенты: ${p}${sign}${k}=${resultCoef}. Получаем ${correct}.`
+        why: `Сначала упрощаем второй корень: ${radicalHTML(b)} = ${radicalHTML(`${k * k}×${n}`)} = ${k}${radicalHTML(n)}. Теперь оба корня одинаковые (${radicalHTML(n)}), складываем коэффициенты: ${p}${sign}${k}=${resultCoef}. Получаем ${correct}.`
     };
 }
 
 // √(a²b) -> a√b (буквенный вариант)
 function genSqrtOfProductHard() {
     const [A, B] = pickLetters(2);
-    const correct = `${A}√${B}`;
+    const correct = `${A}${radicalHTML(B)}`;
 
     const options = shuffle([
         { value: correct, correct: true },
-        { value: `${A}²√${B}`, correct: false },
-        { value: `${A}√(${B}²)`, correct: false },
+        { value: `${A}²${radicalHTML(B)}`, correct: false },
+        { value: `${A}${radicalHTML(`${B}²`)}`, correct: false },
         { value: `${A}${B}`, correct: false }
     ]);
 
     return {
         kind: "sqrtOfProductHard",
-        taskHTML: `<p class="task-question">Упростите (${A}, ${B} &gt; 0): √(${A}²${B})</p>`,
+        taskHTML: `<p class="task-question">Упростите (${A}, ${B} &gt; 0): ${radicalHTML(`${A}²${B}`)}</p>`,
         correctValue: correct,
         options,
         signature: `sqrtOfProductHard:${A}:${B}`,
-        why: `√(${A}²${B}) = √${A}² × √${B} = ${A} × √${B} = ${A}√${B} — здесь ${A}² уже точный квадрат, а множитель ${B} остаётся под корнем.`
+        why: `${radicalHTML(`${A}²${B}`)} = ${radicalHTML(`${A}²`)} × ${radicalHTML(B)} = ${A} × ${radicalHTML(B)} = ${A}${radicalHTML(B)} — здесь ${A}² уже точный квадрат, а множитель ${B} остаётся под корнем.`
     };
 }
 
@@ -424,7 +428,7 @@ function genPowerAsRootNote() {
         correctValue: correct,
         options,
         signature: `powerAsRootNote`,
-        why: `Извлечение квадратного корня можно записать как возведение в степень 1/2 — это просто другое обозначение того же самого действия: a^(1/2) = √a.`
+        why: `Извлечение квадратного корня можно записать как возведение в степень 1/2 — это просто другое обозначение того же самого действия: a^(1/2) = ${radicalHTML("a")}.`
     };
 }
 

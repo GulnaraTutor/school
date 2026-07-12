@@ -63,6 +63,10 @@ function nonZeroRand(min, max) {
     return n;
 }
 
+function radicalHTML(content) {
+    return `<span class="radical"><span class="radical-symbol">√</span><span class="radical-content">${content}</span></span>`;
+}
+
 function isPerfectSquare(n) {
     const r = Math.round(Math.sqrt(n));
     return r * r === n;
@@ -227,13 +231,13 @@ function genClassifySqrt() {
 
     return {
         kind: "classifySqrt",
-        taskHTML: `<p class="task-question">√${n} — рациональное или иррациональное число?</p>`,
+        taskHTML: `<p class="task-question">${radicalHTML(n)} — рациональное или иррациональное число?</p>`,
         correctValue: correct,
         options,
         signature: `classifySqrt:${n}`,
         why: isSquare
-            ? `${n} — точный квадрат (${Math.round(Math.sqrt(n))}² = ${n}), значит √${n} = ${Math.round(Math.sqrt(n))} — рациональное число.`
-            : `${n} не является точным квадратом ни одного целого числа, значит √${n} — иррациональное число.`
+            ? `${n} — точный квадрат (${Math.round(Math.sqrt(n))}² = ${n}), значит ${radicalHTML(n)} = ${Math.round(Math.sqrt(n))} — рациональное число.`
+            : `${n} не является точным квадратом ни одного целого числа, значит ${radicalHTML(n)} — иррациональное число.`
     };
 }
 
@@ -356,13 +360,13 @@ function genClassifySqrtHard() {
 
     return {
         kind: "classifySqrtHard",
-        taskHTML: `<p class="task-question">√${n} — рациональное или иррациональное число?</p>`,
+        taskHTML: `<p class="task-question">${radicalHTML(n)} — рациональное или иррациональное число?</p>`,
         correctValue: correct,
         options,
         signature: `classifySqrtHard:${n}`,
         why: isSquare
-            ? `${n} = ${Math.round(Math.sqrt(n))}² — точный квадрат, значит √${n} = ${Math.round(Math.sqrt(n))} — рациональное число.`
-            : `${n} не является точным квадратом ни одного целого числа — значит √${n} иррационально, даже если корень "почти круглый".`
+            ? `${n} = ${Math.round(Math.sqrt(n))}² — точный квадрат, значит ${radicalHTML(n)} = ${Math.round(Math.sqrt(n))} — рациональное число.`
+            : `${n} не является точным квадратом ни одного целого числа — значит ${radicalHTML(n)} иррационально, даже если корень "почти круглый".`
     };
 }
 
@@ -404,7 +408,7 @@ function genClosurePropertyRational() {
 // смешанный набор -> выбрать иррациональное число среди четырёх
 function genMixedClassification() {
     const irrationalN = randNonSquare(2, 50);
-    const irrationalChoice = pick([`√${irrationalN}`, "π"]);
+    const irrationalChoice = pick([radicalHTML(irrationalN), "π"]);
 
     const intVal = nonZeroRand(-20, 20);
     const squareN = randSquare(2, 9);
@@ -413,7 +417,7 @@ function genMixedClassification() {
 
     const rationalOptions = shuffle([
         `${numStr(intVal)}`,
-        `√${squareN}`,
+        radicalHTML(squareN),
         `${numStr(fp)}/${fq}`
     ]);
 
