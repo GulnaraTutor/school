@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Степень с отрицательным показателем — 8 класс — MathLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+
+    <div class="topbar">
+        <a href="../index.html">← 8 класс</a>
+    </div>
+
+    <div class="page-header">
+        <span class="eyebrow">8 класс · Алгебра</span>
+        <h1>Степень с отрицательным показателем</h1>
+    </div>
+
+    <!-- 1. ОПРЕДЕЛЕНИЯ -->
+    <div class="card">
+        <h2><span class="num">1</span>Что такое степень с отрицательным и нулевым показателем</h2>
+        <p>
+            Раньше степень с натуральным показателем означала «умножить число само на себя n раз». Чтобы это понятие
+            заработало и для отрицательных чисел в показателе, математики договорились о двух определениях:
+        </p>
+        <div class="frac-block">
+            <span>a<sup>−n</sup></span>
+            <span>=</span>
+            <div class="frac"><span class="frac-num">1</span><span class="frac-den">aⁿ</span></div>
+        </div>
+        <div class="frac-block"><span>a⁰ = 1</span></div>
+        <p style="text-align:center; color:var(--ink-soft); font-size:13px; margin-top:-6px;">(здесь a ≠ 0 — на ноль делить нельзя)</p>
+
+        <div class="examples" style="margin-top:14px;">
+            <span class="example-chip">2⁻³ = 1/8</span>
+            <span class="example-chip">5⁰ = 1</span>
+            <span class="example-chip">(−3)⁻² = 1/9</span>
+        </div>
+
+        <div class="reduce-example ex-4">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Осторожно со знаком</span></div>
+            <p>(−2)⁻³ = 1/(−2)³ = 1/(−8) = <b>−1/8</b>, а не 1/8!</p>
+            <p>Показатель −3 — нечётный, а нечётная степень отрицательного числа отрицательна. Знак минус никуда не девается.</p>
+        </div>
+    </div>
+
+    <!-- 2. СВОЙСТВА РАБОТАЮТ И ЗДЕСЬ -->
+    <div class="card">
+        <h2><span class="num">2</span>Свойства степени работают и здесь</h2>
+        <p>
+            Хорошая новость: все привычные правила действий со степенями остаются верными и для отрицательных (и нулевого)
+            показателей — не нужно запоминать что-то новое.
+        </p>
+
+        <ul class="rule-list">
+            <li>aᵐ · aⁿ = aᵐ⁺ⁿ — при умножении показатели складываются</li>
+            <li>aᵐ ÷ aⁿ = aᵐ⁻ⁿ — при делении показатели вычитаются</li>
+            <li>(aᵐ)ⁿ = aᵐⁿ — при возведении степени в степень показатели перемножаются</li>
+        </ul>
+
+        <div class="reduce-example ex-1">
+            <div class="ex-head"><span class="ex-num">1</span><span class="ex-title">Умножение</span></div>
+            <p>2³ · 2⁻⁵ = 2³⁺⁽⁻⁵⁾ = 2⁻² = 1/4</p>
+        </div>
+
+        <div class="reduce-example ex-3">
+            <div class="ex-head"><span class="ex-num">2</span><span class="ex-title">Степень степени</span></div>
+            <p>(2⁻²)³ = 2⁻²ˣ³ = 2⁻⁶ = 1/64</p>
+        </div>
+    </div>
+
+    <!-- 3. ПЕРЕНОС МНОЖИТЕЛЯ -->
+    <div class="card">
+        <h2><span class="num">3</span>Перенос множителя между числителем и знаменателем</h2>
+        <p>
+            Из определения a⁻ⁿ = 1/aⁿ следует удобный приём: множитель с отрицательным показателем можно «перевесить»
+            из числителя в знаменатель (или обратно), сменив знак показателя на противоположный.
+        </p>
+
+        <div class="frac-block">
+            <div class="frac"><span class="frac-num">1</span><span class="frac-den">2⁻³</span></div>
+            <span>=</span>
+            <span>2³ = 8</span>
+        </div>
+
+        <div class="reduce-example ex-2">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Буквенный пример</span></div>
+            <div class="frac-block">
+                <div class="frac"><span class="frac-num">x⁻²</span><span class="frac-den">y⁻⁵</span></div>
+                <span>=</span>
+                <div class="frac"><span class="frac-num">y⁵</span><span class="frac-den">x²</span></div>
+            </div>
+            <p>Множитель x⁻² «переехал» бы в знаменатель как x² — но он там уже почти был, поэтому по факту меняются местами и знаки, и этажи дроби: минус в показателе у числителя переносит множитель вниз, минус в показателе у знаменателя — наверх.</p>
+        </div>
+    </div>
+
+    <!-- 4. СТАНДАРТНЫЙ ВИД ЧИСЛА -->
+    <div class="card">
+        <h2><span class="num">4</span>Стандартный вид числа</h2>
+        <p>
+            Отрицательные показатели степени особенно полезны для записи очень больших и очень маленьких чисел —
+            их записывают в <b>стандартном виде</b>:
+        </p>
+        <div class="frac-block"><span>a × 10ⁿ, где 1 ≤ a &lt; 10, n — целое число</span></div>
+
+        <div class="reduce-example ex-1">
+            <div class="ex-head"><span class="ex-num">1</span><span class="ex-title">Большое число — n положительное</span></div>
+            <p>47 000 = 4.7 × 10⁴</p>
+        </div>
+
+        <div class="reduce-example ex-3">
+            <div class="ex-head"><span class="ex-num">2</span><span class="ex-title">Маленькое число — n отрицательное</span></div>
+            <p>0.00047 = 4.7 × 10⁻⁴</p>
+        </div>
+
+        <div class="note">💡 Чем меньше число (ближе к нулю), тем более отрицательный показатель n потребуется.</div>
+    </div>
+
+    <!-- ТРЕНАЖЁР -->
+    <a class="trainer-link" href="trainer/index.html">
+        <div class="tl-text">
+            <h3>Тренажёр: Степень с отрицательным показателем</h3>
+            <p>Определения, свойства степени, стандартный вид числа</p>
+        </div>
+        <div class="tl-go">→</div>
+    </a>
+
+</div>
+
+</body>
+</html>
