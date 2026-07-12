@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Свойства функций — 9 класс — MathLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+
+    <div class="topbar">
+        <a href="../index.html">← 9 класс</a>
+    </div>
+
+    <div class="page-header">
+        <span class="eyebrow">9 класс · Алгебра</span>
+        <h1>Свойства функций</h1>
+    </div>
+
+    <!-- 1. ЧТО ТАКОЕ ФУНКЦИЯ -->
+    <div class="card">
+        <h2><span class="num">1</span>Что такое функция</h2>
+        <p>
+            <b>Функция</b> — это правило, по которому каждому значению независимой переменной x (её называют
+            <b>аргументом</b>) ставится в соответствие ровно одно значение зависимой переменной y. Записывают это так:
+        </p>
+        <div class="frac-block"><span>y = f(x)</span></div>
+
+        <ul class="rule-list">
+            <li><b>Область определения D(f)</b> — все значения, которые может принимать x</li>
+            <li><b>Область значений E(f)</b> — все значения, которые может принимать y</li>
+        </ul>
+
+        <p>Функцию можно задать разными способами: словесным описанием, формулой, таблицей значений или графиком — в этой теме мы будем читать свойства именно с графика.</p>
+    </div>
+
+    <!-- 2. ЧЁТНОСТЬ И НЕЧЁТНОСТЬ -->
+    <div class="card">
+        <h2><span class="num">2</span>Чётность и нечётность</h2>
+        <p>Некоторые функции обладают симметрией — это можно проверить, подставив −x вместо x:</p>
+        <ul class="rule-list">
+            <li><b>Чётная</b>: f(−x) = f(x) для всех x — график симметричен относительно оси y</li>
+            <li><b>Нечётная</b>: f(−x) = −f(x) для всех x — график симметричен относительно начала координат</li>
+            <li>Если ни одно из равенств не выполняется — функция <b>ни чётная, ни нечётная</b></li>
+        </ul>
+
+        <div class="reduce-example ex-1">
+            <div class="ex-head"><span class="ex-num">1</span><span class="ex-title">Чётная: y = x²</span></div>
+            <p>f(−3) = (−3)² = 9, а f(3) = 3² = 9 — значения совпали, f(−x) = f(x).</p>
+        </div>
+
+        <div class="reduce-example ex-3">
+            <div class="ex-head"><span class="ex-num">2</span><span class="ex-title">Нечётная: y = x³</span></div>
+            <p>f(−3) = (−3)³ = −27, а f(3) = 3³ = 27 — значения противоположны, f(−x) = −f(x).</p>
+        </div>
+    </div>
+
+    <!-- 3. НУЛИ ФУНКЦИИ И ПРОМЕЖУТКИ ЗНАКОПОСТОЯНСТВА -->
+    <div class="card">
+        <h2><span class="num">3</span>Нули функции и промежутки знакопостоянства</h2>
+        <p><b>Нуль функции</b> — это значение x, при котором график пересекает ось x (то есть f(x) = 0). Между нулями функция сохраняет знак — такие участки называют <b>промежутками знакопостоянства</b>.</p>
+
+        <div class="graph-box">
+            <svg viewBox="0 0 260 200" class="graph-svg" xmlns="http://www.w3.org/2000/svg">
+                <line x1="0" y1="37.9" x2="253" y2="37.9" class="axis-line"/>
+                <polygon points="258,37.9 249,32.9 249,42.9" class="axis-arrow"/>
+                <line x1="137.5" y1="195" x2="137.5" y2="7" class="axis-line"/>
+                <polygon points="137.5,2 132.5,11 142.5,11" class="axis-arrow"/>
+                <text x="246" y="29" class="axis-label">x</text>
+                <text x="145.5" y="16" class="axis-label">y</text>
+                <path d="M51.5,37.9 L137.5,152.1 L223.5,83.6" class="hyperbola-curve curve-blue" fill="none"/>
+            </svg>
+            <p class="graph-caption">Три ключевые точки: (−4; 0), (0; −5), (4; −2)</p>
+        </div>
+
+        <p>Единственный ноль этой функции — x = −4 (график касается оси x только там). На всём остальном промежутке (−4; 4] функция отрицательна, ведь и в точке (0; −5), и в точке (4; −2) значения y меньше нуля.</p>
+        <div class="note">💡 f(x) &lt; 0 на промежутке (−4; 4] — граница −4 не входит, потому что там как раз f(x) = 0, а не меньше нуля.</div>
+    </div>
+
+    <!-- 4. МОНОТОННОСТЬ И ОГРАНИЧЕННОСТЬ -->
+    <div class="card">
+        <h2><span class="num">4</span>Монотонность и ограниченность</h2>
+        <p>
+            <b>Монотонность</b> — это то, как функция ведёт себя на промежутках: <b>возрастает</b>, если большему x
+            соответствует большее y, и <b>убывает</b>, если большему x соответствует меньшее y.
+        </p>
+        <p>
+            <b>Ограниченность</b> — существование наибольшего и/или наименьшего значения, которое принимает функция.
+        </p>
+
+        <div class="reduce-example ex-2">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">На графике из раздела 3</span></div>
+            <p>Область определения: [−4; 4]. Область значений: [−5; 0].</p>
+            <p>Функция убывает на [−4; 0] (y идёт от 0 до −5) и возрастает на [0; 4] (y идёт от −5 до −2).</p>
+            <p>Наименьшее значение функции: −5, достигается при x = 0. Наибольшее значение: 0, достигается при x = −4.</p>
+            <p>Значит функция ограничена и сверху (числом 0), и снизу (числом −5).</p>
+        </div>
+    </div>
+
+    <!-- ТРЕНАЖЁР -->
+    <a class="trainer-link" href="trainer/index.html">
+        <div class="tl-text">
+            <h3>Тренажёр: Свойства функций</h3>
+            <p>Область определения и значений, чётность, нули, монотонность</p>
+        </div>
+        <div class="tl-go">→</div>
+    </a>
+
+</div>
+
+</body>
+</html>
