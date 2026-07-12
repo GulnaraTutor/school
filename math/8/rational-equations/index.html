@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Дробные рациональные уравнения — 8 класс — MathLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+
+    <div class="topbar">
+        <a href="../index.html">← 8 класс</a>
+    </div>
+
+    <div class="page-header">
+        <span class="eyebrow">8 класс · Алгебра</span>
+        <h1>Дробные рациональные уравнения</h1>
+    </div>
+
+    <!-- 1. ЧТО ТАКОЕ ДРОБНОЕ РАЦИОНАЛЬНОЕ УРАВНЕНИЕ -->
+    <div class="card">
+        <h2><span class="num">1</span>Что такое дробное рациональное уравнение</h2>
+        <p>
+            Уравнение называют <b>дробным рациональным</b>, если переменная стоит в <b>знаменателе</b> хотя бы одной
+            дроби. Если переменная встречается только в числителях или вообще без дробей — уравнение целое.
+        </p>
+        <div class="reduce-example ex-1">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Сравнение</span></div>
+            <div class="examples">
+                <span class="example-chip">2x + 3 = 7 — целое</span>
+            </div>
+            <div class="examples" style="margin-top:10px;">
+                <span class="example-chip">
+                    <div class="frac"><span class="frac-num">3</span><span class="frac-den">x − 1</span></div>
+                    <span>&nbsp;=&nbsp;</span>
+                    <div class="frac"><span class="frac-num">1</span><span class="frac-den">2</span></div>
+                    <span>&nbsp;— дробное</span>
+                </span>
+            </div>
+            <p style="margin-top:10px;">Во втором уравнении x стоит в знаменателе (x − 1) — из-за этого оно и называется дробным.</p>
+        </div>
+    </div>
+
+    <!-- 2. ОДЗ -->
+    <div class="card">
+        <h2><span class="num">2</span>ОДЗ — область допустимых значений</h2>
+        <p>
+            На ноль делить нельзя. Поэтому прежде чем решать дробное уравнение, нужно найти все значения x,
+            при которых какой-нибудь знаменатель обращается в ноль, и сразу их исключить — это и есть
+            <b>ОДЗ (область допустимых значений)</b>.
+        </p>
+
+        <div class="reduce-example ex-2">
+            <div class="ex-head"><span class="ex-num">1</span><span class="ex-title">Один знаменатель</span></div>
+            <p>
+                Для уравнения
+                <div class="frac"><span class="frac-num">3</span><span class="frac-den">x − 1</span></div>
+                <span>&nbsp;=&nbsp;</span>
+                <div class="frac"><span class="frac-num">1</span><span class="frac-den">2</span></div>
+                знаменатель обращается в ноль при x = 1. Значит ОДЗ: <b>x ≠ 1</b>.
+            </p>
+        </div>
+
+        <div class="reduce-example ex-3">
+            <div class="ex-head"><span class="ex-num">2</span><span class="ex-title">Два знаменателя</span></div>
+            <p>
+                Для уравнения
+                <div class="frac"><span class="frac-num">5</span><span class="frac-den">(x − 2)(x + 3)</span></div>
+                <span>&nbsp;= 1</span>
+                в ноль обращается либо (x − 2), либо (x + 3). Значит ОДЗ сразу исключает два значения: <b>x ≠ 2 и x ≠ −3</b>.
+            </p>
+        </div>
+
+        <div class="note">⚠️ ОДЗ нужно записывать <b>до</b> решения — а потом, найдя корни, обязательно сверять их с этим списком.</div>
+    </div>
+
+    <!-- 3. МЕТОД РЕШЕНИЯ -->
+    <div class="card">
+        <h2><span class="num">3</span>Как решать: пропорция и общий знаменатель</h2>
+        <p>
+            Если уравнение имеет вид пропорции (дробь = дробь), его можно решить <b>крест-накрест</b>: если
+        </p>
+        <div class="frac-block">
+            <div class="frac"><span class="frac-num">a</span><span class="frac-den">b</span></div>
+            <span>=</span>
+            <div class="frac"><span class="frac-num">c</span><span class="frac-den">d</span></div>
+        </div>
+        <p>то a · d = b · c. Если дробей больше двух, вместо этого умножают обе части на общий знаменатель, как при сложении дробей.</p>
+
+        <div class="reduce-example ex-1">
+            <div class="ex-head"><span class="ex-num">1</span><span class="ex-title">Сводится к линейному уравнению</span></div>
+            <p>Решим уравнение из раздела 2: ОДЗ уже нашли — x ≠ 1.</p>
+            <div class="frac-block">
+                <div class="frac"><span class="frac-num">3</span><span class="frac-den">x − 1</span></div>
+                <span>=</span>
+                <div class="frac"><span class="frac-num">1</span><span class="frac-den">2</span></div>
+            </div>
+            <p>Крест-накрест: 3 · 2 = 1 · (x − 1), то есть 6 = x − 1, откуда x = 7.</p>
+            <p>Сверяем с ОДЗ: 7 ≠ 1 — подходит. Ответ: <b>x = 7</b>.</p>
+        </div>
+
+        <div class="reduce-example ex-3">
+            <div class="ex-head"><span class="ex-num">2</span><span class="ex-title">Сводится к квадратному уравнению</span></div>
+            <p>ОДЗ: знаменатель (x − 4) не может быть равен нулю, значит x ≠ 4.</p>
+            <div class="frac-block">
+                <div class="frac"><span class="frac-num">x − 3</span><span class="frac-den">2</span></div>
+                <span>=</span>
+                <div class="frac"><span class="frac-num">1</span><span class="frac-den">x − 4</span></div>
+            </div>
+            <p>Крест-накрест: (x − 3)(x − 4) = 2, раскрываем скобки: x² − 7x + 12 = 2, то есть x² − 7x + 10 = 0.</p>
+            <p>По теореме Виета: x₁ + x₂ = 7, x₁ · x₂ = 10 — подходят 2 и 5.</p>
+            <p>Сверяем с ОДЗ: и 2, и 5 не равны 4 — оба подходят. Ответ: <b>x₁ = 2, x₂ = 5</b>.</p>
+        </div>
+    </div>
+
+    <!-- 4. ПОСТОРОННИЕ КОРНИ -->
+    <div class="card">
+        <h2><span class="num">4</span>Посторонние корни</h2>
+        <p>
+            Когда после избавления от знаменателей уравнение решено, среди найденных корней иногда попадается
+            значение, которое как раз исключено в ОДЗ. Такой корень называют <b>посторонним</b> — его отбрасывают
+            и не включают в ответ, даже если формально он получился из верных вычислений.
+        </p>
+
+        <div class="reduce-example ex-4">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Пример с посторонним корнем</span></div>
+            <p>ОДЗ: оба знаменателя не равны нулю, значит x ≠ 2 и x ≠ −2.</p>
+            <div class="frac-block">
+                <div class="frac"><span class="frac-num">x</span><span class="frac-den">x − 2</span></div>
+                <span>+</span>
+                <div class="frac"><span class="frac-num">2</span><span class="frac-den">x + 2</span></div>
+                <span>=</span>
+                <div class="frac"><span class="frac-num">8</span><span class="frac-den">(x − 2)(x + 2)</span></div>
+            </div>
+            <p>Общий знаменатель (x − 2)(x + 2). Умножаем на него всё уравнение:</p>
+            <div class="frac-block"><span>x(x + 2) + 2(x − 2) = 8</span></div>
+            <div class="frac-block"><span>x² + 4x − 4 = 8 → x² + 4x − 12 = 0</span></div>
+            <p>Корни: x₁ = 2, x₂ = −6.</p>
+            <p>Сверяем с ОДЗ: x = 2 — как раз исключённое значение, это посторонний корень, его отбрасываем.
+               А x = −6 не запрещён. Ответ: <b>x = −6</b>.</p>
+        </div>
+
+        <div class="note">💡 Нашли корни — не спешите отвечать. Сначала сверьте каждый с ОДЗ, и только потом записывайте окончательный ответ.</div>
+    </div>
+
+    <!-- ТРЕНАЖЁР -->
+    <a class="trainer-link" href="trainer/index.html">
+        <div class="tl-text">
+            <h3>Тренажёр: Дробные рациональные уравнения</h3>
+            <p>ОДЗ, крест-накрест, посторонние корни</p>
+        </div>
+        <div class="tl-go">→</div>
+    </a>
+
+</div>
+
+</body>
+</html>
