@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Квадратные уравнения — 8 класс — MathLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+
+    <div class="topbar">
+        <a href="../index.html">← 8 класс</a>
+    </div>
+
+    <div class="page-header">
+        <span class="eyebrow">8 класс · Алгебра</span>
+        <h1>Квадратные уравнения</h1>
+    </div>
+
+    <!-- 1. ЧТО ТАКОЕ КВАДРАТНОЕ УРАВНЕНИЕ -->
+    <div class="card">
+        <h2><span class="num">1</span>Что такое квадратное уравнение</h2>
+        <p>
+            Квадратное уравнение — это уравнение вида <b>ax² + bx + c = 0</b>, где a, b, c — какие-то числа,
+            причём <b>a не может быть равно нулю</b> (иначе x² просто исчезнет, и уравнение перестанет быть квадратным).
+        </p>
+        <div class="reduce-example ex-1">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Пример: 3x² − 5x + 2 = 0</span></div>
+            <div class="examples">
+                <span class="example-chip">a = 3</span>
+                <span class="example-chip">b = −5</span>
+                <span class="example-chip">c = 2</span>
+            </div>
+            <p style="margin-top:10px;">a — число перед x², b — число перед x, c — число само по себе, без буквы.</p>
+        </div>
+    </div>
+
+    <!-- 2. ДИСКРИМИНАНТ -->
+    <div class="card">
+        <h2><span class="num">2</span>Дискриминант</h2>
+        <p>
+            Чтобы найти корни уравнения, сначала считают <b>дискриминант</b> — число, которое подсказывает,
+            сколько у уравнения решений:
+        </p>
+        <div class="frac-block"><span>D = b² − 4ac</span></div>
+
+        <ul class="rule-list">
+            <li><b>D &gt; 0</b> — два корня: x = (−b ± √D) / (2a)</li>
+            <li><b>D = 0</b> — один корень: x = −b / (2a)</li>
+            <li><b>D &lt; 0</b> — корней нет</li>
+        </ul>
+
+        <div class="reduce-example ex-1">
+            <div class="ex-head"><span class="ex-num">1</span><span class="ex-title">D &gt; 0 — два корня</span></div>
+            <p>x² − x − 6 = 0: a=1, b=−1, c=−6</p>
+            <div class="frac-block"><span>D = (−1)² − 4·1·(−6) = 1 + 24 = 25</span></div>
+            <div class="frac-block"><span>x = (1 ± 5) / 2 → x₁ = 3, x₂ = −2</span></div>
+        </div>
+
+        <div class="reduce-example ex-3">
+            <div class="ex-head"><span class="ex-num">2</span><span class="ex-title">D = 0 — один корень</span></div>
+            <p>x² − 6x + 9 = 0: a=1, b=−6, c=9</p>
+            <div class="frac-block"><span>D = (−6)² − 4·1·9 = 36 − 36 = 0</span></div>
+            <div class="frac-block"><span>x = 6 / 2 = 3</span></div>
+        </div>
+
+        <div class="reduce-example ex-4">
+            <div class="ex-head"><span class="ex-num">3</span><span class="ex-title">D &lt; 0 — корней нет</span></div>
+            <p>x² + 2x + 5 = 0: a=1, b=2, c=5</p>
+            <div class="frac-block"><span>D = 2² − 4·1·5 = 4 − 20 = −16</span></div>
+            <div class="note">⚠️ Дискриминант отрицательный — извлечь из него арифметический корень нельзя, значит уравнение не имеет решений.</div>
+        </div>
+    </div>
+
+    <!-- 3. ТЕОРЕМА ВИЕТА -->
+    <div class="card">
+        <h2><span class="num">3</span>Теорема Виета</h2>
+        <p>
+            Если уравнение уже <b>приведённое</b> (a = 1), то есть имеет вид x² + px + q = 0,
+            корни можно иногда подобрать быстрее, чем считать дискриминант:
+        </p>
+        <div class="frac-block"><span>x₁ + x₂ = −p</span></div>
+        <div class="frac-block"><span>x₁ · x₂ = q</span></div>
+
+        <div class="reduce-example ex-2">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Пример: x² − 7x + 12 = 0</span></div>
+            <p>Здесь p = −7, q = 12. По теореме Виета сумма корней равна 7, а произведение — 12.</p>
+            <p>Подбираем: 3 + 4 = 7 и 3 · 4 = 12 — подходит! Значит x₁ = 3, x₂ = 4.</p>
+        </div>
+        <div class="note">💡 Теорема Виета особенно удобна, когда корни — небольшие целые числа: их можно быстро подобрать в уме, не считая дискриминант.</div>
+    </div>
+
+    <!-- ТРЕНАЖЁР -->
+    <a class="trainer-link" href="trainer/index.html">
+        <div class="tl-text">
+            <h3>Тренажёр: Квадратные уравнения</h3>
+            <p>Дискриминант, формула корней, теорема Виета</p>
+        </div>
+        <div class="tl-go">→</div>
+    </a>
+
+</div>
+
+</body>
+</html>
