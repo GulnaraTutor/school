@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Теория вероятности — 9 класс — MathLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+
+    <div class="topbar">
+        <a href="../index.html">← 9 класс</a>
+    </div>
+
+    <div class="page-header">
+        <span class="eyebrow">9 класс · Алгебра</span>
+        <h1>Теория вероятности</h1>
+    </div>
+
+    <!-- 1. СЛУЧАЙНЫЕ СОБЫТИЯ -->
+    <div class="card">
+        <h2><span class="num">1</span>Случайные события</h2>
+        <p>Любое событие, которое может произойти в результате какого-то опыта, относится к одному из трёх видов:</p>
+        <ul class="rule-list">
+            <li><b>Случайное</b> — может произойти, а может и не произойти</li>
+            <li><b>Достоверное</b> — обязательно произойдёт</li>
+            <li><b>Невозможное</b> — никогда не произойдёт</li>
+        </ul>
+
+        <div class="examples">
+            <span class="example-chip">Монета упадёт орлом — случайное</span>
+        </div>
+        <div class="examples" style="margin-top:10px;">
+            <span class="example-chip">При броске кубика выпадет число от 1 до 6 — достоверное</span>
+        </div>
+        <div class="examples" style="margin-top:10px;">
+            <span class="example-chip">При броске кубика выпадет 8 — невозможное</span>
+        </div>
+    </div>
+
+    <!-- 2. КОМБИНАТОРИКА -->
+    <div class="card">
+        <h2><span class="num">2</span>Комбинаторика: правило суммы и правило произведения</h2>
+        <p>Прежде чем считать вероятность, часто нужно посчитать количество возможных исходов. В этом помогают два простых правила.</p>
+
+        <div class="reduce-example ex-1">
+            <div class="ex-head"><span class="ex-num">1</span><span class="ex-title">Правило суммы</span></div>
+            <p>Если нужно выбрать ОДИН предмет ЛИБО из первой группы, ЛИБО из второй (не обе сразу), количества способов складывают.</p>
+            <p>На полке 4 романа и 6 детективов. Сколькими способами можно выбрать одну книгу?</p>
+            <p>4 + 6 = <b>10 способов</b>.</p>
+        </div>
+
+        <div class="reduce-example ex-3">
+            <div class="ex-head"><span class="ex-num">2</span><span class="ex-title">Правило произведения</span></div>
+            <p>Если нужно выбрать один предмет из первой группы И ЕЩЁ один — независимо — из второй, количества способов перемножают.</p>
+            <p>В кафе 3 вида супа и 5 видов второго блюда. Сколько различных обедов (суп + второе) можно составить?</p>
+            <p>3 · 5 = <b>15 обедов</b>.</p>
+        </div>
+    </div>
+
+    <!-- 3. КЛАССИЧЕСКАЯ ВЕРОЯТНОСТЬ -->
+    <div class="card">
+        <h2><span class="num">3</span>Классическая вероятность</h2>
+        <p>Вероятность события находят по формуле:</p>
+        <div class="frac-block">
+            <span>P =</span>
+            <div class="frac"><span class="frac-num">M</span><span class="frac-den">N</span></div>
+        </div>
+        <p style="text-align:center; color:var(--ink-soft); font-size:13px; margin-top:-6px;">(M — число благоприятных исходов, N — число всех возможных исходов)</p>
+
+        <div class="reduce-example ex-2">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Пример</span></div>
+            <p>В группе 20 студентов, из них 12 девушек. Наугад выбирают одного. Найдите вероятность того, что это девушка.</p>
+            <div class="frac-block">
+                <span>P =</span>
+                <div class="frac"><span class="frac-num">12</span><span class="frac-den">20</span></div>
+                <span>=</span>
+                <div class="frac"><span class="frac-num">3</span><span class="frac-den">5</span></div>
+            </div>
+            <p style="display:flex; align-items:center; flex-wrap:wrap; gap:2px;">
+                <span>Дробь</span>
+                <div class="frac"><span class="frac-num">12</span><span class="frac-den">20</span></div>
+                <span>сократили на 4, получили</span>
+                <div class="frac"><span class="frac-num">3</span><span class="frac-den">5</span></div>
+                <span>— это тоже правильный ответ, просто в более простом виде.</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- 4. ЧАСТОТА -->
+    <div class="card">
+        <h2><span class="num">4</span>Частота случайного события</h2>
+        <p>Если провести серию одинаковых испытаний, можно посчитать <b>частоту</b> — как часто событие происходило на самом деле:</p>
+        <div class="frac-block">
+            <span>Частота =</span>
+            <div class="frac"><span class="frac-num">число появлений события</span><span class="frac-den">число всех испытаний</span></div>
+        </div>
+
+        <div class="reduce-example ex-4">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Пример</span></div>
+            <p>Стрелок сделал 50 выстрелов и попал в цель 42 раза. Найдите частоту попадания.</p>
+            <div class="frac-block">
+                <span>Частота =</span>
+                <div class="frac"><span class="frac-num">42</span><span class="frac-den">50</span></div>
+                <span>=</span>
+                <div class="frac"><span class="frac-num">21</span><span class="frac-den">25</span></div>
+                <span>= 0.84</span>
+            </div>
+        </div>
+
+        <div class="note" style="display:flex; align-items:center; flex-wrap:wrap; gap:2px;">
+            <span>💡 Частота и вероятность — разные вещи. Вероятность — это теоретическое число, которое известно заранее (например, вероятность выпадения орла всегда</span>
+            <div class="frac"><span class="frac-num">1</span><span class="frac-den">2</span></div>
+            <span>). Частота — это то, что получилось по факту в конкретной серии испытаний, и в другой серии она может оказаться немного другой.</span>
+        </div>
+    </div>
+
+    <!-- ТРЕНАЖЁР -->
+    <a class="trainer-link" href="trainer/index.html">
+        <div class="tl-text">
+            <h3>Тренажёр: Теория вероятности</h3>
+            <p>Комбинаторика, классическая вероятность, частота</p>
+        </div>
+        <div class="tl-go">→</div>
+    </a>
+
+</div>
+
+</body>
+</html>
