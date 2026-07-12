@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Арифметическая и геометрическая прогрессии — 9 класс — MathLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+
+    <div class="topbar">
+        <a href="../index.html">← 9 класс</a>
+    </div>
+
+    <div class="page-header">
+        <span class="eyebrow">9 класс · Алгебра</span>
+        <h1>Арифметическая и геометрическая прогрессии</h1>
+    </div>
+
+    <!-- 1. АРИФМЕТИЧЕСКАЯ ПРОГРЕССИЯ -->
+    <div class="card">
+        <h2><span class="num">1</span>Что такое последовательность и арифметическая прогрессия</h2>
+        <p>
+            <b>Последовательность</b> — это набор чисел, расположенных по какому-то определённому правилу
+            (не хаотично). <b>Арифметическая прогрессия</b> — частный случай, где каждый следующий член получается
+            из предыдущего прибавлением одного и того же числа:
+        </p>
+        <div class="frac-block"><span>aₙ₊₁ = aₙ + d</span></div>
+        <p style="text-align:center; color:var(--ink-soft); font-size:13px; margin-top:-6px;">(d — разность прогрессии)</p>
+
+        <div class="reduce-example ex-1">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Пример: 5, 8, 11, 14, 17, ...</span></div>
+            <p>Здесь a₁ = 5, а разность d = 3 (каждый следующий член на 3 больше предыдущего).</p>
+        </div>
+
+        <p>
+            Чтобы не складывать d много раз подряд, есть формула n-го члена — она сразу даёт любой член прогрессии
+            по его номеру:
+        </p>
+        <div class="frac-block"><span>aₙ = a₁ + (n − 1)d</span></div>
+
+        <div class="reduce-example ex-3">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Найдём a₅ для той же прогрессии</span></div>
+            <p>a₅ = a₁ + (5 − 1)d = 5 + 4 · 3 = 5 + 12 = 17 — совпадает с тем, что мы видим в самой последовательности.</p>
+        </div>
+    </div>
+
+    <!-- 2. СВОЙСТВО СОСЕДЕЙ И СУММА -->
+    <div class="card">
+        <h2><span class="num">2</span>Свойство соседних членов и сумма арифметической прогрессии</h2>
+        <p>
+            У арифметической прогрессии есть удобное свойство: любой член (начиная со второго) равен среднему
+            арифметическому своих соседей.
+        </p>
+        <div class="frac-block"><span>aₖ = (aₖ₋₁ + aₖ₊₁) / 2</span></div>
+
+        <div class="reduce-example ex-1">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Проверим на a₄</span></div>
+            <p>a₃ = 11, a₅ = 17. Среднее арифметическое: (11 + 17) / 2 = 14 — и правда, a₄ = 14.</p>
+        </div>
+
+        <p>Сумму первых n членов прогрессии можно найти по одной из двух формул — они всегда дают одинаковый ответ:</p>
+        <div class="frac-block"><span>Sₙ = (a₁ + aₙ) / 2 · n</span></div>
+        <div class="frac-block"><span>Sₙ = (2a₁ + (n − 1)d) / 2 · n</span></div>
+
+        <div class="reduce-example ex-3">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Сумма первых пяти членов</span></div>
+            <p>По первой формуле: S₅ = (5 + 17) / 2 · 5 = 11 · 5 = 55.</p>
+            <p>По второй формуле: S₅ = (2 · 5 + 4 · 3) / 2 · 5 = (10 + 12) / 2 · 5 = 11 · 5 = 55.</p>
+            <p>Оба способа дают один и тот же ответ: <b>55</b>.</p>
+        </div>
+    </div>
+
+    <!-- 3. ГЕОМЕТРИЧЕСКАЯ ПРОГРЕССИЯ -->
+    <div class="card">
+        <h2><span class="num">3</span>Геометрическая прогрессия</h2>
+        <p>
+            В геометрической прогрессии первый член b₁ не равен нулю, а каждый следующий член получается из
+            предыдущего умножением на одно и то же число:
+        </p>
+        <div class="frac-block"><span>bₙ₊₁ = bₙ · q</span></div>
+        <p style="text-align:center; color:var(--ink-soft); font-size:13px; margin-top:-6px;">(q — знаменатель прогрессии)</p>
+
+        <div class="reduce-example ex-2">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Пример: 3, 6, 12, 24, ...</span></div>
+            <p>Здесь b₁ = 3, а знаменатель q = 2 (каждый следующий член в 2 раза больше предыдущего).</p>
+        </div>
+
+        <p>Формула n-го члена работает так же, как в арифметической прогрессии, только вместо сложения — умножение:</p>
+        <div class="frac-block"><span>bₙ = b₁ · qⁿ⁻¹</span></div>
+
+        <div class="reduce-example ex-4">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Найдём b₄ для той же прогрессии</span></div>
+            <p>b₄ = b₁ · q³ = 3 · 2³ = 3 · 8 = 24 — совпадает с последовательностью.</p>
+        </div>
+    </div>
+
+    <!-- 4. СУММА ГЕОМЕТРИЧЕСКОЙ ПРОГРЕССИИ -->
+    <div class="card">
+        <h2><span class="num">4</span>Сумма геометрической прогрессии</h2>
+        <p>Сумму первых n членов геометрической прогрессии находят по формуле:</p>
+        <div class="frac-block"><span>Sₙ = b₁ · (qⁿ − 1) / (q − 1)</span></div>
+
+        <div class="reduce-example ex-1">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Сумма первых четырёх членов</span></div>
+            <p>S₄ = b₁ · (q⁴ − 1) / (q − 1) = 3 · (16 − 1) / (2 − 1) = 3 · 15 = 45.</p>
+            <p>Проверим сложением напрямую: 3 + 6 + 12 + 24 = 45 — сходится.</p>
+        </div>
+
+        <p>Если уже известен последний нужный член bₙ, удобнее другая форма той же формулы:</p>
+        <div class="frac-block"><span>Sₙ = (bₙ · q − b₁) / (q − 1)</span></div>
+
+        <div class="reduce-example ex-3">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Тот же пример через b₄</span></div>
+            <p>S₄ = (b₄ · q − b₁) / (q − 1) = (24 · 2 − 3) / (2 − 1) = (48 − 3) / 1 = 45.</p>
+            <p>Тот же самый ответ: <b>45</b>.</p>
+        </div>
+
+        <div class="note">💡 Обе формулы суммы — это просто разные способы записать одно и то же; выбирайте ту, для которой у вас уже есть готовые данные.</div>
+    </div>
+
+    <!-- ТРЕНАЖЁР -->
+    <a class="trainer-link" href="trainer/index.html">
+        <div class="tl-text">
+            <h3>Тренажёр: Прогрессии</h3>
+            <p>Разность, знаменатель, n-й член, суммы прогрессий</p>
+        </div>
+        <div class="tl-go">→</div>
+    </a>
+
+</div>
+
+</body>
+</html>
