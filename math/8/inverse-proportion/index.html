@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Обратная пропорциональность — 8 класс — MathLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+
+    <div class="topbar">
+        <a href="../index.html">← 8 класс</a>
+    </div>
+
+    <div class="page-header">
+        <span class="eyebrow">8 класс · Алгебра</span>
+        <h1>Функция y = k/x и её график</h1>
+    </div>
+
+    <!-- 1. ЧТО ТАКОЕ ОБРАТНАЯ ПРОПОРЦИОНАЛЬНОСТЬ -->
+    <div class="card">
+        <h2><span class="num">1</span>Что такое обратная пропорциональность</h2>
+        <p>
+            Функция вида y = k/x, где x стоит в знаменателе, называется <b>обратной пропорциональностью</b>.
+            Число k называют коэффициентом — это может быть любое число, кроме нуля.
+        </p>
+        <div class="note">
+            💡 Коэффициент k — это всё, что стоит рядом с x, кроме самого x. Если функция дана не в
+            самом простом виде, k нужно сначала «собрать». Например, y = 3/(2x) — это то же самое,
+            что y = (3/2)/x, значит здесь k = 3/2.
+        </div>
+    </div>
+
+    <!-- 2. ГРАФИК — ГИПЕРБОЛА -->
+    <div class="card">
+        <h2><span class="num">2</span>График — гипербола</h2>
+        <p>
+            Графиком обратной пропорциональности всегда является кривая из двух отдельных веток —
+            она называется <b>гипербола</b>. Ветки лежат по разные стороны от начала координат и
+            никогда не пересекаются между собой.
+        </p>
+
+        <div class="graph-box">
+            <svg viewBox="0 0 260 220" class="graph-svg" xmlns="http://www.w3.org/2000/svg">
+                <line x1="0" y1="110" x2="253" y2="110" class="axis-line"/>
+                <polygon points="258,110 249,105 249,115" class="axis-arrow"/>
+                <line x1="130" y1="218" x2="130" y2="7" class="axis-line"/>
+                <polygon points="130,2 125,11 135,11" class="axis-arrow"/>
+                <text x="246" y="126" class="axis-label">x</text>
+                <text x="138" y="16" class="axis-label">y</text>
+                <path d="M137.0,18.6 L139.0,38.8 L141.6,54.6 L144.8,66.9 L149.1,76.4 L154.5,83.9 L161.5,89.7 L170.4,94.2 L181.9,97.7 L196.7,100.4 L215.6,102.5 L240.0,104.2" class="hyperbola-curve curve-blue"/>
+                <path d="M123.0,201.4 L121.0,181.2 L118.4,165.4 L115.2,153.1 L110.9,143.6 L105.5,136.1 L98.5,130.3 L89.6,125.8 L78.1,122.3 L63.3,119.6 L44.4,117.5 L20.0,115.8" class="hyperbola-curve curve-blue"/>
+            </svg>
+            <p class="graph-caption">График y = 2/x — две ветки, каждая всё ближе подходит к осям, но никогда их не касается.</p>
+        </div>
+
+        <div class="note">⚠️ Ветки гиперболы <b>приближаются</b> к осям сколь угодно близко, но никогда до них не «дотягиваются» — ведь x не может быть равен 0 (на 0 делить нельзя), а y = k/x никогда не станет ровно нулём.</div>
+    </div>
+
+    <!-- 3. КАК |k| ВЛИЯЕТ НА ФОРМУ -->
+    <div class="card">
+        <h2><span class="num">3</span>Как │k│ влияет на форму графика</h2>
+        <p>
+            Чем больше модуль коэффициента │k│, тем дальше ветки гиперболы отходят от осей.
+            Чем │k│ меньше, тем сильнее ветки «прижимаются» к осям.
+        </p>
+
+        <div class="graph-box">
+            <svg viewBox="0 0 260 220" class="graph-svg" xmlns="http://www.w3.org/2000/svg">
+                <line x1="0" y1="110" x2="253" y2="110" class="axis-line"/>
+                <polygon points="258,110 249,105 249,115" class="axis-arrow"/>
+                <line x1="130" y1="218" x2="130" y2="7" class="axis-line"/>
+                <polygon points="130,2 125,11 135,11" class="axis-arrow"/>
+                <text x="246" y="126" class="axis-label">x</text>
+                <text x="138" y="16" class="axis-label">y</text>
+                <path d="M140.0,86.0 L142.6,90.9 L145.8,94.8 L149.9,97.9 L155.0,100.4 L161.4,102.4 L169.5,103.9 L179.6,105.2 L192.4,106.2 L208.5,106.9 L228.6,107.6 L254.0,108.1" class="hyperbola-curve curve-blue"/>
+                <path d="M120.0,134.0 L117.4,129.1 L114.2,125.2 L110.1,122.1 L105.0,119.6 L98.6,117.6 L90.5,116.1 L80.4,114.8 L67.6,113.8 L51.5,113.1 L31.4,112.4 L6.0,111.9" class="hyperbola-curve curve-blue"/>
+                <path d="M140.0,14.0 L142.6,33.6 L145.8,49.3 L149.9,61.7 L155.0,71.6 L161.4,79.4 L169.5,85.7 L179.6,90.7 L192.4,94.6 L208.5,97.8 L228.6,100.3 L254.0,102.3" class="hyperbola-curve curve-purple"/>
+                <path d="M120.0,206.0 L117.4,186.4 L114.2,170.7 L110.1,158.3 L105.0,148.4 L98.6,140.6 L90.5,134.3 L80.4,129.3 L67.6,125.4 L51.5,122.2 L31.4,119.7 L6.0,117.7" class="hyperbola-curve curve-purple"/>
+            </svg>
+            <div class="graph-legend">
+                <span class="legend-chip legend-blue">k = 1 — ветки ближе к осям</span>
+                <span class="legend-chip legend-purple">k = 4 — ветки дальше от осей</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. КАК ЗНАК k ВЛИЯЕТ НА ЧЕТВЕРТИ -->
+    <div class="card">
+        <h2><span class="num">4</span>Как знак k влияет на четверти</h2>
+        <p>
+            Координатная плоскость делится осями на четыре части — их называют <b>четвертями</b> и
+            нумеруют против часовой стрелки, начиная с правой верхней (I, II, III, IV).
+        </p>
+        <ul class="rule-list">
+            <li>Если <b>k &gt; 0</b> — ветки лежат в I и III четвертях (там, где x и y одного знака).</li>
+            <li>Если <b>k &lt; 0</b> — ветки лежат в II и IV четвертях (там, где x и y разных знаков).</li>
+        </ul>
+
+        <div class="graph-box">
+            <svg viewBox="0 0 260 220" class="graph-svg" xmlns="http://www.w3.org/2000/svg">
+                <line x1="0" y1="110" x2="253" y2="110" class="axis-line"/>
+                <polygon points="258,110 249,105 249,115" class="axis-arrow"/>
+                <line x1="130" y1="218" x2="130" y2="7" class="axis-line"/>
+                <polygon points="130,2 125,11 135,11" class="axis-arrow"/>
+                <text x="246" y="126" class="axis-label">x</text>
+                <text x="138" y="16" class="axis-label">y</text>
+                <text x="205" y="30" class="quadrant-label">I</text>
+                <text x="45" y="30" class="quadrant-label">II</text>
+                <text x="45" y="195" class="quadrant-label">III</text>
+                <text x="205" y="195" class="quadrant-label">IV</text>
+                <path d="M137.0,18.6 L139.0,38.8 L141.6,54.6 L144.8,66.9 L149.1,76.4 L154.5,83.9 L161.5,89.7 L170.4,94.2 L181.9,97.7 L196.7,100.4 L215.6,102.5 L240.0,104.2" class="hyperbola-curve curve-blue"/>
+                <path d="M123.0,201.4 L121.0,181.2 L118.4,165.4 L115.2,153.1 L110.9,143.6 L105.5,136.1 L98.5,130.3 L89.6,125.8 L78.1,122.3 L63.3,119.6 L44.4,117.5 L20.0,115.8" class="hyperbola-curve curve-blue"/>
+                <path d="M137.0,201.4 L139.0,181.2 L141.6,165.4 L144.8,153.1 L149.1,143.6 L154.5,136.1 L161.5,130.3 L170.4,125.8 L181.9,122.3 L196.7,119.6 L215.6,117.5 L240.0,115.8" class="hyperbola-curve curve-red"/>
+                <path d="M123.0,18.6 L121.0,38.8 L118.4,54.6 L115.2,66.9 L110.9,76.4 L105.5,83.9 L98.5,89.7 L89.6,94.2 L78.1,97.7 L63.3,100.4 L44.4,102.5 L20.0,104.2" class="hyperbola-curve curve-red"/>
+            </svg>
+            <div class="graph-legend">
+                <span class="legend-chip legend-blue">k = 2 &gt; 0 — I и III</span>
+                <span class="legend-chip legend-red">k = −2 &lt; 0 — II и IV</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ТРЕНАЖЁР -->
+    <a class="trainer-link" href="trainer/index.html">
+        <div class="tl-text">
+            <h3>Тренажёр: Обратная пропорциональность</h3>
+            <p>Коэффициент k, четверти, чтение графиков</p>
+        </div>
+        <div class="tl-go">→</div>
+    </a>
+
+</div>
+
+</body>
+</html>
