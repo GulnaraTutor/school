@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Текстовые задачи — 9 класс — MathLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+
+    <div class="topbar">
+        <a href="../index.html">← 9 класс</a>
+    </div>
+
+    <div class="page-header">
+        <span class="eyebrow">9 класс · Алгебра</span>
+        <h1>Текстовые задачи</h1>
+    </div>
+
+    <!-- 1. ЭТАПЫ РЕШЕНИЯ (МАТЕМАТИЧЕСКОЕ МОДЕЛИРОВАНИЕ) -->
+    <div class="card">
+        <h2><span class="num">1</span>Этапы решения текстовой задачи</h2>
+        <p>Любую текстовую задачу решают в три этапа — это называют математическим моделированием:</p>
+        <ul class="rule-list">
+            <li><b>Построить модель</b> — обозначить неизвестное буквой и составить уравнение по условию</li>
+            <li><b>Решить</b> — найти корни составленного уравнения</li>
+            <li><b>Проанализировать результат</b> — проверить, что ответ имеет смысл по условию задачи, и отбросить то, что смысла не имеет</li>
+        </ul>
+
+        <div class="reduce-example ex-4">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Зачем нужен третий этап</span></div>
+            <p>Катер прошёл 24 км по течению реки и 24 км обратно, потратив на весь путь 5 часов. Скорость течения — 2 км/ч. Найдите собственную скорость катера.</p>
+            <p>Пусть x — собственная скорость катера (км/ч). По течению катер идёт со скоростью (x + 2), против течения — (x − 2).</p>
+            <div class="frac-block">
+                <div class="frac"><span class="frac-num">24</span><span class="frac-den">x + 2</span></div>
+                <span>+</span>
+                <div class="frac"><span class="frac-num">24</span><span class="frac-den">x − 2</span></div>
+                <span>= 5</span>
+            </div>
+            <p>После умножения на общий знаменатель и приведения подобных получаем 5x² − 48x − 20 = 0.</p>
+            <p>D = 48² + 4 · 5 · 20 = 2304 + 400 = 2704 = 52². Корни: x₁ = (48 + 52) / 10 = 10, x₂ = (48 − 52) / 10 = −0.4.</p>
+            <p>Собственная скорость не может быть отрицательной — <b>x₂ = −0.4 отбрасываем</b> как не имеющий смысла. Ответ: <b>10 км/ч</b>.</p>
+        </div>
+    </div>
+
+    <!-- 2. ЗАДАЧИ НА ДВИЖЕНИЕ -->
+    <div class="card">
+        <h2><span class="num">2</span>Задачи на движение</h2>
+        <p>Здесь работает одна главная формула — расстояние равно скорость умножить на время:</p>
+        <div class="frac-block"><span>S = v · t</span></div>
+        <p>Удобно оформлять условие таблицей с колонками «Расстояние», «Время», «Скорость» — для каждого участника или участка пути отдельная строка.</p>
+
+        <div class="reduce-example ex-1">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Встречное движение</span></div>
+            <p>
+                Из двух городов, расстояние между которыми 300 км, одновременно навстречу друг другу выехали два
+                автомобиля со скоростями 60 км/ч и 90 км/ч. Через сколько часов они встретятся?
+            </p>
+            <p>Когда объекты движутся навстречу друг другу, их скорости складываются: общая скорость сближения — 60 + 90 = 150 км/ч.</p>
+            <p>t = S / v = 300 / 150 = <b>2 часа</b>.</p>
+        </div>
+    </div>
+
+    <!-- 3. ЗАДАЧИ НА СПЛАВЫ И СМЕСИ -->
+    <div class="card">
+        <h2><span class="num">3</span>Задачи на сплавы и смеси</h2>
+        <p>Количество чистого вещества в растворе находят так: долю (процент, переведённый в десятичную дробь) умножают на массу всего раствора.</p>
+        <div class="frac-block"><span>A = (p / 100) · m</span></div>
+        <p style="text-align:center; color:var(--ink-soft); font-size:13px; margin-top:-6px;">(p — концентрация в процентах, m — масса раствора)</p>
+
+        <div class="reduce-example ex-2">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Смешали два раствора</span></div>
+            <p>Смешали 20 кг раствора с концентрацией соли 15% и 30 кг раствора с концентрацией 10%. Сколько килограммов соли в получившейся смеси?</p>
+            <p>В первом растворе соли: 0.15 · 20 = 3 кг. Во втором: 0.10 · 30 = 3 кг.</p>
+            <p>Всего соли в смеси: 3 + 3 = <b>6 кг</b>.</p>
+        </div>
+    </div>
+
+    <!-- 4. ЗАДАЧИ НА РАБОТУ И ПРОИЗВОДИТЕЛЬНОСТЬ -->
+    <div class="card">
+        <h2><span class="num">4</span>Задачи на работу и производительность</h2>
+        <p>Здесь та же логика, что и в задачах на движение, только вместо скорости — производительность (сколько работы выполняется за единицу времени):</p>
+        <div class="frac-block"><span>Работа = производительность · время</span></div>
+        <p>Если два исполнителя работают одновременно, их производительности складываются. Если известно, что первый выполняет всю работу за t₁, а второй — за t₂, то вместе они справятся за время T, где:</p>
+        <div class="frac-block">
+            <div class="frac"><span class="frac-num">1</span><span class="frac-den">t₁</span></div>
+            <span>+</span>
+            <div class="frac"><span class="frac-num">1</span><span class="frac-den">t₂</span></div>
+            <span>=</span>
+            <div class="frac"><span class="frac-num">1</span><span class="frac-den">T</span></div>
+        </div>
+
+        <div class="reduce-example ex-3">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Работа вместе</span></div>
+            <p>Маляр А красит забор за 6 часов, маляр Б — за 3 часа. За сколько часов они покрасят забор, работая вместе?</p>
+            <p style="display:flex; align-items:center; flex-wrap:wrap; gap:2px;">
+                <span>За час маляр А красит</span>
+                <div class="frac"><span class="frac-num">1</span><span class="frac-den">6</span></div>
+                <span>забора, маляр Б —</span>
+                <div class="frac"><span class="frac-num">1</span><span class="frac-den">3</span></div>
+                <span>забора.</span>
+            </p>
+            <div class="frac-block">
+                <div class="frac"><span class="frac-num">1</span><span class="frac-den">6</span></div>
+                <span>+</span>
+                <div class="frac"><span class="frac-num">1</span><span class="frac-den">3</span></div>
+                <span>=</span>
+                <div class="frac"><span class="frac-num">1</span><span class="frac-den">6</span></div>
+                <span>+</span>
+                <div class="frac"><span class="frac-num">2</span><span class="frac-den">6</span></div>
+                <span>=</span>
+                <div class="frac"><span class="frac-num">3</span><span class="frac-den">6</span></div>
+                <span>=</span>
+                <div class="frac"><span class="frac-num">1</span><span class="frac-den">2</span></div>
+                <span>забора в час</span>
+            </div>
+            <p>Значит весь забор они покрасят за <b>2 часа</b>.</p>
+        </div>
+
+        <div class="note">💡 Проще запомнить готовую формулу: T = t₁t₂ / (t₁ + t₂) = 6 · 3 / (6 + 3) = 18 / 9 = 2 часа — тот же ответ.</div>
+    </div>
+
+    <!-- ТРЕНАЖЁР -->
+    <a class="trainer-link" href="trainer/index.html">
+        <div class="tl-text">
+            <h3>Тренажёр: Текстовые задачи</h3>
+            <p>Движение, сплавы и смеси, работа и производительность</p>
+        </div>
+        <div class="tl-go">→</div>
+    </a>
+
+</div>
+
+</body>
+</html>
