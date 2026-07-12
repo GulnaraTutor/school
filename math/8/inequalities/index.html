@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Неравенства — 8 класс — MathLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+
+    <div class="topbar">
+        <a href="../index.html">← 8 класс</a>
+    </div>
+
+    <div class="page-header">
+        <span class="eyebrow">8 класс · Алгебра</span>
+        <h1>Неравенства</h1>
+    </div>
+
+    <!-- 1. ЧИСЛОВЫЕ ПРОМЕЖУТКИ -->
+    <div class="card">
+        <h2><span class="num">1</span>Числовые промежутки</h2>
+        <p>
+            Ответом на неравенство обычно служит не одно число, а целый набор чисел — <b>числовой промежуток</b>.
+            Его записывают через скобки, и тип скобки показывает, входит ли граница в ответ.
+        </p>
+
+        <ul class="rule-list">
+            <li><b>Круглая скобка</b> ( ) — граница НЕ входит (соответствует строгому неравенству &lt; или &gt;)</li>
+            <li><b>Квадратная скобка</b> [ ] — граница входит (соответствует нестрогому неравенству ≤ или ≥)</li>
+            <li>Рядом с бесконечностью (−∞ или +∞) скобка всегда круглая — до бесконечности «дойти» нельзя</li>
+        </ul>
+
+        <div class="examples">
+            <span class="example-chip">(2; 5) — от 2 до 5, границы не входят</span>
+        </div>
+        <div class="examples" style="margin-top:10px;">
+            <span class="example-chip">[2; 5] — от 2 до 5, границы входят</span>
+        </div>
+        <div class="examples" style="margin-top:10px;">
+            <span class="example-chip">(3; +∞) — всё, что больше 3</span>
+        </div>
+
+        <div class="note">💡 Можно смешивать: [2; 5) значит «от 2 (включительно) до 5, не включая 5».</div>
+    </div>
+
+    <!-- 2. ЛИНЕЙНЫЕ НЕРАВЕНСТВА -->
+    <div class="card">
+        <h2><span class="num">2</span>Линейные неравенства</h2>
+        <p>
+            Линейное неравенство решают почти как уравнение: переносят слагаемые, приводят подобные. Но есть одно
+            важное отличие:
+        </p>
+        <div class="note">⚠️ Если обе части неравенства умножить или разделить на <b>отрицательное</b> число, знак неравенства меняется на противоположный (&lt; становится &gt;, ≤ становится ≥, и наоборот).</div>
+
+        <div class="reduce-example ex-1">
+            <div class="ex-head"><span class="ex-num">1</span><span class="ex-title">Знак не меняется</span></div>
+            <p>3x − 6 &gt; 0</p>
+            <p>3x &gt; 6</p>
+            <p>Делим на 3 (положительное число) — знак остаётся: x &gt; 2.</p>
+            <p>Ответ: <b>(2; +∞)</b></p>
+        </div>
+
+        <div class="reduce-example ex-3">
+            <div class="ex-head"><span class="ex-num">2</span><span class="ex-title">Знак меняется</span></div>
+            <p>−2x + 8 ≤ 0</p>
+            <p>−2x ≤ −8</p>
+            <p>Делим на −2 (отрицательное число) — знак меняется на противоположный: x ≥ 4.</p>
+            <p>Ответ: <b>[4; +∞)</b></p>
+        </div>
+    </div>
+
+    <!-- 3. КВАДРАТНЫЕ НЕРАВЕНСТВА: МЕТОД ИНТЕРВАЛОВ -->
+    <div class="card">
+        <h2><span class="num">3</span>Квадратные неравенства: метод интервалов</h2>
+        <p>
+            Чтобы решить неравенство вида ax² + bx + c &gt; 0 (или &lt;, ≤, ≥), сначала находят корни соответствующего
+            уравнения ax² + bx + c = 0 — так же, как в теме «Квадратные уравнения». Затем отмечают корни на числовой
+            прямой и смотрят, куда направлена парабола:
+        </p>
+        <ul class="rule-list">
+            <li><b>a &gt; 0</b> («улыбка») — между корнями парабола ниже оси, снаружи — выше</li>
+            <li><b>a &lt; 0</b> («горка») — между корнями парабола выше оси, снаружи — ниже</li>
+        </ul>
+
+        <div class="reduce-example ex-1">
+            <div class="ex-head"><span class="ex-num">1</span><span class="ex-title">a &gt; 0 — «улыбка»</span></div>
+            <p>x² − x − 6 &gt; 0: a = 1 &gt; 0</p>
+            <p>Корни: D = 1 + 24 = 25, x₁ = −2, x₂ = 3.</p>
+            <p>Неравенство строгое (&gt; 0) и парабола-«улыбка» — нужны участки СНАРУЖИ корней, где она выше оси.</p>
+            <p>Ответ: <b>(−∞; −2) ∪ (3; +∞)</b></p>
+        </div>
+
+        <div class="reduce-example ex-3">
+            <div class="ex-head"><span class="ex-num">2</span><span class="ex-title">a &lt; 0 — «горка»</span></div>
+            <p>−x² + 2x + 3 ≥ 0: a = −1 &lt; 0</p>
+            <p>Корни того же уравнения: D = 4 + 12 = 16, x₁ = −1, x₂ = 3.</p>
+            <p>Неравенство нестрогое (≥ 0) и парабола-«горка» — нужен участок МЕЖДУ корнями, где она выше оси, включая сами корни.</p>
+            <p>Ответ: <b>[−1; 3]</b></p>
+        </div>
+    </div>
+
+    <!-- 4. СЛУЧАЙ БЕЗ КОРНЕЙ И СИСТЕМЫ -->
+    <div class="card">
+        <h2><span class="num">4</span>Если корней нет, и системы неравенств</h2>
+        <p>
+            Если у уравнения ax² + bx + c = 0 дискриминант отрицательный, у параболы нет точек пересечения с осью x —
+            она целиком выше оси (если a &gt; 0) или целиком ниже (если a &lt; 0). Тогда знак выражения один и тот же
+            при любом x.
+        </p>
+
+        <div class="reduce-example ex-4">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Пример: x² + 2x + 5 &gt; 0</span></div>
+            <p>D = 4 − 20 = −16 &lt; 0, a = 1 &gt; 0 — парабола целиком выше оси, выражение всегда положительно.</p>
+            <p>Ответ: <b>x — любое число</b></p>
+        </div>
+
+        <p style="margin-top:16px;">
+            Если несколько неравенств объединены в <b>систему</b> (должны выполняться одновременно), ответ — это
+            пересечение (общая часть) всех промежутков.
+        </p>
+
+        <div class="reduce-example ex-2">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Пример системы</span></div>
+            <p>x &gt; 1 и x ≤ 5 одновременно</p>
+            <p>Первое неравенство даёт (1; +∞), второе — (−∞; 5]. Пересечение — общая часть обоих промежутков.</p>
+            <p>Ответ: <b>(1; 5]</b></p>
+        </div>
+
+        <div class="note">💡 Система — это «И» (оба условия сразу), поэтому ответ всегда не шире каждого из промежутков по отдельности.</div>
+    </div>
+
+    <!-- ТРЕНАЖЁР -->
+    <a class="trainer-link" href="trainer/index.html">
+        <div class="tl-text">
+            <h3>Тренажёр: Неравенства</h3>
+            <p>Промежутки, линейные и квадратные неравенства, метод интервалов</p>
+        </div>
+        <div class="tl-go">→</div>
+    </a>
+
+</div>
+
+</body>
+</html>
