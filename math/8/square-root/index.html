@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Квадратный корень — 8 класс — MathLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+
+    <div class="topbar">
+        <a href="../index.html">← 8 класс</a>
+    </div>
+
+    <div class="page-header">
+        <span class="eyebrow">8 класс · Алгебра</span>
+        <h1>Квадратный корень и его свойства</h1>
+    </div>
+
+    <!-- 1. ДВА ВИДА КВАДРАТНОГО КОРНЯ -->
+    <div class="card">
+        <h2><span class="num">1</span>Два вида квадратного корня</h2>
+        <p>
+            Важно различать корень в уравнении и <b>арифметический</b> квадратный корень — это не одно и то же,
+            хотя обозначаются они похоже.
+        </p>
+        <div class="reduce-example ex-1">
+            <div class="ex-head"><span class="ex-num">1</span><span class="ex-title">Корень уравнения — может быть два ответа</span></div>
+            <p>Уравнение x² = 9 отвечает на вопрос «какое число в квадрате даёт 9?». Подходят сразу два числа:</p>
+            <div class="examples">
+                <span class="example-chip">x = 3</span>
+                <span class="example-chip">x = −3</span>
+            </div>
+            <p style="margin-top:10px;">Ведь и 3² = 9, и (−3)² = 9.</p>
+        </div>
+        <div class="reduce-example ex-2">
+            <div class="ex-head"><span class="ex-num">2</span><span class="ex-title">Арифметический корень — всегда один ответ</span></div>
+            <p>
+                А вот запись √9 — это уже не уравнение, а число, и договорились считать его всегда
+                <b>неотрицательным</b>. Поэтому √9 = 3, а не −3, хотя (−3)² тоже даёт 9.
+            </p>
+            <div class="note">💡 Математики договорились не разрешать корню быть отрицательным — иначе у одного и того же выражения √n было бы сразу два значения, а с этим неудобно работать.</div>
+        </div>
+    </div>
+
+    <!-- 2. ГРАФИК y = √x -->
+    <div class="card">
+        <h2><span class="num">2</span>График y = √x</h2>
+        <p>
+            Так как арифметический корень никогда не бывает отрицательным, график функции y = √x лежит
+            только там, где y ≥ 0 — это ровно половина параболы, «положенной на бок».
+        </p>
+
+        <div class="graph-box">
+            <svg viewBox="0 0 260 200" class="graph-svg" xmlns="http://www.w3.org/2000/svg">
+                <line x1="0" y1="175" x2="253" y2="175" class="axis-line"/>
+                <polygon points="258,175 249,170 249,180" class="axis-arrow"/>
+                <line x1="30" y1="195" x2="30" y2="7" class="axis-line"/>
+                <polygon points="30,2 25,11 35,11" class="axis-arrow"/>
+                <text x="246" y="191" class="axis-label">x</text>
+                <text x="38" y="16" class="axis-label">y</text>
+                <path d="M30,175.0 L31.2,164.3 L31.9,161.7 L33.0,158.5 L34.6,154.5 L37.1,149.5 L40.9,143.3 L46.8,135.7 L55.9,126.2 L69.8,114.4 L91.4,99.8 L124.7,81.6 L176.0,59.0 L255.0,31.0" class="hyperbola-curve curve-blue"/>
+            </svg>
+            <p class="graph-caption">Начинается в точке (0, 0) и растёт вправо-вверх, но всё медленнее — ветка никогда не спускается ниже оси x.</p>
+        </div>
+        <div class="note">⚠️ У этой функции нет второй ветки, как у параболы y = x². Причина та же: y = √x никогда не бывает отрицательным, а у обычной параболы одному x могло бы соответствовать два y — это как раз то, чего математики хотели избежать, договорившись об арифметическом корне.</div>
+    </div>
+
+    <!-- 3. СВОЙСТВА АРИФМЕТИЧЕСКОГО КОРНЯ -->
+    <div class="card">
+        <h2><span class="num">3</span>Свойства арифметического корня</h2>
+        <p>Корень «дружит» с умножением и делением — его можно раскладывать на множители или собирать обратно:</p>
+
+        <div class="frac-block">
+            <span>√(a · b) = √a · √b</span>
+        </div>
+        <div class="frac-block">
+            <div class="frac"><span class="frac-num">√a</span><span class="frac-den">√b</span></div>
+            <span>=</span>
+            <span style="font-size:20px;">√</span>
+            <div class="frac"><span class="frac-num">a</span><span class="frac-den">b</span></div>
+        </div>
+        <p style="text-align:center; color:var(--ink-soft); font-size:13px; margin-top:-6px;">(здесь a ≥ 0, b &gt; 0)</p>
+
+        <div class="reduce-example ex-4">
+            <div class="ex-head"><span class="ex-num">3</span><span class="ex-title">Осторожно с квадратом под корнем</span></div>
+            <p>
+                Если под корнем стоит выражение, возведённое в квадрат, результат — это <b>модуль</b> этого выражения,
+                а не само выражение:
+            </p>
+            <div class="frac-block">
+                <span>√((−5)²) = √25 = 5</span>
+            </div>
+            <p>А не −5! Возведение в квадрат «съедает» минус, и корень его обратно не возвращает — результат всегда неотрицательный.</p>
+        </div>
+    </div>
+
+    <!-- 4. СЛОЖЕНИЕ, ВЫЧИТАНИЕ И УПРОЩЕНИЕ КОРНЕЙ -->
+    <div class="card">
+        <h2><span class="num">4</span>Сложение, вычитание и упрощение корней</h2>
+        <p>
+            Складывать и вычитать можно только <b>одинаковые</b> корни — они ведут себя как обычные слагаемые
+            с одной и той же «буквой».
+        </p>
+
+        <div class="reduce-example ex-1">
+            <div class="ex-head"><span class="ex-num">1</span><span class="ex-title">Одинаковые корни — складываем коэффициенты</span></div>
+            <div class="frac-block">
+                <span>2√3 + 5√3 = 7√3</span>
+            </div>
+            <p>Как 2y + 5y = 7y — просто складываем числа перед корнем, сам корень не трогаем.</p>
+        </div>
+
+        <div class="reduce-example ex-3">
+            <div class="ex-head"><span class="ex-num">2</span><span class="ex-title">Разные корни напрямую не складываются</span></div>
+            <p>Выражение √5 + √7 нельзя упростить и записать одним корнем — так и остаётся суммой.</p>
+        </div>
+
+        <div class="reduce-example ex-5">
+            <div class="ex-head"><span class="ex-num">3</span><span class="ex-title">Иногда корни можно сделать одинаковыми</span></div>
+            <p>Если разложить число под корнем на множители, из него можно вынести точный квадрат:</p>
+            <div class="frac-block">
+                <span>√50 = √(25 · 2) = √25 · √2 = 5√2</span>
+            </div>
+            <p>После такого упрощения выражение иногда становится похоже на соседний корень, и их уже можно сложить.</p>
+        </div>
+    </div>
+
+    <!-- ТРЕНАЖЁР -->
+    <a class="trainer-link" href="trainer/index.html">
+        <div class="tl-text">
+            <h3>Тренажёр: Квадратный корень</h3>
+            <p>Свойства корня, упрощение, сложение</p>
+        </div>
+        <div class="tl-go">→</div>
+    </a>
+
+</div>
+
+</body>
+</html>
