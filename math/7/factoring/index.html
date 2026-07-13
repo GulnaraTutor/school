@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Разложение многочленов на множители — 7 класс — MathLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+
+    <div class="topbar">
+        <a href="../index.html">← 7 класс</a>
+    </div>
+
+    <div class="page-header">
+        <span class="eyebrow">7 класс · Алгебра</span>
+        <h1>Разложение многочленов на множители</h1>
+    </div>
+
+    <!-- 1. ВЫНЕСЕНИЕ ОБЩЕГО МНОЖИТЕЛЯ -->
+    <div class="card">
+        <h2><span class="num">1</span>Вынесение общего множителя за скобки</h2>
+        <p>
+            Если у всех членов многочлена есть общий множитель — числовой, буквенный или оба сразу — его можно
+            вынести за скобки. Это действие, обратное раскрытию скобок.
+        </p>
+
+        <div class="reduce-example ex-1">
+            <div class="ex-head"><span class="ex-num">1</span><span class="ex-title">Числовой множитель</span></div>
+            <p>6x + 9 = 3(2x + 3) — у 6 и 9 общий множитель 3.</p>
+        </div>
+
+        <div class="reduce-example ex-2">
+            <div class="ex-head"><span class="ex-num">2</span><span class="ex-title">Числовой и буквенный множитель</span></div>
+            <p>4x² + 8x = 4x(x + 2) — общий множитель 4x: у 4 и 8 общий числовой множитель 4, а x входит в оба члена.</p>
+        </div>
+    </div>
+
+    <!-- 2. ПРОВЕРКА ВЫНЕСЕНИЯ -->
+    <div class="card">
+        <h2><span class="num">2</span>Проверка вынесения</h2>
+        <p>
+            Чтобы найти, что остаётся в скобках, нужно разделить каждый член многочлена на вынесенный множитель.
+        </p>
+
+        <div class="reduce-example ex-3">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Проверка примера 4x² + 8x = 4x(x + 2)</span></div>
+            <p>4x² ÷ 4x = x, 8x ÷ 4x = 2 — то, что осталось в скобках, совпадает: (x + 2).</p>
+        </div>
+
+        <div class="note">💡 Быстрый способ убедиться, что вынесение верное — раскрыть получившиеся скобки обратно и сравнить с исходным многочленом.</div>
+    </div>
+
+    <!-- 3. МЕТОД ГРУППИРОВКИ -->
+    <div class="card">
+        <h2><span class="num">3</span>Метод группировки</h2>
+        <p>
+            Если общего множителя у всех членов сразу нет, но он есть у отдельных пар — многочлен можно разбить
+            на группы, вынести множитель из каждой, а затем вынести за скобки уже саму получившуюся скобку.
+        </p>
+
+        <div class="reduce-example ex-4">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">ax + ay + bx + by</span></div>
+            <p>Группируем первые два и последние два члена: (ax + ay) + (bx + by).</p>
+            <p>Выносим общий множитель из каждой группы: a(x + y) + b(x + y).</p>
+            <p>Скобка (x + y) одинаковая в обоих слагаемых — выносим и её: (x + y)(a + b).</p>
+        </div>
+    </div>
+
+    <!-- 4. ЗНАКИ ПРИ ГРУППИРОВКЕ -->
+    <div class="card">
+        <h2><span class="num">4</span>Знаки при группировке</h2>
+        <p>Если во второй группе минус, нужно вынести отрицательный множитель, чтобы скобки в обеих группах совпали:</p>
+
+        <div class="reduce-example ex-5">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">ax − ay − bx + by</span></div>
+            <p>Группируем: (ax − ay) + (−bx + by).</p>
+            <p>Из первой группы выносим a: a(x − y). Из второй — важно вынести −b, а не b: −b(x − y).</p>
+            <p>Теперь скобки совпали: a(x − y) − b(x − y) = (x − y)(a − b).</p>
+        </div>
+
+        <div class="note">💡 Если после вынесения скобки не совпадают — скорее всего, где-то забыли сменить знак. Стоит попробовать вынести множитель с противоположным знаком.</div>
+    </div>
+
+    <!-- ТРЕНАЖЁР -->
+    <a class="trainer-link" href="trainer/index.html">
+        <div class="tl-text">
+            <h3>Тренажёр: Разложение на множители</h3>
+            <p>Вынесение общего множителя, метод группировки</p>
+        </div>
+        <div class="tl-go">→</div>
+    </a>
+
+</div>
+
+</body>
+</html>
