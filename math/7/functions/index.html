@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Функция и график функции — 7 класс — MathLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+
+    <div class="topbar">
+        <a href="../index.html">← 7 класс</a>
+    </div>
+
+    <div class="page-header">
+        <span class="eyebrow">7 класс · Алгебра</span>
+        <h1>Функция и график функции</h1>
+    </div>
+
+    <!-- 1. ЧТО ТАКОЕ ФУНКЦИЯ -->
+    <div class="card">
+        <h2><span class="num">1</span>Что такое функция</h2>
+        <p>
+            <b>Функция</b> — правило, по которому каждому значению x соответствует ровно одно значение y.
+            x называют <b>аргументом</b>, y — <b>значением функции</b>.
+        </p>
+
+        <p>Функцию можно задать четырьмя способами:</p>
+        <ul class="rule-list">
+            <li><b>Формулой</b>: y = 2x − 3</li>
+            <li><b>Таблицей</b>: x = 1, 2, 3 → y = −1, 1, 3</li>
+            <li><b>Словесным описанием</b>: «каждому x соответствует его квадрат» (то есть y = x²)</li>
+            <li><b>Графиком</b>: линией на координатной плоскости</li>
+        </ul>
+    </div>
+
+    <!-- 2. КООРДИНАТНАЯ ПЛОСКОСТЬ -->
+    <div class="card">
+        <h2><span class="num">2</span>Координатная плоскость</h2>
+        <p>
+            Две взаимно перпендикулярные числовые прямые — горизонтальная <b>ось абсцисс (x)</b> и вертикальная
+            <b>ось ординат (y)</b> — образуют координатную плоскость. Точка задаётся парой чисел (x; y): первое
+            число — абсцисса, второе — ордината.
+        </p>
+
+        <p>Оси делят плоскость на четыре четверти:</p>
+        <ul class="rule-list">
+            <li>I четверть: x &gt; 0, y &gt; 0</li>
+            <li>II четверть: x &lt; 0, y &gt; 0</li>
+            <li>III четверть: x &lt; 0, y &lt; 0</li>
+            <li>IV четверть: x &gt; 0, y &lt; 0</li>
+        </ul>
+    </div>
+
+    <!-- 3. ГРАФИК ФУНКЦИИ -->
+    <div class="card">
+        <h2><span class="num">3</span>График функции</h2>
+        <p>
+            <b>График функции</b> — это множество всех точек (x; f(x)), то есть всех пар «аргумент — значение».
+        </p>
+
+        <div class="reduce-example ex-1">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Проверка принадлежности точки: y = 2x − 6</span></div>
+            <p>Точка (4; 2): подставляем x=4, получаем y = 2·4−6 = 2 — совпадает, точка принадлежит графику.</p>
+            <p>Точка (4; 5): y = 2·4−6 = 2, а не 5 — точка НЕ принадлежит графику.</p>
+        </div>
+
+        <p>
+            <b>Точки пересечения с осями</b> находят так: при x = 0 получаем точку пересечения с осью y;
+            решив уравнение y = 0, получаем точку пересечения с осью x.
+        </p>
+
+        <div class="reduce-example ex-2">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Пересечения для y = 2x − 6</span></div>
+            <p>С осью y: x=0 → y=−6, точка (0; −6).</p>
+            <p>С осью x: 0=2x−6 → x=3, точка (3; 0).</p>
+        </div>
+    </div>
+
+    <!-- 4. КУСОЧНЫЕ ФУНКЦИИ -->
+    <div class="card">
+        <h2><span class="num">4</span>Кусочные функции</h2>
+        <p>Функция может задаваться разными формулами на разных промежутках значений x.</p>
+
+        <div class="reduce-example ex-3">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">f(x) = x + 1, если x &lt; 2; f(x) = 2x − 1, если x ≥ 2</span></div>
+            <p>f(0): 0 &lt; 2, значит используем первую формулу: f(0) = 0 + 1 = 1.</p>
+            <p>f(3): 3 ≥ 2, значит используем вторую формулу: f(3) = 2·3 − 1 = 5.</p>
+        </div>
+    </div>
+
+    <!-- ТРЕНАЖЁР -->
+    <a class="trainer-link" href="trainer/index.html">
+        <div class="tl-text">
+            <h3>Тренажёр: Функция и график функции</h3>
+            <p>Четверти, проверка точки на графике, пересечения с осями</p>
+        </div>
+        <div class="tl-go">→</div>
+    </a>
+
+</div>
+
+</body>
+</html>
