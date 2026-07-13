@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Одночлены и многочлены — 7 класс — MathLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+
+    <div class="topbar">
+        <a href="../index.html">← 7 класс</a>
+    </div>
+
+    <div class="page-header">
+        <span class="eyebrow">7 класс · Алгебра</span>
+        <h1>Одночлены и многочлены</h1>
+    </div>
+
+    <!-- 1. ЧТО ТАКОЕ ОДНОЧЛЕН -->
+    <div class="card">
+        <h2><span class="num">1</span>Что такое одночлен</h2>
+        <p>
+            <b>Одночлен</b> — произведение чисел, переменных и их степеней. Число перед буквами называют
+            <b>коэффициентом</b>, а сами буквы — <b>буквенной частью</b>.
+        </p>
+
+        <div class="examples">
+            <span class="example-chip">5a²b — коэффициент 5, буквенная часть a²b</span>
+            <span class="example-chip">−7xy — коэффициент −7</span>
+        </div>
+
+        <p>Если числа перед буквами не видно, коэффициент всё равно есть: у «a» он равен 1, у «−x» — равен −1. Отдельное число (например, 8) — тоже одночлен, просто без буквенной части.</p>
+    </div>
+
+    <!-- 2. СТАНДАРТНЫЙ ВИД И СТЕПЕНЬ ОДНОЧЛЕНА -->
+    <div class="card">
+        <h2><span class="num">2</span>Стандартный вид и степень одночлена</h2>
+        <p>
+            Если одночлен записан «вразброс» — несколько чисел и одинаковые буквы по отдельности — его можно привести
+            к стандартному виду: числа перемножить между собой, а для каждой буквы сложить показатели (это то же
+            свойство степеней aᵐ · aⁿ = aᵐ⁺ⁿ из прошлой темы).
+        </p>
+
+        <div class="reduce-example ex-1">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Приведение к стандартному виду</span></div>
+            <p>3 · a · (−2) · b · a = (3 · (−2)) · (a · a) · b = −6a²b.</p>
+        </div>
+
+        <p><b>Степень одночлена</b> — сумма показателей всех входящих в него букв. У −6a²b это 2 + 1 = 3. Если букв несколько, считаем все: у −6b⁴c² степень равна 4 + 2 = 6.</p>
+    </div>
+
+    <!-- 3. МНОГОЧЛЕН, ЧЛЕНЫ, ПОДОБНЫЕ ОДНОЧЛЕНЫ -->
+    <div class="card">
+        <h2><span class="num">3</span>Многочлен, члены, подобные одночлены</h2>
+        <p><b>Многочлен</b> — сумма одночленов; каждый из них называют <b>членом</b> многочлена (вместе со своим знаком).</p>
+
+        <div class="frac-block"><span>3a² + 5a − 2a² + a</span></div>
+        <p>Здесь четыре члена: 3a², 5a, −2a², a.</p>
+
+        <p>
+            <b>Подобные одночлены</b> — члены с одинаковой буквенной частью. Их можно складывать, работая только с
+            коэффициентами: 3a² и −2a² подобны (буквенная часть a² у обоих), 5a и a тоже подобны (буквенная часть a).
+        </p>
+
+        <div class="note">💡 А вот 3a² и 5a сложить нельзя — a² и a это разные буквенные части (разные степени одной и той же буквы уже считаются разными величинами), как нельзя напрямую сложить площадь и длину.</div>
+    </div>
+
+    <!-- 4. СТАНДАРТНЫЙ ВИД И СТЕПЕНЬ МНОГОЧЛЕНА, СЛОЖЕНИЕ/ВЫЧИТАНИЕ -->
+    <div class="card">
+        <h2><span class="num">4</span>Стандартный вид многочлена, сложение и вычитание</h2>
+        <p>Чтобы привести многочлен к стандартному виду, складываем подобные члены:</p>
+
+        <div class="reduce-example ex-2">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Приведение подобных</span></div>
+            <p>3a² + 5a − 2a² + a = (3 − 2)a² + (5 + 1)a = a² + 6a.</p>
+        </div>
+
+        <p><b>Степень многочлена</b> — наибольшая из степеней его членов. У a² + 6a это 2.</p>
+
+        <div class="reduce-example ex-3">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Сложение многочленов</span></div>
+            <p>(2a + 3b) + (5a − b) = 2a + 3b + 5a − b = 7a + 2b.</p>
+        </div>
+
+        <div class="reduce-example ex-4">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Вычитание многочленов</span></div>
+            <p>(2a + 3b) − (5a − b) = 2a + 3b − 5a + b = −3a + 4b.</p>
+            <p>При вычитании знак каждого члена вычитаемого меняется на противоположный: −5a и +b.</p>
+        </div>
+    </div>
+
+    <!-- ТРЕНАЖЁР -->
+    <a class="trainer-link" href="trainer/index.html">
+        <div class="tl-text">
+            <h3>Тренажёр: Одночлены и многочлены</h3>
+            <p>Коэффициент, стандартный вид, подобные члены, сложение и вычитание</p>
+        </div>
+        <div class="tl-go">→</div>
+    </a>
+
+</div>
+
+</body>
+</html>
