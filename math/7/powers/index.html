@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Степени с натуральным показателем — 7 класс — MathLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+
+    <div class="topbar">
+        <a href="../index.html">← 7 класс</a>
+    </div>
+
+    <div class="page-header">
+        <span class="eyebrow">7 класс · Алгебра</span>
+        <h1>Степени с натуральным показателем</h1>
+    </div>
+
+    <!-- 1. ЧТО ТАКОЕ СТЕПЕНЬ -->
+    <div class="card">
+        <h2><span class="num">1</span>Что такое степень</h2>
+        <p>
+            aⁿ означает, что число a умножается само на себя n раз. Число a называют <b>основанием</b>,
+            число n — <b>показателем</b> степени.
+        </p>
+
+        <div class="examples">
+            <span class="example-chip">5⁴ = 5 · 5 · 5 · 5 = 625</span>
+            <span class="example-chip">(−6)³ = (−6) · (−6) · (−6) = −216</span>
+        </div>
+
+        <p>Здесь рассматриваются только натуральные показатели — целые положительные числа 1, 2, 3 и так далее.</p>
+    </div>
+
+    <!-- 2. СВОЙСТВА СТЕПЕНЕЙ -->
+    <div class="card">
+        <h2><span class="num">2</span>Свойства степеней</h2>
+
+        <ul class="rule-list">
+            <li>aᵐ · aⁿ = aᵐ⁺ⁿ — при умножении степеней с одинаковым основанием показатели складываются</li>
+            <li>aᵐ ÷ aⁿ = aᵐ⁻ⁿ (m &gt; n) — при делении показатели вычитаются</li>
+            <li>(aᵐ)ⁿ = aᵐⁿ — при возведении степени в степень показатели перемножаются</li>
+            <li>(a · b)ⁿ = aⁿ · bⁿ — степень произведения раскладывается на произведение степеней</li>
+            <li>(a ÷ b)ⁿ = aⁿ ÷ bⁿ — то же самое для частного</li>
+        </ul>
+
+        <div class="reduce-example ex-1">
+            <div class="ex-head"><span class="ex-num">1</span><span class="ex-title">Умножение и деление</span></div>
+            <p>2³ · 2² = 2³⁺² = 2⁵ = 32. Проверка: 8 · 4 = 32 — сходится.</p>
+            <p>3⁵ ÷ 3² = 3⁵⁻² = 3³ = 27. Проверка: 243 ÷ 9 = 27 — сходится.</p>
+        </div>
+
+        <div class="reduce-example ex-2">
+            <div class="ex-head"><span class="ex-num">2</span><span class="ex-title">Степень степени, произведения и частного</span></div>
+            <p>(2²)³ = 2²ˣ³ = 2⁶ = 64. Проверка: (2²)³ = 4³ = 64 — сходится.</p>
+            <p>(2 · 3)² = 2² · 3² = 4 · 9 = 36. Проверка: 6² = 36 — сходится.</p>
+            <div class="frac-block">
+                <span>(4 ÷ 3)² = </span>
+                <div class="frac"><span class="frac-num">4²</span><span class="frac-den">3²</span></div>
+                <span>=</span>
+                <div class="frac"><span class="frac-num">16</span><span class="frac-den">9</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. ЗНАК СТЕПЕНИ -->
+    <div class="card">
+        <h2><span class="num">3</span>Знак степени</h2>
+        <p>Знак результата зависит от знака основания и чётности показателя:</p>
+
+        <ul class="rule-list">
+            <li>Положительное основание в любой степени — всегда положительный результат</li>
+            <li>Отрицательное основание в <b>чётной</b> степени — положительный результат</li>
+            <li>Отрицательное основание в <b>нечётной</b> степени — отрицательный результат</li>
+            <li>Ноль в любой натуральной степени — всегда 0</li>
+        </ul>
+
+        <div class="reduce-example ex-3">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Приём: сначала знак, потом число</span></div>
+            <p>(−3)⁴ = 81 — показатель 4 чётный, минусы попарно уничтожаются: (−3)·(−3)·(−3)·(−3).</p>
+            <p>(−3)⁵ = −243 — показатель 5 нечётный, один минус остаётся без пары: −3⁵ = −243.</p>
+        </div>
+
+        <div class="note">💡 Быстрее не расписывать все множители, а сразу определить знак по чётности показателя, а потом просто вычислить 3⁵ = 243 и поставить нужный знак.</div>
+    </div>
+
+    <!-- 4. КОМБИНИРОВАННЫЕ ВЫЧИСЛЕНИЯ -->
+    <div class="card">
+        <h2><span class="num">4</span>Комбинированные вычисления и уравнения на показатель</h2>
+        <p>В одном выражении может встретиться сразу несколько свойств степени подряд — применяем их по очереди.</p>
+
+        <div class="reduce-example ex-4">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Цепочка из двух правил</span></div>
+            <div class="frac-block">
+                <div class="frac"><span class="frac-num">2³ · 2⁵</span><span class="frac-den">2⁴</span></div>
+                <span>=</span>
+                <span>2³⁺⁵⁻⁴</span>
+                <span>=</span>
+                <span>2⁴ = 16</span>
+            </div>
+            <p>Сначала сложили показатели в числителе (умножение), потом вычли показатель знаменателя (деление).</p>
+        </div>
+
+        <div class="reduce-example ex-5">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Уравнение на показатель</span></div>
+            <p>3²ˣ = 3¹⁰. Раз основания одинаковые, показатели должны совпадать: 2x = 10, значит x = 5.</p>
+        </div>
+
+        <div class="note">💡 Бонус-факт: аᵏ ÷ aᵏ по формуле деления даёт a⁰, а с другой стороны — любое число, поделённое само на себя (кроме 0), всегда равно 1. Значит a⁰ = 1 при a ≠ 0. Подробно про нулевой и отрицательный показатель — тема 8 класса, здесь это только на заметку.</div>
+    </div>
+
+    <!-- ТРЕНАЖЁР -->
+    <a class="trainer-link" href="trainer/index.html">
+        <div class="tl-text">
+            <h3>Тренажёр: Степени</h3>
+            <p>Свойства степеней, знак результата, комбинированные вычисления</p>
+        </div>
+        <div class="tl-go">→</div>
+    </a>
+
+</div>
+
+</body>
+</html>
