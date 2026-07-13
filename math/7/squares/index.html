@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Квадраты — 7 класс — MathLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+
+    <div class="topbar">
+        <a href="../index.html">← 7 класс</a>
+    </div>
+
+    <div class="page-header">
+        <span class="eyebrow">7 класс · Алгебра</span>
+        <h1>Квадраты</h1>
+    </div>
+
+    <!-- 1. КВАДРАТ СУММЫ И РАЗНОСТИ -->
+    <div class="card">
+        <h2><span class="num">1</span>Квадрат суммы и разности</h2>
+        <p>Две формулы для быстрого возведения суммы или разности в квадрат — без раскрытия скобок методом «краб»:</p>
+
+        <div class="frac-block"><span>(a + b)² = a² + 2ab + b²</span></div>
+        <div class="frac-block"><span>(a − b)² = a² − 2ab + b²</span></div>
+
+        <div class="reduce-example ex-1">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Проверка на числах</span></div>
+            <p>(3 + 2)² = 3² + 2 · 3 · 2 + 2² = 9 + 12 + 4 = 25. Проверка: 5² = 25 — совпадает.</p>
+            <p>(5 − 2)² = 5² − 2 · 5 · 2 + 2² = 25 − 20 + 4 = 9. Проверка: 3² = 9 — совпадает.</p>
+        </div>
+    </div>
+
+    <!-- 2. РАЗНОСТЬ КВАДРАТОВ -->
+    <div class="card">
+        <h2><span class="num">2</span>Разность квадратов</h2>
+        <p>Ещё одна формула — для случая, когда два квадрата вычитаются друг из друга:</p>
+
+        <div class="frac-block"><span>a² − b² = (a − b)(a + b)</span></div>
+
+        <div class="reduce-example ex-2">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Проверка на числах</span></div>
+            <p>7² − 3² = 49 − 9 = 40. По формуле: (7 − 3)(7 + 3) = 4 · 10 = 40 — совпадает.</p>
+        </div>
+    </div>
+
+    <!-- 3. ПРИЁМ РАСПОЗНАВАНИЯ -->
+    <div class="card">
+        <h2><span class="num">3</span>Приём распознавания a и b</h2>
+        <p>
+            Формулы редко встречаются в чистом виде — обычно a и b спрятаны внутри выражения. Чтобы их найти,
+            нужно понять, что возвели в квадрат.
+        </p>
+
+        <div class="reduce-example ex-3">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">4x² − 9</span></div>
+            <p>4x² — это (2x)², а 9 — это 3². Значит a = 2x, b = 3, и по формуле разности квадратов:</p>
+            <p>4x² − 9 = (2x − 3)(2x + 3).</p>
+            <p>Проверка: (2x − 3)(2x + 3) = 4x² + 6x − 6x − 9 = 4x² − 9 — совпадает.</p>
+        </div>
+    </div>
+
+    <!-- 4. ОБЕ СТОРОНЫ ФОРМУЛЫ -->
+    <div class="card">
+        <h2><span class="num">4</span>Обе стороны формулы</h2>
+        <p>
+            Каждую формулу можно использовать в двух направлениях — раскрыть скобки (получить многочлен) или,
+            наоборот, разложить многочлен на множители (получить произведение скобок):
+        </p>
+
+        <ul class="rule-list">
+            <li><b>Раскрытие:</b> (x + 5)² = x² + 10x + 25 — от компактной записи к многочлену</li>
+            <li><b>Разложение:</b> x² − 10x + 25 = (x − 5)² — от многочлена к компактной записи</li>
+        </ul>
+
+        <div class="note">💡 В тренажёре встречаются оба направления — иногда нужно раскрыть скобки, иногда, наоборот, узнать формулу в уже раскрытом виде.</div>
+    </div>
+
+    <!-- ТРЕНАЖЁР -->
+    <a class="trainer-link" href="trainer/index.html">
+        <div class="tl-text">
+            <h3>Тренажёр: Квадраты</h3>
+            <p>Квадрат суммы и разности, разность квадратов</p>
+        </div>
+        <div class="tl-go">→</div>
+    </a>
+
+</div>
+
+</body>
+</html>

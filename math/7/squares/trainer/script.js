@@ -736,7 +736,7 @@ function sendResult(status) {
             score: score,
             roundsCompleted: roundNumber,
             status: status,
-            topic: "formulas"
+            topic: "squares"
         })
     }).catch(err => console.log("Ошибка отправки результата:", err));
 }

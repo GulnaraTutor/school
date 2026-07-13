@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MathLab</title>
-
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Кубы — MathLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -14,7 +16,7 @@
 <!-- ===================== -->
 <div id="loginScreen" class="login">
 
-    <a class="home-link" href="../../../index.html">← MathLab</a>
+    <a class="home-link" href="../../../../index.html">← MathLab</a>
 
     <h2>Вход в MathLab</h2>
 
@@ -33,31 +35,21 @@
 
     <header>
 
-        <div class="stats">
-            <div id="percent">0 / 15</div>
-        </div>
+        <div id="stats" class="stats">0 / 15</div>
 
-        <div class="lives">
-            ❤️ ❤️ ❤️ ❤️ ❤️
-        </div>
+        <div id="lives" class="lives">❤️❤️❤️</div>
 
     </header>
 
     <main>
 
         <h1>MathLab</h1>
-        <h2>Формулы сокращённого умножения</h2>
-        <div id="levelLabel" class="level-label"></div>
+        <h2>Кубы</h2>
+        <div id="levelTag" class="level-label"></div>
 
-        <div class="task"></div>
+        <div id="taskDisplay" class="task-display"></div>
 
-        <div class="answer"></div>
-
-        <div class="result">
-            Здесь будет собираться ответ
-        </div>
-
-        <button class="check">Проверить</button>
+        <div id="options" class="options"></div>
 
     </main>
 
@@ -72,7 +64,7 @@
 
     <div class="result-card">
 
-        <a class="home-link" href="../../../index.html">← MathLab</a>
+        <a class="home-link" href="../../../../index.html">← MathLab</a>
 
         <div id="resultEmoji" class="result-emoji">🎉</div>
 
@@ -95,7 +87,7 @@
 
     <div class="mistakes-card">
 
-        <a class="home-link" href="../../../index.html">← MathLab</a>
+        <a class="home-link" href="../../../../index.html">← MathLab</a>
 
         <h2>Работа над ошибками</h2>
 

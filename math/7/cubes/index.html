@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Кубы — 7 класс — MathLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+
+    <div class="topbar">
+        <a href="../index.html">← 7 класс</a>
+    </div>
+
+    <div class="page-header">
+        <span class="eyebrow">7 класс · Алгебра</span>
+        <h1>Кубы</h1>
+    </div>
+
+    <!-- 1. СУММА И РАЗНОСТЬ КУБОВ -->
+    <div class="card">
+        <h2><span class="num">1</span>Сумма и разность кубов</h2>
+        <p>Похожие формулы существуют и для кубов — только раскладывают сразу на множители, без промежуточного раскрытия:</p>
+
+        <div class="frac-block"><span>a³ + b³ = (a + b)(a² − ab + b²)</span></div>
+        <div class="frac-block"><span>a³ − b³ = (a − b)(a² + ab + b²)</span></div>
+
+        <div class="reduce-example ex-1">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">x³ − 27 = (x − 3)(x² + 3x + 9)</span></div>
+            <p>Проверка подстановкой x = 1: слева 1 − 27 = −26. Справа (1 − 3)(1 + 3 + 9) = (−2) · 13 = −26 — совпадает.</p>
+        </div>
+    </div>
+
+    <!-- 2. НЕПОЛНЫЙ КВАДРАТ -->
+    <div class="card">
+        <h2><span class="num">2</span>Неполный квадрат суммы и разности</h2>
+        <p>
+            Выражения (a² − ab + b²) и (a² + ab + b²) называют <b>неполным квадратом</b> разности и суммы.
+            Название объясняется сравнением с обычным квадратом:
+        </p>
+
+        <ul class="rule-list">
+            <li>Полный квадрат: (a ± b)² = a² <b>± 2ab</b> + b² — коэффициент при ab равен 2</li>
+            <li>Неполный квадрат: a² <b>∓ ab</b> + b² — коэффициент при ab равен 1, поэтому «неполный»</li>
+        </ul>
+    </div>
+
+    <!-- 3. ПРИЁМ РАСПОЗНАВАНИЯ -->
+    <div class="card">
+        <h2><span class="num">3</span>Приём распознавания a и b</h2>
+        <p>Как и с квадратами, нужно понять, что возвели в куб:</p>
+
+        <div class="reduce-example ex-2">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">8x³ + 1</span></div>
+            <p>8x³ — это (2x)³, а 1 — это 1³. Значит a = 2x, b = 1, и по формуле суммы кубов:</p>
+            <p>8x³ + 1 = (2x + 1)(4x² − 2x + 1).</p>
+        </div>
+    </div>
+
+    <!-- 4. ПРОВЕРКА ПОДСТАНОВКОЙ -->
+    <div class="card">
+        <h2><span class="num">4</span>Проверка результата подстановкой</h2>
+        <p>Убедиться, что разложение верное, можно, подставив любое число вместо x в обе части и сравнив результат:</p>
+
+        <div class="reduce-example ex-3">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Проверка примера из раздела 3 при x = 1</span></div>
+            <p>Слева: 8 · 1³ + 1 = 9. Справа: (2 · 1 + 1)(4 · 1² − 2 · 1 + 1) = 3 · 3 = 9 — совпадает.</p>
+        </div>
+
+        <div class="note">💡 Если хотя бы один знак в разложении перепутан, подстановка почти всегда это сразу покажет — числа не совпадут.</div>
+    </div>
+
+    <!-- ТРЕНАЖЁР -->
+    <a class="trainer-link" href="trainer/index.html">
+        <div class="tl-text">
+            <h3>Тренажёр: Кубы</h3>
+            <p>Сумма и разность кубов, неполный квадрат, распознавание формулы</p>
+        </div>
+        <div class="tl-go">→</div>
+    </a>
+
+</div>
+
+</body>
+</html>
