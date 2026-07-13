@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Преобразования графиков — 9 класс — MathLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+
+    <div class="topbar">
+        <a href="../index.html">← 9 класс</a>
+    </div>
+
+    <div class="page-header">
+        <span class="eyebrow">9 класс · Алгебра</span>
+        <h1>Преобразования графиков</h1>
+    </div>
+
+    <!-- 1. ВЕРТИКАЛЬНЫЙ СДВИГ -->
+    <div class="card">
+        <h2><span class="num">1</span>Вертикальный сдвиг y = f(x) + b</h2>
+        <p>
+            Если к функции прибавить число b, весь график сдвигается вдоль оси y: <b>вверх</b> на |b|, если b &gt; 0,
+            и <b>вниз</b> на |b|, если b &lt; 0. Форма графика при этом не меняется — просто каждая точка "переезжает"
+            на b единиц по вертикали.
+        </p>
+
+        <div class="graph-box">
+            <svg viewBox="0 0 260 200" class="graph-svg" xmlns="http://www.w3.org/2000/svg">
+                <line x1="0" y1="121.7" x2="253" y2="121.7" class="axis-line"/>
+                <polygon points="258,121.7 249,116.7 249,126.7" class="axis-arrow"/>
+                <line x1="164.4" y1="195" x2="164.4" y2="7" class="axis-line"/>
+                <polygon points="164.4,2 159.4,11 169.4,11" class="axis-arrow"/>
+                <text x="246" y="112.7" class="axis-label">x</text>
+                <text x="172.4" y="16" class="axis-label">y</text>
+                <path d="M56.9,81.7 L137.5,161.7 L218.1,108.3" class="hyperbola-curve curve-blue" fill="none"/>
+                <path d="M56.9,28.3 L137.5,108.3 L218.1,55.0" class="hyperbola-curve curve-red" fill="none"/>
+            </svg>
+            <div class="graph-legend">
+                <span><span class="dot dot-blue"></span>y = f(x)</span>
+                <span><span class="dot dot-red"></span>y = f(x) + 4</span>
+            </div>
+            <p class="graph-caption">Точки (−4; 3), (−1; −3), (2; 1) сдвинулись на b = 4 вверх: (−4; 7), (−1; 1), (2; 5)</p>
+        </div>
+
+        <p>Область определения D(f) при вертикальном сдвиге не меняется — x-координаты точек остались прежними. А область значений E(f) сдвигается вместе с графиком: если было [−3; 3], станет [−3+4; 3+4] = [1; 7].</p>
+    </div>
+
+    <!-- 2. ГОРИЗОНТАЛЬНЫЙ СДВИГ -->
+    <div class="card">
+        <h2><span class="num">2</span>Горизонтальный сдвиг y = f(x + a)</h2>
+        <p>
+            Здесь легко ошибиться: несмотря на знак "+" перед a внутри скобки, график сдвигается
+            <b>в противоположную сторону</b> от знака a — <b>влево</b>, если a &gt; 0, и <b>вправо</b>, если a &lt; 0.
+        </p>
+        <p>
+            Почему так: пусть g(x) = f(x + a). Точка, где раньше было f(x₀) = y₀, теперь окажется на новом графике
+            там, где x + a = x₀, то есть при x = x₀ − a. Значит каждая точка сдвигается по x на −a: при a &gt; 0
+            это сдвиг влево.
+        </p>
+
+        <div class="graph-box">
+            <svg viewBox="0 0 260 200" class="graph-svg" xmlns="http://www.w3.org/2000/svg">
+                <line x1="0" y1="95.0" x2="253" y2="95.0" class="axis-line"/>
+                <polygon points="258,95.0 249,90.0 249,100.0" class="axis-arrow"/>
+                <line x1="186.4" y1="195" x2="186.4" y2="7" class="axis-line"/>
+                <polygon points="186.4,2 181.4,11 191.4,11" class="axis-arrow"/>
+                <text x="246" y="86.0" class="axis-label">x</text>
+                <text x="194.4" y="16" class="axis-label">y</text>
+                <path d="M108.2,35.0 L166.8,155.0 L225.5,75.0" class="hyperbola-curve curve-blue" fill="none"/>
+                <path d="M49.5,35.0 L108.2,155.0 L166.8,75.0" class="hyperbola-curve curve-red" fill="none"/>
+            </svg>
+            <div class="graph-legend">
+                <span><span class="dot dot-blue"></span>y = f(x)</span>
+                <span><span class="dot dot-red"></span>y = f(x + 3)</span>
+            </div>
+            <p class="graph-caption">Точки (−4; 3), (−1; −3), (2; 1) сдвинулись на a = 3 влево: (−7; 3), (−4; −3), (−1; 1)</p>
+        </div>
+
+        <p>Область значений E(f) при горизонтальном сдвиге не меняется (y-координаты точек те же), а область определения D(f) сдвигается по тому же правилу: было [−4; 2], стало [−4−3; 2−3] = [−7; −1].</p>
+    </div>
+
+    <!-- 3. КОМБИНИРОВАННЫЙ СДВИГ -->
+    <div class="card">
+        <h2><span class="num">3</span>Комбинированный сдвиг y = f(x + a) + b</h2>
+        <p>
+            Оба сдвига можно применить одновременно — тогда каждая точка (x; y) исходного графика переходит в точку
+            (x − a; y + b). Порядок, в котором "сдвигать сначала по x, потом по y" или наоборот, значения не имеет —
+            результат один и тот же.
+        </p>
+
+        <div class="graph-box">
+            <svg viewBox="0 0 260 200" class="graph-svg" xmlns="http://www.w3.org/2000/svg">
+                <line x1="0" y1="121.7" x2="253" y2="121.7" class="axis-line"/>
+                <polygon points="258,121.7 249,116.7 249,126.7" class="axis-arrow"/>
+                <line x1="186.4" y1="195" x2="186.4" y2="7" class="axis-line"/>
+                <polygon points="186.4,2 181.4,11 191.4,11" class="axis-arrow"/>
+                <text x="246" y="112.7" class="axis-label">x</text>
+                <text x="194.4" y="16" class="axis-label">y</text>
+                <path d="M108.2,81.7 L166.8,161.7 L225.5,108.3" class="hyperbola-curve curve-blue" fill="none"/>
+                <path d="M49.5,28.3 L108.2,108.3 L166.8,55.0" class="hyperbola-curve curve-red" fill="none"/>
+            </svg>
+            <div class="graph-legend">
+                <span><span class="dot dot-blue"></span>y = f(x)</span>
+                <span><span class="dot dot-red"></span>y = f(x + 3) + 4</span>
+            </div>
+            <p class="graph-caption">Точки (−4; 3), (−1; −3), (2; 1) сдвинулись на a = 3 влево и b = 4 вверх: (−7; 7), (−4; 1), (−1; 5)</p>
+        </div>
+
+        <div class="note">💡 Проверка по одной точке: (−1; −3) → x − a = −1 − 3 = −4, y + b = −3 + 4 = 1 → получаем (−4; 1), как и на графике.</div>
+    </div>
+
+    <!-- 4. СДВИГ ПАРАБОЛЫ -->
+    <div class="card">
+        <h2><span class="num">4</span>Сдвиг параболы y = x²</h2>
+        <p>
+            Тот же принцип работает для любой функции, включая параболу y = x². Если сдвинуть её так, чтобы вершина
+            оказалась в точке (x₀; y₀), формула сдвинутой параболы — <b>y = (x − x₀)² + y₀</b>. Это сдвиг по x на x₀
+            вправо (обратите внимание на знак "минус" перед x₀ — это и есть сдвиг вправо, симметрично правилу из
+            раздела 2) и по y на y₀.
+        </p>
+
+        <div class="reduce-example ex-1">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Пример: вершина в точке (2; −3)</span></div>
+            <p>y = (x − 2)² − 3. Раскроем скобки: (x − 2)² − 3 = x² − 4x + 4 − 3 = x² − 4x + 1.</p>
+            <p>Проверка подстановкой x = 2 в раскрытую формулу: 2² − 4·2 + 1 = 4 − 8 + 1 = −3 — совпадает с y₀. Вершина действительно в точке (2; −3).</p>
+        </div>
+    </div>
+
+    <!-- ТРЕНАЖЁР -->
+    <a class="trainer-link" href="trainer/index.html">
+        <div class="tl-text">
+            <h3>Тренажёр: Преобразования графиков</h3>
+            <p>Вертикальный и горизонтальный сдвиг, чтение сдвига по графику</p>
+        </div>
+        <div class="tl-go">→</div>
+    </a>
+
+</div>
+
+</body>
+</html>

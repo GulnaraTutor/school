@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Преобразования графиков — MathLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ===================== -->
+<!-- LOGIN SCREEN -->
+<!-- ===================== -->
+<div id="loginScreen" class="login">
+
+    <a class="home-link" href="../../../../index.html">← MathLab</a>
+
+    <h2>Вход в MathLab</h2>
+
+    <input type="text" id="studentName" placeholder="Введите имя">
+
+    <button id="startBtn" type="button">Начать</button>
+
+</div>
+
+<!-- ===================== -->
+<!-- GAME SCREEN -->
+<!-- ===================== -->
+<div id="gameScreen" style="display:none;">
+
+<div class="container">
+
+    <header>
+
+        <div id="stats" class="stats">0 / 15</div>
+
+        <div id="lives" class="lives">❤️❤️❤️</div>
+
+    </header>
+
+    <main>
+
+        <h1>MathLab</h1>
+        <h2>Преобразования графиков</h2>
+        <div id="levelTag" class="level-label"></div>
+
+        <div id="taskDisplay" class="task-display"></div>
+
+        <div id="options" class="options"></div>
+
+    </main>
+
+</div>
+
+</div>
+
+<!-- ===================== -->
+<!-- RESULT SCREEN -->
+<!-- ===================== -->
+<div id="resultScreen" style="display:none;">
+
+    <div class="result-card">
+
+        <a class="home-link" href="../../../../index.html">← MathLab</a>
+
+        <div id="resultEmoji" class="result-emoji">🎉</div>
+
+        <div id="resultMessage" class="result-message"></div>
+
+        <div id="resultScore" class="result-score"></div>
+
+        <button id="reviewMistakesBtn" type="button" class="review-btn" style="display:none;">🔍 Разбор ошибок</button>
+
+        <button id="playAgainBtn" type="button" class="primary-btn">Играть снова</button>
+
+    </div>
+
+</div>
+
+<!-- ===================== -->
+<!-- MISTAKES REVIEW SCREEN -->
+<!-- ===================== -->
+<div id="mistakesScreen" style="display:none;">
+
+    <div class="mistakes-card">
+
+        <a class="home-link" href="../../../../index.html">← MathLab</a>
+
+        <h2>Работа над ошибками</h2>
+
+        <div id="mistakesList" class="mistakes-list"></div>
+
+        <div class="mistakes-actions">
+            <button id="backToResultBtn" type="button" class="secondary-btn">Назад</button>
+            <button id="playAgainBtn2" type="button" class="primary-btn">Играть снова</button>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
