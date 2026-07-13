@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Линейное уравнение с двумя переменными — 7 класс — MathLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+
+    <div class="topbar">
+        <a href="../index.html">← 7 класс</a>
+    </div>
+
+    <div class="page-header">
+        <span class="eyebrow">7 класс · Алгебра</span>
+        <h1>Линейное уравнение с двумя переменными</h1>
+    </div>
+
+    <!-- 1. ЧТО ТАКОЕ ЛИНЕЙНОЕ УРАВНЕНИЕ С ДВУМЯ ПЕРЕМЕННЫМИ -->
+    <div class="card">
+        <h2><span class="num">1</span>Что такое линейное уравнение с двумя переменными</h2>
+        <p>
+            <b>Линейное уравнение с двумя переменными</b> — уравнение вида ax + by = c, где a и b не равны нулю
+            одновременно. <b>Решение</b> такого уравнения — это пара чисел (x; y), при подстановке которых
+            равенство становится верным. В отличие от уравнения с одной переменной, у такого уравнения обычно
+            бесконечно много решений.
+        </p>
+
+        <div class="reduce-example ex-1">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">2x + 3y = 12</span></div>
+            <p>Точка (0; 4): 2·0 + 3·4 = 12 ✓ — решение.</p>
+            <p>Точка (6; 0): 2·6 + 3·0 = 12 ✓ — тоже решение.</p>
+            <p>Точка (3; 2): 2·3 + 3·2 = 6 + 6 = 12 ✓ — и это решение.</p>
+        </div>
+    </div>
+
+    <!-- 2. ГРАФИК — ПРЯМАЯ -->
+    <div class="card">
+        <h2><span class="num">2</span>График — прямая</h2>
+        <p>
+            Если b ≠ 0, уравнение ax + by = c можно выразить относительно y и получить уже знакомый вид
+            y = kx + m — обычную линейную функцию.
+        </p>
+
+        <div class="reduce-example ex-2">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">2x + 3y = 12 → y = kx + m</span></div>
+            <p>3y = 12 − 2x, значит y = (12 − 2x) / 3 = −(2/3)x + 4.</p>
+            <p>Получили k = −2/3, m = 4 — обычная линейная функция из предыдущей темы.</p>
+        </div>
+    </div>
+
+    <!-- 3. ОСОБЫЕ СЛУЧАИ -->
+    <div class="card">
+        <h2><span class="num">3</span>Особые случаи</h2>
+        <ul class="rule-list">
+            <li>b = 0, a ≠ 0 → уравнение имеет вид ax = c — <b>вертикальная прямая</b> (все точки имеют одну и ту же координату x, y — любое число)</li>
+            <li>a = 0, b ≠ 0 → уравнение имеет вид by = c — <b>горизонтальная прямая</b> (все точки имеют одну и ту же координату y)</li>
+            <li>a = 0, b = 0, c = 0 → равенство 0 = 0 верно всегда — решение <b>любая точка координатной плоскости</b></li>
+            <li>a = 0, b = 0, c ≠ 0 → равенство вида 0 = c неверно ни при каких x и y — <b>решений нет</b></li>
+        </ul>
+
+        <div class="reduce-example ex-3">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">3x = 9</span></div>
+            <p>Здесь b = 0. Уравнение верно при x = 3 и любом y: точки (3; 0), (3; 5), (3; −2) — все решения. Это вертикальная прямая x = 3.</p>
+        </div>
+    </div>
+
+    <!-- 4. ПОСТРОЕНИЕ ГРАФИКА ПО ДВУМ ТОЧКАМ -->
+    <div class="card">
+        <h2><span class="num">4</span>Построение графика по двум точкам</h2>
+        <p>
+            Удобный способ построить прямую — найти точки пересечения с осями: подставить x = 0, чтобы найти
+            пересечение с осью y, и подставить y = 0, чтобы найти пересечение с осью x.
+        </p>
+
+        <div class="reduce-example ex-4">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">2x + 3y = 12</span></div>
+            <p>При y = 0: 2x = 12 → x = 6, точка (6; 0) — пересечение с осью x.</p>
+            <p>При x = 0: 3y = 12 → y = 4, точка (0; 4) — пересечение с осью y.</p>
+            <p>Через эти две точки проводим прямую.</p>
+        </div>
+
+        <div class="note">💡 Уравнение прямой можно умножить на любое ненулевое число — прямая не изменится: 2x+3y=12 и 4x+6y=24 задают одну и ту же прямую.</div>
+    </div>
+
+    <!-- ТРЕНАЖЁР -->
+    <a class="trainer-link" href="trainer/index.html">
+        <div class="tl-text">
+            <h3>Тренажёр: Линейное уравнение с двумя переменными</h3>
+            <p>Общий вид ax+by=c, особые случаи, пересечения с осями</p>
+        </div>
+        <div class="tl-go">→</div>
+    </a>
+
+</div>
+
+</body>
+</html>
