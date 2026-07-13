@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Линейная функция — 7 класс — MathLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+
+    <div class="topbar">
+        <a href="../index.html">← 7 класс</a>
+    </div>
+
+    <div class="page-header">
+        <span class="eyebrow">7 класс · Алгебра</span>
+        <h1>Линейная функция</h1>
+    </div>
+
+    <!-- 1. РОЛЬ КОЭФФИЦИЕНТОВ K И B -->
+    <div class="card">
+        <h2><span class="num">1</span>Роль коэффициентов k и b</h2>
+        <p>
+            <b>Линейная функция</b> — функция вида y = kx + b. Коэффициент <b>k</b> определяет наклон прямой:
+            чем больше |k|, тем круче прямая, а знак k определяет направление. Коэффициент <b>b</b> определяет
+            вертикальное положение прямой.
+        </p>
+
+        <div class="reduce-example ex-1">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Одинаковый наклон, разное положение</span></div>
+            <p>y = 2x + 3 и y = 2x − 1 — у обеих k = 2, значит прямые параллельны, но расположены по-разному.</p>
+        </div>
+
+        <div class="reduce-example ex-2">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Одинаковое положение, разный наклон</span></div>
+            <p>y = 2x + 1 и y = 5x + 1 — у обеих b = 1 (проходят через одну точку на оси y), но вторая прямая круче.</p>
+        </div>
+    </div>
+
+    <!-- 2. ПОСТРОЕНИЕ ПО ДВУМ ТОЧКАМ -->
+    <div class="card">
+        <h2><span class="num">2</span>Построение по двум точкам</h2>
+        <p>Графиком линейной функции всегда является прямая, поэтому для построения достаточно двух точек.</p>
+
+        <div class="reduce-example ex-3">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">y = 2x − 4</span></div>
+            <p>При x=0: y=−4, точка (0; −4). При y=0: 2x−4=0 → x=2, точка (2; 0). Через эти две точки проводим прямую.</p>
+        </div>
+    </div>
+
+    <!-- 3. ЧАСТНЫЕ СЛУЧАИ -->
+    <div class="card">
+        <h2><span class="num">3</span>Частные случаи</h2>
+        <ul class="rule-list">
+            <li>k = 0 → y = b — горизонтальная прямая</li>
+            <li>b = 0 → y = kx — прямая проходит через начало координат</li>
+            <li>k = 0 и b = 0 → y = 0 — прямая совпадает с осью x</li>
+        </ul>
+    </div>
+
+    <!-- 4. ОБРАТНАЯ ЗАДАЧА -->
+    <div class="card">
+        <h2><span class="num">4</span>Обратная задача: формула по двум точкам</h2>
+        <p>
+            Если известны две точки прямой, можно найти k и b: подставить обе точки в y = kx + b и получить систему
+            из двух уравнений, из разности которых находится k, а затем b.
+        </p>
+
+        <div class="reduce-example ex-4">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Точки (1; 3) и (2; 5)</span></div>
+            <p>k = (5 − 3) / (2 − 1) = 2. Подставляем первую точку: 3 = 2·1 + b, значит b = 1.</p>
+            <p>Формула: y = 2x + 1. Проверка: при x=1 → y=3 ✓, при x=2 → y=5 ✓.</p>
+        </div>
+
+        <div class="note">💡 Если x стоит в знаменателе или в квадрате — это уже не линейная функция, даже если формула выглядит похоже.</div>
+    </div>
+
+    <!-- ТРЕНАЖЁР -->
+    <a class="trainer-link" href="trainer/index.html">
+        <div class="tl-text">
+            <h3>Тренажёр: Линейная функция</h3>
+            <p>Наклон и положение прямой, частные случаи, формула по двум точкам</p>
+        </div>
+        <div class="tl-go">→</div>
+    </a>
+
+</div>
+
+</body>
+</html>
