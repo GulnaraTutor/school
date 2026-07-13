@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Линейные уравнения — 7 класс — MathLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+
+    <div class="topbar">
+        <a href="../index.html">← 7 класс</a>
+    </div>
+
+    <div class="page-header">
+        <span class="eyebrow">7 класс · Алгебра</span>
+        <h1>Линейные уравнения</h1>
+    </div>
+
+    <!-- 1. ЧТО ТАКОЕ ЛИНЕЙНОЕ УРАВНЕНИЕ -->
+    <div class="card">
+        <h2><span class="num">1</span>Что такое линейное уравнение</h2>
+        <p>
+            <b>Линейное уравнение</b> — уравнение, где x стоит в первой степени. После упрощения его всегда можно
+            записать в виде ax + b = c.
+        </p>
+
+        <ul class="rule-list">
+            <li>К обеим частям уравнения можно прибавить одно и то же число</li>
+            <li>Из обеих частей можно вычесть одно и то же число</li>
+            <li>Обе части можно умножить на одно и то же число, кроме 0</li>
+            <li>Обе части можно разделить на одно и то же число, кроме 0</li>
+        </ul>
+
+        <div class="note">💡 Если над обеими частями выполнить одно и то же действие, равенство останется верным — обе части уравнения всегда «идут в ногу».</div>
+    </div>
+
+    <!-- 2. ПЕРЕНОС ЧЕРЕЗ ЗНАК РАВЕНСТВА -->
+    <div class="card">
+        <h2><span class="num">2</span>Перенос через знак равенства</h2>
+        <p>
+            Перенося член уравнения из одной части в другую, меняем его знак на противоположный — это короткая
+            запись того, что мы вычли (или прибавили) этот член к обеим частям сразу.
+        </p>
+
+        <div class="reduce-example ex-1">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">x + 5 = 12</span></div>
+            <p>Переносим +5 в правую часть с противоположным знаком: x = 12 − 5 = 7.</p>
+        </div>
+    </div>
+
+    <!-- 3. АЛГОРИТМ РЕШЕНИЯ -->
+    <div class="card">
+        <h2><span class="num">3</span>Алгоритм решения</h2>
+        <p>Если в уравнении есть скобки и переменная встречается в обеих частях, порядок действий такой:</p>
+
+        <ul class="rule-list">
+            <li>Раскрыть скобки</li>
+            <li>Перенести все члены с x в одну сторону, числа — в другую</li>
+            <li>Привести подобные члены</li>
+            <li>Разделить обе части на коэффициент при x</li>
+        </ul>
+
+        <div class="reduce-example ex-2">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">2(x − 3) + 5 = 3x − 4</span></div>
+            <p>Раскрываем скобки: 2x − 6 + 5 = 3x − 4, то есть 2x − 1 = 3x − 4.</p>
+            <p>Переносим x влево, числа вправо: 2x − 3x = −4 + 1, то есть −x = −3.</p>
+            <p>Значит x = 3. Проверка: 2(3−3)+5 = 5, а 3·3−4 = 5 — совпадает.</p>
+        </div>
+    </div>
+
+    <!-- 4. ДЕЛЕНИЕ НА ОБЩИЙ МНОЖИТЕЛЬ -->
+    <div class="card">
+        <h2><span class="num">4</span>Деление уравнения на общий множитель</h2>
+        <p>
+            Если у всех членов уравнения есть общий множитель, можно сразу поделить на него обе части — числа
+            станут проще, и дальше решать легче.
+        </p>
+
+        <div class="reduce-example ex-3">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">6x + 12 = 18</span></div>
+            <p>У 6, 12 и 18 общий множитель 6. Делим обе части на 6: x + 2 = 3.</p>
+            <p>Отсюда x = 1. Проверка: 6·1 + 12 = 18 — совпадает.</p>
+        </div>
+    </div>
+
+    <!-- ТРЕНАЖЁР -->
+    <a class="trainer-link" href="trainer/index.html">
+        <div class="tl-text">
+            <h3>Тренажёр: Линейные уравнения</h3>
+            <p>Перенос членов, раскрытие скобок, деление на общий множитель</p>
+        </div>
+        <div class="tl-go">→</div>
+    </a>
+
+</div>
+
+</body>
+</html>
