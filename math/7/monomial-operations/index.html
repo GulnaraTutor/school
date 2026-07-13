@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Действия с одночленами и многочленами — 7 класс — MathLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+
+    <div class="topbar">
+        <a href="../index.html">← 7 класс</a>
+    </div>
+
+    <div class="page-header">
+        <span class="eyebrow">7 класс · Алгебра</span>
+        <h1>Действия с одночленами и многочленами</h1>
+    </div>
+
+    <!-- 1. УМНОЖЕНИЕ ОДНОЧЛЕНА НА МНОГОЧЛЕН -->
+    <div class="card">
+        <h2><span class="num">1</span>Умножение одночлена на многочлен</h2>
+        <p>
+            Чтобы раскрыть скобки, одночлен умножается на <b>каждое</b> слагаемое многочлена по отдельности —
+            как будто «фонтанчиком» разлетается на все члены сразу.
+        </p>
+
+        <div class="reduce-example ex-1">
+            <div class="ex-head"><span class="ex-num">1</span><span class="ex-title">Простой пример</span></div>
+            <p>−3(x − 4) = −3 · x + (−3) · (−4) = −3x + 12.</p>
+        </div>
+
+        <div class="reduce-example ex-2">
+            <div class="ex-head"><span class="ex-num">2</span><span class="ex-title">Пример посложнее</span></div>
+            <p>2x(x² − 3x + 5) = 2x · x² − 2x · 3x + 2x · 5 = 2x³ − 6x² + 10x.</p>
+        </div>
+    </div>
+
+    <!-- 2. УМНОЖЕНИЕ МНОГОЧЛЕНА НА МНОГОЧЛЕН -->
+    <div class="card">
+        <h2><span class="num">2</span>Умножение многочлена на многочлен (метод «краб»)</h2>
+        <p>
+            Каждый член первого множителя умножается на каждый член второго — получается несколько
+            произведений, которые затем нужно сложить и привести подобные.
+        </p>
+
+        <div class="reduce-example ex-3">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">(x + 2)(x − 3)</span></div>
+            <p>x · x + x · (−3) + 2 · x + 2 · (−3) = x² − 3x + 2x − 6.</p>
+            <p>Приводим подобные (−3x и 2x): x² − x − 6.</p>
+        </div>
+    </div>
+
+    <!-- 3. ЗНАКИ ПРИ УМНОЖЕНИИ -->
+    <div class="card">
+        <h2><span class="num">3</span>Знаки при умножении</h2>
+        <p>Напоминание таблицы знаков — она отвечает за большинство ошибок при раскрытии скобок:</p>
+
+        <ul class="rule-list">
+            <li>(+) · (+) = (+)</li>
+            <li>(−) · (−) = (+)</li>
+            <li>(+) · (−) = (−) и (−) · (+) = (−)</li>
+        </ul>
+
+        <div class="note">💡 Если одночлен перед скобкой отрицательный, знак меняется у <b>каждого</b> члена многочлена без исключения — это самая частая ошибка при раскрытии скобок.</div>
+    </div>
+
+    <!-- 4. БОЛЕЕ СЛОЖНЫЙ ПРИМЕР -->
+    <div class="card">
+        <h2><span class="num">4</span>Более сложный пример</h2>
+        <p>Тот же метод «краб» работает и для трёхчлена, просто произведений получается больше:</p>
+
+        <div class="reduce-example ex-4">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">(x² + x + 1)(x + 2)</span></div>
+            <p>x² · x + x² · 2 + x · x + x · 2 + 1 · x + 1 · 2 = x³ + 2x² + x² + 2x + x + 2.</p>
+            <p>Приводим подобные (2x² и x², 2x и x): x³ + 3x² + 3x + 2.</p>
+            <p>Проверка подстановкой x = 1: слева (1+1+1)(1+2) = 3 · 3 = 9; справа 1 + 3 + 3 + 2 = 9 — совпадает.</p>
+        </div>
+    </div>
+
+    <!-- ТРЕНАЖЁР -->
+    <a class="trainer-link" href="trainer/index.html">
+        <div class="tl-text">
+            <h3>Тренажёр: Действия с одночленами и многочленами</h3>
+            <p>Раскрытие скобок, умножение многочлена на многочлен</p>
+        </div>
+        <div class="tl-go">→</div>
+    </a>
+
+</div>
+
+</body>
+</html>
