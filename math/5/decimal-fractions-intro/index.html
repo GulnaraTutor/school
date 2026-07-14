@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Десятичные дроби — 5 класс — MathLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+
+    <div class="topbar">
+        <a href="../index.html">← 5 класс</a>
+    </div>
+
+    <div class="page-header">
+        <span class="eyebrow">5 класс · Математика</span>
+        <h1>Десятичные дроби</h1>
+    </div>
+
+    <!-- 1. ЧТО ТАКОЕ ДЕСЯТИЧНАЯ ДРОБЬ -->
+    <div class="card">
+        <h2><span class="num">1</span>Что такое десятичная дробь</h2>
+        <p>
+            Если знаменатель дроби — круглое число (10, 100, 1000 и так далее), такую дробь можно записать
+            по-другому: через запятую. Количество цифр после запятой равно количеству нулей в знаменателе.
+        </p>
+        <div class="examples">
+            <span class="example-chip">
+                <span class="frac"><span class="frac-num">5</span><span class="frac-den">10</span></span> = 0,5
+            </span>
+            <span class="example-chip">
+                <span class="frac"><span class="frac-num">3</span><span class="frac-den">100</span></span> = 0,03
+            </span>
+            <span class="example-chip">
+                <span class="frac"><span class="frac-num">15</span><span class="frac-den">1000</span></span> = 0,015
+            </span>
+        </div>
+        <div class="note">💡 У любого целого числа есть «невидимая» запятая в конце: 5 — это то же самое, что 5,0. При делении на число с нулями запятая сдвигается влево на столько мест, сколько там нулей.</div>
+    </div>
+
+    <!-- 2. СРАВНЕНИЕ ДЕСЯТИЧНЫХ ДРОБЕЙ -->
+    <div class="card">
+        <h2><span class="num">2</span>Сравнение десятичных дробей</h2>
+        <p>
+            Чтобы сравнить десятичные дроби, сначала уравнивают количество цифр после запятой, дописывая
+            нули (это не меняет значение числа). Затем сравнивают как обычные числа: сначала целую часть,
+            потом цифры после запятой по порядку.
+        </p>
+
+        <div class="reduce-example ex-1">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">0,12 и 1,5</span></div>
+            <p>Целые части разные: 0 и 1. Значит 1,5 больше — дальше можно даже не смотреть.</p>
+        </div>
+
+        <div class="reduce-example ex-2">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">0,1 и 0,056</span></div>
+            <p>Уравниваем количество цифр после запятой: 0,1 = 0,100. Теперь сравниваем: 100 больше, чем 056.
+            Значит 0,1 больше, чем 0,056.</p>
+        </div>
+    </div>
+
+    <!-- 3. ОКРУГЛЕНИЕ ЧИСЕЛ -->
+    <div class="card">
+        <h2><span class="num">3</span>Округление чисел</h2>
+        <p>
+            Чтобы округлить число до нужного разряда, смотрим ровно на одну цифру, следующую сразу за этим
+            разрядом. Если она 5, 6, 7, 8 или 9 — округляем в большую сторону. Если 0, 1, 2, 3 или 4 —
+            оставляем как есть, отбрасывая всё лишнее.
+        </p>
+
+        <div class="reduce-example ex-3">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">0,847 — округление</span></div>
+            <p>До десятых: следующая цифра — 4 (меньше 5), значит округляем вниз: 0,8.</p>
+            <p>До сотых: следующая цифра — 7 (не меньше 5), значит округляем вверх: 0,85.</p>
+        </div>
+
+        <div class="note">⚠️ Частая ошибка: округлять «цепочкой», по одной цифре за раз. Например, 0,149 до десятых —
+            смотрим ТОЛЬКО на цифру сразу после десятых (это 4), а не на девятку дальше. Раз 4 меньше 5,
+            ответ — 0,1, а не 0,2.</div>
+    </div>
+
+</div>
+
+</body>
+</html>
