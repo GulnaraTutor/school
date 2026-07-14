@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Дроби с разными знаменателями — 5 класс — MathLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+
+    <div class="topbar">
+        <a href="../index.html">← 5 класс</a>
+    </div>
+
+    <div class="page-header">
+        <span class="eyebrow">5 класс · Математика</span>
+        <h1>Дроби с разными знаменателями</h1>
+    </div>
+
+    <!-- 1. ПРИВЕДЕНИЕ К ОБЩЕМУ ЗНАМЕНАТЕЛЮ -->
+    <div class="card">
+        <h2><span class="num">1</span>Приведение к общему знаменателю</h2>
+        <p>
+            Складывать, вычитать и сравнивать можно только дроби с одинаковыми знаменателями. Если
+            знаменатели разные, сначала нужно сделать их одинаковыми — расширить одну или обе дроби.
+        </p>
+
+        <div class="reduce-example ex-1">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">
+                <span class="frac"><span class="frac-num">1</span><span class="frac-den">6</span></span> +
+                <span class="frac"><span class="frac-num">2</span><span class="frac-den">18</span></span>
+            </span></div>
+            <p>18 уже делится на 6 (18 = 6 × 3), поэтому достаточно расширить только первую дробь: умножаем
+            на 3 сверху и снизу, получаем
+            <span class="frac"><span class="frac-num">3</span><span class="frac-den">18</span></span>.
+            Теперь знаменатели одинаковые: 3 + 2 = 5. Ответ:
+            <span class="frac"><span class="frac-num">5</span><span class="frac-den">18</span></span>.</p>
+        </div>
+
+        <div class="reduce-example ex-2">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">Сравнение:
+                <span class="frac"><span class="frac-num">1</span><span class="frac-den">2</span></span> и
+                <span class="frac"><span class="frac-num">1</span><span class="frac-den">3</span></span>
+            </span></div>
+            <p>Знаменатели не связаны напрямую, поэтому домножаем крест-накрест: первую дробь умножаем на
+            3 (получаем
+            <span class="frac"><span class="frac-num">3</span><span class="frac-den">6</span></span>),
+            вторую — на 2 (получаем
+            <span class="frac"><span class="frac-num">2</span><span class="frac-den">6</span></span>).
+            Сравниваем числители: 3 больше 2, значит
+            <span class="frac"><span class="frac-num">1</span><span class="frac-den">2</span></span> больше, чем
+            <span class="frac"><span class="frac-num">1</span><span class="frac-den">3</span></span>.</p>
+        </div>
+    </div>
+
+    <!-- 2. СЛОЖНЫЙ СЛУЧАЙ — ЧЕРЕЗ РАЗЛОЖЕНИЕ НА МНОЖИТЕЛИ -->
+    <div class="card">
+        <h2><span class="num">2</span>Когда знаменатели большие — раскладываем на множители</h2>
+        <p>
+            Если умножать знаменатели друг на друга напрямую неудобно (получаются слишком большие числа),
+            можно разложить оба знаменателя на множители, найти общий множитель и домножить каждую дробь
+            только на недостающие множители.
+        </p>
+
+        <div class="reduce-example ex-3">
+            <div class="ex-head"><span class="ex-num">•</span><span class="ex-title">
+                <span class="frac"><span class="frac-num">1</span><span class="frac-den">72</span></span> −
+                <span class="frac"><span class="frac-num">1</span><span class="frac-den">81</span></span>
+            </span></div>
+            <p>Раскладываем знаменатели: 72 = 8 × 9, а 81 = 9 × 9. Общий множитель — 9, его домножать не
+            нужно. Первую дробь домножаем на недостающий множитель 9 (тот, что есть у 81), вторую — на
+            недостающий множитель 8 (тот, что есть у 72).</p>
+            <p>Первая дробь: 1 × 9 = 9, 72 × 9 = 648 → получаем
+            <span class="frac"><span class="frac-num">9</span><span class="frac-den">648</span></span>.</p>
+            <p>Вторая дробь: 1 × 8 = 8, 81 × 8 = 648 → получаем
+            <span class="frac"><span class="frac-num">8</span><span class="frac-den">648</span></span>.</p>
+            <p>Знаменатели одинаковые: 9 − 8 = 1. Ответ:
+            <span class="frac"><span class="frac-num">1</span><span class="frac-den">648</span></span>.</p>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
